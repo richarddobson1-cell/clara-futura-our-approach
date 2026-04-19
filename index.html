@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Our Approach — Clara Futura World</title>
+<meta name="description" content="Layered Intelligence Theory, Logic in Reality, and Dynamic Alignment — the principled architecture behind Clara Futura's approach to human development, leadership, and AI governance.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/gsap@3/dist/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3/dist/ScrollTrigger.min.js"></script>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- Navigation -->
+<nav class="nav">
+  <a href="https://clarafuturaworld.com" class="nav-logo">
+    <img src="https://iili.io/BvE7K5g.jpg" alt="Clara Futura" />
+  </a>
+  <a href="https://clarafuturaworld.com" class="nav-back">← clarafuturaworld.com</a>
+</nav>
+
+<!-- Hero -->
+<header class="hero">
+  <div class="hero-bg">
+    <img src="https://iili.io/BOFmaWv.jpg" alt="" class="hero-bg-img" />
+    <div class="hero-overlay"></div>
+  </div>
+  <div class="hero-content">
+    <p class="label">How We Work</p>
+    <h1>Our Approach</h1>
+    <p class="hero-sub">We do not apply a method. We build one — with you, in real time — by integrating scientific rigour, emotional intelligence, and adaptive strategy into every engagement.</p>
+  </div>
+  <div class="scroll-indicator">
+    <div class="scroll-line"></div>
+  </div>
+</header>
+
+<!-- The Problem -->
+<section class="section section-surface">
+  <div class="container">
+    <p class="label">The Problem We See</p>
+    <h2>Why most approaches fall short</h2>
+    <div class="prose">
+      <p class="lead">Current discourse on intelligence — in organisations and in AI — remains structurally incomplete. It typically treats intelligence either as a single scalar capacity or as a list of parallel faculties, while leaving unresolved the question of how distinct capacities interact when systems must act under genuine ambiguity.</p>
+      <p>Most consultancies arrive with a pre-packaged methodology and look for places to apply it. The engagement follows the method, not the reality of the organisation. Meanwhile, AI is deployed the same way: top-down, tool-first, disconnected from the people it serves.</p>
+      <p>The gap is not technological. It is philosophical. Most organisations have access to good tools and talented people. What they lack is a principled architecture that explains how human and artificial intelligence interact — and how to keep that interaction adaptive, humane, and legitimate.</p>
+    </div>
+  </div>
+</section>
+
+<!-- LIT Section -->
+<section class="section section-dark" id="lit">
+  <div class="container">
+    <p class="label">The Framework</p>
+    <h2>Layered Intelligence Theory</h2>
+    <div class="prose">
+      <p class="lead">LIT proposes that any system — human, organisational, or artificial — that must survive and act under constitutive ambiguity requires five irreducible functional capabilities. Not a list of talents. An architecture of interaction.</p>
+    </div>
+
+    <!-- Animated Five-Layer Diagram -->
+    <div class="lit-diagram-wrap">
+      <div class="lit-diagram" id="litDiagram">
+        <svg viewBox="0 0 600 600" class="lit-svg">
+          <!-- Outer glow ring -->
+          <circle cx="300" cy="300" r="270" fill="none" stroke="rgba(242,181,77,0.08)" stroke-width="1" class="lit-glow-ring"/>
+
+          <!-- Layer 5: Ethical (outermost governing ring) -->
+          <circle cx="300" cy="300" r="250" fill="none" stroke="#F2B54D" stroke-width="2.5" stroke-dasharray="8 4" class="lit-ring lit-ring-5" opacity="0"/>
+          <text x="300" y="38" text-anchor="middle" class="lit-ring-label lit-label-5" opacity="0">ETHICAL INTELLIGENCE</text>
+          <text x="300" y="56" text-anchor="middle" class="lit-ring-sublabel lit-sublabel-5" opacity="0">Governing Constraint</text>
+
+          <!-- Layer 4: Strategic -->
+          <circle cx="300" cy="300" r="200" fill="none" stroke="#A4AEB7" stroke-width="1.5" class="lit-ring lit-ring-4" opacity="0"/>
+
+          <!-- Layer 3: Symbolic -->
+          <circle cx="300" cy="300" r="150" fill="none" stroke="#A4AEB7" stroke-width="1.5" class="lit-ring lit-ring-3" opacity="0"/>
+
+          <!-- Layer 2: Emotional -->
+          <circle cx="300" cy="300" r="100" fill="none" stroke="#A4AEB7" stroke-width="1.5" class="lit-ring lit-ring-2" opacity="0"/>
+
+          <!-- Layer 1: Cognitive (core) -->
+          <circle cx="300" cy="300" r="50" fill="rgba(242,181,77,0.15)" stroke="#F2B54D" stroke-width="1.5" class="lit-ring lit-ring-1" opacity="0"/>
+
+          <!-- Connecting tension lines (reciprocal constraints) -->
+          <g class="lit-tension-lines" opacity="0">
+            <line x1="300" y1="250" x2="300" y2="100" stroke="rgba(242,181,77,0.15)" stroke-width="0.5"/>
+            <line x1="350" y1="260" x2="450" y2="150" stroke="rgba(242,181,77,0.15)" stroke-width="0.5"/>
+            <line x1="250" y1="260" x2="150" y2="150" stroke="rgba(242,181,77,0.15)" stroke-width="0.5"/>
+            <line x1="350" y1="340" x2="450" y2="450" stroke="rgba(242,181,77,0.15)" stroke-width="0.5"/>
+            <line x1="250" y1="340" x2="150" y2="450" stroke="rgba(242,181,77,0.15)" stroke-width="0.5"/>
+          </g>
+
+          <!-- Orbiting particles representing recursive feedback -->
+          <circle r="4" fill="#F2B54D" class="lit-particle lit-particle-1" opacity="0">
+            <animateMotion dur="8s" repeatCount="indefinite" path="M300,50 A250,250 0 1,1 299,50 Z" />
+          </circle>
+          <circle r="3" fill="#A4AEB7" class="lit-particle lit-particle-2" opacity="0">
+            <animateMotion dur="6s" repeatCount="indefinite" path="M300,100 A200,200 0 1,1 299,100 Z" />
+          </circle>
+          <circle r="2.5" fill="#E8E5DD" class="lit-particle lit-particle-3" opacity="0">
+            <animateMotion dur="5s" repeatCount="indefinite" path="M300,150 A150,150 0 1,1 299,150 Z" />
+          </circle>
+        </svg>
+
+        <!-- Layer labels positioned around diagram -->
+        <div class="lit-labels">
+          <div class="lit-label-card lit-card-1" data-layer="1">
+            <span class="lit-num">01</span>
+            <h4>Cognitive</h4>
+            <p>Analytical assessment — discriminating relevant signals from noise</p>
+          </div>
+          <div class="lit-label-card lit-card-2" data-layer="2">
+            <span class="lit-num">02</span>
+            <h4>Emotional</h4>
+            <p>Relational coordination — attunement, empathy, affective meaning</p>
+          </div>
+          <div class="lit-label-card lit-card-3" data-layer="3">
+            <span class="lit-num">03</span>
+            <h4>Symbolic</h4>
+            <p>Memory and meaning — encoding experience in retrievable form</p>
+          </div>
+          <div class="lit-label-card lit-card-4" data-layer="4">
+            <span class="lit-num">04</span>
+            <h4>Strategic</h4>
+            <p>Adaptive projection — anticipating pathways across time</p>
+          </div>
+          <div class="lit-label-card lit-card-5" data-layer="5">
+            <span class="lit-num">05</span>
+            <h4>Ethical</h4>
+            <p>Coherence governance — the constraint that prevents capability from becoming pathology</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="prose" style="margin-top:3rem">
+      <p>The novelty is not that these functions are new discoveries. Systems biology, cybernetics, and learning theory have long recognised them. The novelty lies in synthesising them into a principled five-layer architecture, arguing that the layers are hierarchically ordered by functional dependence, and insisting that ethical intelligence serves as the governing constraint — not a downstream afterthought.</p>
+      <p>Remove any one layer and the system loses a necessary condition of adaptive agency. Without discrimination it cannot know what matters. Without coordination it cannot sustain relationships. Without symbolic retention it cannot learn across time. Without projection it cannot navigate futures. Without governance it cannot prevent runaway optimisation from destroying the whole.</p>
+    </div>
+  </div>
+</section>
+
+<!-- LIR Section -->
+<section class="section section-surface" id="lir">
+  <div class="container">
+    <p class="label">The Process Logic</p>
+    <h2>Logic in Reality</h2>
+    <div class="prose">
+      <p class="lead">LIT becomes significantly stronger when read through Joseph Brenner's Logic in Reality. LIR holds that real processes do not evolve through static binaries but through dynamic opposition between actualised and potential states.</p>
+    </div>
+
+    <!-- Animated LIR Diagram -->
+    <div class="lir-diagram-wrap">
+      <div class="lir-diagram" id="lirDiagram">
+        <svg viewBox="0 0 700 400" class="lir-svg">
+          <!-- Actualised pole -->
+          <g class="lir-pole lir-actual">
+            <circle cx="175" cy="200" r="80" fill="rgba(242,181,77,0.12)" stroke="#F2B54D" stroke-width="1.5"/>
+            <circle cx="175" cy="200" r="60" fill="rgba(242,181,77,0.08)" stroke="none"/>
+            <text x="175" y="192" text-anchor="middle" class="lir-pole-label">ACTUALISED</text>
+            <text x="175" y="215" text-anchor="middle" class="lir-pole-sub">What is expressed</text>
+          </g>
+
+          <!-- Potential pole -->
+          <g class="lir-pole lir-potential">
+            <circle cx="525" cy="200" r="80" fill="rgba(164,174,183,0.12)" stroke="#A4AEB7" stroke-width="1.5"/>
+            <circle cx="525" cy="200" r="60" fill="rgba(164,174,183,0.08)" stroke="none"/>
+            <text x="525" y="192" text-anchor="middle" class="lir-pole-label">POTENTIAL</text>
+            <text x="525" y="215" text-anchor="middle" class="lir-pole-sub">What is latent</text>
+          </g>
+
+          <!-- Dynamic tension arrows (animated) -->
+          <g class="lir-tension">
+            <path d="M260,175 C350,120 350,120 460,175" fill="none" stroke="#F2B54D" stroke-width="1" opacity="0.6" class="lir-flow lir-flow-top"/>
+            <path d="M260,225 C350,280 350,280 460,225" fill="none" stroke="#A4AEB7" stroke-width="1" opacity="0.6" class="lir-flow lir-flow-bottom"/>
+            <!-- Flowing particles -->
+            <circle r="3" fill="#F2B54D" opacity="0.8">
+              <animateMotion dur="3s" repeatCount="indefinite" path="M260,175 C350,120 350,120 460,175"/>
+            </circle>
+            <circle r="3" fill="#F2B54D" opacity="0.5">
+              <animateMotion dur="3s" repeatCount="indefinite" begin="1s" path="M260,175 C350,120 350,120 460,175"/>
+            </circle>
+            <circle r="3" fill="#A4AEB7" opacity="0.8">
+              <animateMotion dur="3s" repeatCount="indefinite" path="M460,225 C350,280 350,280 260,225"/>
+            </circle>
+            <circle r="3" fill="#A4AEB7" opacity="0.5">
+              <animateMotion dur="3s" repeatCount="indefinite" begin="1.5s" path="M460,225 C350,280 350,280 260,225"/>
+            </circle>
+          </g>
+
+          <!-- Centre label -->
+          <text x="350" y="195" text-anchor="middle" class="lir-centre-label">DYNAMIC</text>
+          <text x="350" y="215" text-anchor="middle" class="lir-centre-label">OPPOSITION</text>
+        </svg>
+      </div>
+    </div>
+
+    <div class="lir-cards">
+      <div class="lir-card">
+        <h4>Not static binaries</h4>
+        <p>Real processes do not settle into fixed either/or states. Cognitive analysis may point in one direction while emotional attunement resists it. Strategic foresight may pull toward revision while symbolic meaning preserves identity.</p>
+      </div>
+      <div class="lir-card">
+        <h4>Tension is generative</h4>
+        <p>Tensions between layers are not accidents to be eliminated. They are the generative structure through which real systems evolve. What makes an intelligent decision robust is the disciplined negotiation of opposition — not the victory of one layer over the others.</p>
+      </div>
+      <div class="lir-card">
+        <h4>Governance is necessary</h4>
+        <p>Because real processes do not resolve themselves into frictionless optima, ethical intelligence is required as the governing constraint. Without it, strategic intelligence can dominate, symbolic meaning can harden into exclusion, and cognitive power can become instrumental without moral restraint.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Dynamic Alignment Section -->
+<section class="section section-dark" id="alignment">
+  <div class="container">
+    <p class="label">The Unifying Principle</p>
+    <h2>Dynamic Alignment</h2>
+    <div class="prose">
+      <p class="lead">For any sufficiently capable socio-technical system embedded in human institutions, alignment is recursive rather than terminal, pluralism-preserving rather than monistic, and governed rather than merely engineered.</p>
+    </div>
+
+    <!-- Animated Dynamic Alignment Diagram -->
+    <div class="da-diagram-wrap">
+      <div class="da-diagram" id="daDiagram">
+        <svg viewBox="0 0 700 500" class="da-svg">
+          <!-- Central recursive spiral -->
+          <g class="da-spiral">
+            <!-- Spiral path representing recursive cycles -->
+            <path d="M350,400 C250,380 200,320 220,250 C240,180 300,150 350,160 C400,170 440,210 430,270 C420,330 380,360 350,350 C320,340 300,310 310,280 C320,250 340,235 350,240"
+                  fill="none" stroke="#F2B54D" stroke-width="1.5" class="da-spiral-path" opacity="0.6"/>
+            <!-- Animated particle tracing the spiral -->
+            <circle r="5" fill="#F2B54D" class="da-spiral-particle">
+              <animateMotion dur="6s" repeatCount="indefinite"
+                path="M350,400 C250,380 200,320 220,250 C240,180 300,150 350,160 C400,170 440,210 430,270 C420,330 380,360 350,350 C320,340 300,310 310,280 C320,250 340,235 350,240"/>
+            </circle>
+          </g>
+
+          <!-- Four quadrant labels -->
+          <g class="da-quadrants">
+            <!-- LIT -->
+            <g class="da-quad da-quad-lit">
+              <rect x="80" y="60" width="200" height="110" rx="12" fill="rgba(242,181,77,0.08)" stroke="rgba(242,181,77,0.3)" stroke-width="1"/>
+              <text x="180" y="92" text-anchor="middle" class="da-quad-title">LIT</text>
+              <text x="180" y="115" text-anchor="middle" class="da-quad-desc">Shows why alignment</text>
+              <text x="180" y="133" text-anchor="middle" class="da-quad-desc">must be multi-layered</text>
+              <!-- Connecting line to spiral -->
+              <line x1="280" y1="115" x2="320" y2="190" stroke="rgba(242,181,77,0.3)" stroke-width="1" stroke-dasharray="4 3"/>
+            </g>
+
+            <!-- LIR -->
+            <g class="da-quad da-quad-lir">
+              <rect x="420" y="60" width="200" height="110" rx="12" fill="rgba(164,174,183,0.08)" stroke="rgba(164,174,183,0.3)" stroke-width="1"/>
+              <text x="520" y="92" text-anchor="middle" class="da-quad-title">LIR</text>
+              <text x="520" y="115" text-anchor="middle" class="da-quad-desc">Shows why alignment</text>
+              <text x="520" y="133" text-anchor="middle" class="da-quad-desc">cannot be static</text>
+              <line x1="420" y1="115" x2="380" y2="190" stroke="rgba(164,174,183,0.3)" stroke-width="1" stroke-dasharray="4 3"/>
+            </g>
+
+            <!-- ERI -->
+            <g class="da-quad da-quad-eri">
+              <rect x="80" y="370" width="200" height="110" rx="12" fill="rgba(232,229,221,0.06)" stroke="rgba(232,229,221,0.2)" stroke-width="1"/>
+              <text x="180" y="402" text-anchor="middle" class="da-quad-title">ERI</text>
+              <text x="180" y="425" text-anchor="middle" class="da-quad-desc">Shows why alignment</text>
+              <text x="180" y="443" text-anchor="middle" class="da-quad-desc">requires trajectories</text>
+              <line x1="280" y1="425" x2="320" y2="370" stroke="rgba(232,229,221,0.2)" stroke-width="1" stroke-dasharray="4 3"/>
+            </g>
+
+            <!-- VPM -->
+            <g class="da-quad da-quad-vpm">
+              <rect x="420" y="370" width="200" height="110" rx="12" fill="rgba(242,181,77,0.06)" stroke="rgba(242,181,77,0.2)" stroke-width="1"/>
+              <text x="520" y="402" text-anchor="middle" class="da-quad-title">VPM</text>
+              <text x="520" y="425" text-anchor="middle" class="da-quad-desc">Shows the normative</text>
+              <text x="520" y="443" text-anchor="middle" class="da-quad-desc">conditions for legitimacy</text>
+              <line x1="420" y1="425" x2="380" y2="370" stroke="rgba(242,181,77,0.2)" stroke-width="1" stroke-dasharray="4 3"/>
+            </g>
+          </g>
+
+          <!-- Centre -->
+          <circle cx="350" cy="250" r="45" fill="rgba(242,181,77,0.12)" stroke="#F2B54D" stroke-width="1.5"/>
+          <text x="350" y="244" text-anchor="middle" class="da-centre-label">DYNAMIC</text>
+          <text x="350" y="264" text-anchor="middle" class="da-centre-label">ALIGNMENT</text>
+
+          <!-- Pulsing ring -->
+          <circle cx="350" cy="250" r="45" fill="none" stroke="#F2B54D" stroke-width="0.5" class="da-pulse"/>
+        </svg>
+      </div>
+    </div>
+
+    <div class="da-cards">
+      <div class="da-card">
+        <h4>Emergent Recursive Intelligence</h4>
+        <p>Intelligence develops through iterated cycles of feedback, reflection, and reorganisation. The result of one cycle becomes the input for the next. This means intelligence must be studied developmentally — across trajectories, not through point-in-time assessments.</p>
+      </div>
+      <div class="da-card">
+        <h4>Vulnerability-Pluralism Model</h4>
+        <p>Two linked normative minima keep layered intelligence socially legitimate: protection of the vulnerable and preservation of plural conditions for participation. A system that systematically harms the vulnerable reveals a failure of ethical governance across the entire architecture.</p>
+      </div>
+    </div>
+
+    <div class="prose" style="margin-top:3rem">
+      <p>Dynamic Alignment integrates LIT, LIR, ERI, and VPM into a single research programme. It reframes the question from "How can an intelligent system maximise performance?" to "What layered, recursively governed conditions enable intelligence to remain adaptive, humane, and legitimate under ambiguity?"</p>
+      <p>This is not a rejection of technical work on alignment. It is a claim that technical approaches become inadequate when detached from the layered, processual, and normative structure of real intelligence.</p>
+    </div>
+  </div>
+</section>
+
+<!-- In Practice -->
+<section class="section section-surface">
+  <div class="container">
+    <p class="label">In Practice</p>
+    <h2>What this looks like</h2>
+    <div class="practice-grid">
+      <div class="practice-card">
+        <div class="practice-icon">
+          <svg viewBox="0 0 48 48" fill="none"><circle cx="24" cy="24" r="20" stroke="#F2B54D" stroke-width="1.5"/><path d="M24 14v10l7 4" stroke="#F2B54D" stroke-width="1.5" stroke-linecap="round"/></svg>
+        </div>
+        <h4>Deep listening first</h4>
+        <p>We invest significant time understanding people, culture, and dynamics before proposing anything. In one engagement, a four-hour conversation changed the entire trajectory — what began as an executive search became a two-year coaching programme.</p>
+      </div>
+      <div class="practice-card">
+        <div class="practice-icon">
+          <svg viewBox="0 0 48 48" fill="none"><path d="M12 36 C12 24, 24 24, 24 12 C24 24, 36 24, 36 36" stroke="#F2B54D" stroke-width="1.5" stroke-linecap="round"/><circle cx="24" cy="12" r="3" fill="#F2B54D"/><circle cx="12" cy="36" r="3" fill="#A4AEB7"/><circle cx="36" cy="36" r="3" fill="#A4AEB7"/></svg>
+        </div>
+        <h4>Iterative design</h4>
+        <p>Strategy is not delivered as a document. It is built through ongoing cycles of action, observation, and refinement. We debrief after every interaction and feed what we learn back into the approach.</p>
+      </div>
+      <div class="practice-card">
+        <div class="practice-icon">
+          <svg viewBox="0 0 48 48" fill="none"><circle cx="18" cy="24" r="10" stroke="#E8E5DD" stroke-width="1.5"/><circle cx="30" cy="24" r="10" stroke="#F2B54D" stroke-width="1.5"/></svg>
+        </div>
+        <h4>Intelligence-assisted, not replaced</h4>
+        <p>Our AI tools are designed to augment human understanding. Clara Nexus AI uses autoethnographic profiling and symbolic insight to surface patterns that traditional assessments miss.</p>
+      </div>
+      <div class="practice-card">
+        <div class="practice-icon">
+          <svg viewBox="0 0 48 48" fill="none"><path d="M8 38 L16 26 L24 30 L32 18 L40 10" stroke="#F2B54D" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><circle cx="40" cy="10" r="3" fill="#F2B54D"/></svg>
+        </div>
+        <h4>Research-informed outcomes</h4>
+        <p>The scientific thinking driving our academic collaborations shapes our client work. When we restructure teams around emotional intelligence rather than time-served promotion, we are applying insights from our research on cognitive ecology and consciousness.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- The Right Fit -->
+<section class="section section-dark">
+  <div class="container">
+    <p class="label">Who We Work With</p>
+    <h2>The right fit</h2>
+    <div class="prose">
+      <p class="lead">Our work is not for every organisation. It requires commitment — to honest reflection, to iterative thinking, and to the idea that sustainable change comes from understanding people deeply before designing systems around them.</p>
+      <p>We work best with leaders and organisations who recognise that the human dimension is not a soft add-on to strategy — it is the strategy. If you are looking for a fixed methodology delivered on a timeline, we are probably not the right fit. If you are looking for a thinking partner who will build something real with you, we should talk.</p>
+    </div>
+    <div class="cta-block">
+      <p class="tagline">Consciously converting the future into the past.</p>
+      <a href="mailto:richard@clarafutura-andorra.world" class="cta-link">richard@clarafutura-andorra.world</a>
+    </div>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer class="footer">
+  <div class="container footer-inner">
+    <p>&copy; 2026 Clara Futura SL — Andorra la Vella</p>
+    <div class="footer-links">
+      <a href="https://clarafuturaworld.com">Home</a>
+      <a href="https://clarafuturaworld.com/about-the-founder/">About</a>
+      <a href="https://clarafuturaworld.com/research-collaboration/">Research</a>
+      <a href="https://clarafuturaworld.com/privacy-policy/">Privacy</a>
+    </div>
+  </div>
+</footer>
+
+<script src="animations.js"></script>
+</body>
+</html>
