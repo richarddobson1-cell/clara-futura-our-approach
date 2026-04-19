@@ -162,11 +162,29 @@ function revealSections() {
 
 // === Hero entrance ===
 function animateHero() {
-  const tl = gsap.timeline({ delay: 0.3 });
-  tl.from('.hero .label', { y: 20, opacity: 0, duration: 0.6, ease: 'power3.out' })
-    .from('.hero h1', { y: 30, opacity: 0, duration: 0.8, ease: 'power3.out' }, '-=0.3')
-    .from('.hero-sub', { y: 20, opacity: 0, duration: 0.6, ease: 'power3.out' }, '-=0.4')
-    .from('.scroll-indicator', { opacity: 0, duration: 0.6, ease: 'power2.out' }, '-=0.2');
+  const heroEls = ['.hero .label', '.hero h1', '.hero-sub', '.scroll-indicator'];
+  
+  // Safety: ensure hero text is always visible after 3s even if GSAP fails
+  setTimeout(() => {
+    heroEls.forEach(sel => {
+      const el = document.querySelector(sel);
+      if (el) { el.style.opacity = '1'; el.style.transform = 'none'; }
+    });
+  }, 3000);
+
+  try {
+    const tl = gsap.timeline({ delay: 0.3 });
+    tl.from('.hero .label', { y: 20, opacity: 0, duration: 0.6, ease: 'power3.out' })
+      .from('.hero h1', { y: 30, opacity: 0, duration: 0.8, ease: 'power3.out' }, '-=0.3')
+      .from('.hero-sub', { y: 20, opacity: 0, duration: 0.6, ease: 'power3.out' }, '-=0.4')
+      .from('.scroll-indicator', { opacity: 0, duration: 0.6, ease: 'power2.out' }, '-=0.2');
+  } catch(e) {
+    // If GSAP fails, just show everything
+    heroEls.forEach(sel => {
+      const el = document.querySelector(sel);
+      if (el) { el.style.opacity = '1'; el.style.transform = 'none'; }
+    });
+  }
 }
 
 // === Init ===
