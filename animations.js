@@ -72,7 +72,7 @@ function animateLIT() {
       .to('.lit-ring-5', { opacity: 1, duration: 0.6, ease: 'power2.out' }, '-=0.3')
       .to('.lit-label-5, .lit-sublabel-5', { opacity: 1, duration: 0.5, ease: 'power2.out' }, '-=0.3')
       .to('.lit-tension-lines', { opacity: 1, duration: 0.8, ease: 'power2.out' }, '-=0.2')
-      .to('.lit-particle', { opacity: 0.7, duration: 0.5, stagger: 0.15 }, '-=0.4');
+      .to('.lit-particle', { opacity: 1, duration: 0.5, stagger: 0.15 }, '-=0.4');
 
     gsap.to('.lit-ring-5', {
       strokeWidth: 3.5,
