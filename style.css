@@ -19,18 +19,9 @@ body.in-iframe .service-card {
   opacity: 1 !important;
   transform: none !important;
 }
-body.in-iframe .lit-ring,
-body.in-iframe .lit-inner-label,
-body.in-iframe .lit-band,
-body.in-iframe [class*="lit-band-fill"],
-body.in-iframe .lit-core,
-body.in-iframe .lit-core-label,
-body.in-iframe .lit-core-sub,
-body.in-iframe .lit-core-pulse,
-body.in-iframe .lit-glow-ring,
-body.in-iframe [class*="lit-particles-"] {
-  opacity: 1 !important;
-}
+/* LIT diagram elements start at opacity:0 inline on SVG.
+   GSAP scroll-build animation reveals them progressively
+   in both standalone and iframe modes. */
 
 :root {
   --deep-navy: #0C2137;

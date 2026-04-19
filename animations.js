@@ -76,31 +76,81 @@ function animateLIT() {
 }
 
 // Iframe-compatible scroll-driven build
+// In a non-scrolling iframe, the parent page scrolls the iframe element.
+// The iframe content is static — getBoundingClientRect and IO always report
+// the same values. We use the parent's postMessage or, if cross-origin,
+// poll the iframe element's clip via getComputedStyle on the visual viewport.
+//
+// Approach: try to read scroll from parent (same-origin). If blocked (cross-origin),
+// fall back to a time-based build triggered when the section enters the viewport.
 function animateLIT_iframe(diagram) {
   const tl = gsap.timeline({ paused: true, defaults: { ease: 'none' } });
   buildLITTimeline(tl);
 
-  let built = false;
-  function onScroll() {
-    const rect = diagram.getBoundingClientRect();
-    const wh = window.innerHeight;
-    // Progress: 0 when diagram top hits 80% viewport, 1 when bottom hits 30%
-    const startY = wh * 0.8;
-    const endY = wh * 0.3;
-    const totalTravel = (rect.height + startY - endY);
-    const progress = (startY - rect.top) / totalTravel;
-    const clamped = Math.max(0, Math.min(1, progress));
-    tl.progress(clamped);
+  let continuousStarted = false;
+  let parentAccessible = false;
 
-    if (clamped >= 1 && !built) {
-      built = true;
-      startLITContinuousAnimations();
+  // Check if we can access parent scroll (same-origin)
+  try {
+    const _ = window.parent.scrollY;
+    parentAccessible = true;
+  } catch(e) {}
+
+  if (parentAccessible) {
+    // Same-origin: read parent scroll and map to diagram progress
+    function onParentScroll() {
+      try {
+        // Get our iframe element in the parent
+        const frames = window.parent.document.querySelectorAll('iframe');
+        let iframeEl = null;
+        for (const f of frames) {
+          try { if (f.contentWindow === window) { iframeEl = f; break; } } catch(e) {}
+        }
+        if (!iframeEl) return;
+
+        const iframeRect = iframeEl.getBoundingClientRect();
+        const parentH = window.parent.innerHeight;
+        // diagram's position within the iframe content
+        const diagramRect = diagram.getBoundingClientRect();
+        // diagram's position relative to parent viewport
+        const diagramTopInParent = iframeRect.top + diagramRect.top;
+        const diagramBottomInParent = iframeRect.top + diagramRect.bottom;
+
+        // Progress: 0 when diagram top enters parent viewport bottom,
+        //           1 when diagram center reaches parent viewport center
+        const start = parentH; // diagram top at bottom of parent viewport
+        const end = parentH * 0.2; // diagram top at 20% from top
+        const travel = start - end;
+        const progress = (start - diagramTopInParent) / travel;
+        const clamped = Math.max(0, Math.min(1, progress));
+        tl.progress(clamped);
+
+        if (clamped >= 1 && !continuousStarted) {
+          continuousStarted = true;
+          startLITContinuousAnimations();
+        }
+      } catch(e) {}
     }
-  }
 
-  window.addEventListener('scroll', onScroll, { passive: true });
-  // Initial check
-  onScroll();
+    window.parent.addEventListener('scroll', onParentScroll, { passive: true });
+    onParentScroll();
+  } else {
+    // Cross-origin fallback: play as a time-based animation when visible
+    const playTl = gsap.timeline({
+      defaults: { ease: 'power2.out' },
+      onComplete: () => startLITContinuousAnimations()
+    });
+    buildLITTimeline_timed(playTl);
+
+    // Use IO to trigger when diagram enters iframe viewport
+    const observer = new IntersectionObserver((entries) => {
+      if (entries[0].isIntersecting) {
+        playTl.play();
+        observer.disconnect();
+      }
+    }, { threshold: 0.1 });
+    observer.observe(diagram);
+  }
 }
 
 // Shared timeline builder — core outward, each ring a stage
@@ -141,6 +191,35 @@ function buildLITTimeline(tl) {
     .to('.lit-clabel-5', { opacity: 1, duration: 0.06 }, '-=0.03')
     .to('.lit-particles-5', { opacity: 1, duration: 0.05 }, '-=0.02')
     .to('.lit-glow-ring', { opacity: 1, duration: 0.06 }, '-=0.03');
+}
+
+// Time-based version for cross-origin fallback (longer durations)
+function buildLITTimeline_timed(tl) {
+  tl.to('.lit-core', { opacity: 1, scale: 1, duration: 0.6 })
+    .to('.lit-core-label', { opacity: 1, duration: 0.4 }, '-=0.3')
+    .to('.lit-core-sub', { opacity: 1, duration: 0.3 }, '-=0.2')
+    .to('.lit-core-pulse', { opacity: 0.4, duration: 0.3 }, '-=0.1')
+    .to('.lit-band-1', { opacity: 1, duration: 0.4 }, '-=0.1')
+    .to('.lit-ring-1', { opacity: 1, duration: 0.5 }, '-=0.3')
+    .to('.lit-clabel-1', { opacity: 1, duration: 0.35 }, '-=0.2')
+    .to('.lit-particles-1', { opacity: 1, duration: 0.3 }, '-=0.15')
+    .to('.lit-band-2, .lit-band-fill-2', { opacity: 1, duration: 0.4 }, '-=0.1')
+    .to('.lit-ring-2', { opacity: 1, duration: 0.5 }, '-=0.3')
+    .to('.lit-clabel-2', { opacity: 1, duration: 0.35 }, '-=0.2')
+    .to('.lit-particles-2', { opacity: 1, duration: 0.3 }, '-=0.15')
+    .to('.lit-band-3, .lit-band-fill-3', { opacity: 1, duration: 0.4 }, '-=0.1')
+    .to('.lit-ring-3', { opacity: 1, duration: 0.5 }, '-=0.3')
+    .to('.lit-clabel-3', { opacity: 1, duration: 0.35 }, '-=0.2')
+    .to('.lit-particles-3', { opacity: 1, duration: 0.3 }, '-=0.15')
+    .to('.lit-band-4, .lit-band-fill-4', { opacity: 1, duration: 0.4 }, '-=0.1')
+    .to('.lit-ring-4', { opacity: 1, duration: 0.5 }, '-=0.3')
+    .to('.lit-clabel-4', { opacity: 1, duration: 0.35 }, '-=0.2')
+    .to('.lit-particles-4', { opacity: 1, duration: 0.3 }, '-=0.15')
+    .to('.lit-band-5', { opacity: 1, duration: 0.4 }, '-=0.1')
+    .to('.lit-ring-5', { opacity: 1, duration: 0.6 }, '-=0.3')
+    .to('.lit-clabel-5', { opacity: 1, duration: 0.4 }, '-=0.3')
+    .to('.lit-particles-5', { opacity: 1, duration: 0.4 }, '-=0.2')
+    .to('.lit-glow-ring', { opacity: 1, duration: 0.5 }, '-=0.3');
 }
 
 // Continuous looping animations (start after diagram is fully built)
