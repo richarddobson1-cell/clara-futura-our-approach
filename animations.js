@@ -48,77 +48,119 @@ function revealCards(selector, stagger = 0.12) {
   setTimeout(() => { if (!firedSections.has(sectionId)) doReveal(); }, SAFETY_TIMEOUT_MS + 1000);
 }
 
-// === LIT Diagram Animation — builds from core outward ===
+// === LIT Diagram Animation — builds from core outward as user scrolls ===
 function animateLIT() {
-  const section = document.getElementById('lit');
-  if (!section) return;
+  const diagram = document.getElementById('litDiagram');
+  if (!diagram) return;
 
-  function playLIT() {
-    if (firedSections.has('lit')) return;
-    markFired('lit');
-
-    const tl = gsap.timeline({ defaults: { ease: 'power2.out' } });
-
-    // 1. Core appears first — Ethics
-    tl.to('.lit-core', { opacity: 1, scale: 1, duration: 0.6 })
-      .to('.lit-core-label', { opacity: 1, duration: 0.4 }, '-=0.3')
-      .to('.lit-core-sub', { opacity: 1, duration: 0.3 }, '-=0.2')
-      .to('.lit-core-pulse', { opacity: 0.4, duration: 0.3 }, '-=0.1')
-
-    // 2. Ring 1: Cognitive — draws outward
-      .to('.lit-band-1', { opacity: 1, duration: 0.4 }, '-=0.1')
-      .to('.lit-ring-1', { opacity: 1, duration: 0.5 }, '-=0.3')
-      .to('.lit-clabel-1', { opacity: 1, duration: 0.35 }, '-=0.2')
-      .to('.lit-particles-1', { opacity: 1, duration: 0.3 }, '-=0.15')
-
-    // 3. Ring 2: Emotional
-      .to('.lit-band-2, .lit-band-fill-2', { opacity: 1, duration: 0.4 }, '-=0.1')
-      .to('.lit-ring-2', { opacity: 1, duration: 0.5 }, '-=0.3')
-      .to('.lit-clabel-2', { opacity: 1, duration: 0.35 }, '-=0.2')
-      .to('.lit-particles-2', { opacity: 1, duration: 0.3 }, '-=0.15')
-
-    // 4. Ring 3: Symbolic
-      .to('.lit-band-3, .lit-band-fill-3', { opacity: 1, duration: 0.4 }, '-=0.1')
-      .to('.lit-ring-3', { opacity: 1, duration: 0.5 }, '-=0.3')
-      .to('.lit-clabel-3', { opacity: 1, duration: 0.35 }, '-=0.2')
-      .to('.lit-particles-3', { opacity: 1, duration: 0.3 }, '-=0.15')
-
-    // 5. Ring 4: Strategic
-      .to('.lit-band-4, .lit-band-fill-4', { opacity: 1, duration: 0.4 }, '-=0.1')
-      .to('.lit-ring-4', { opacity: 1, duration: 0.5 }, '-=0.3')
-      .to('.lit-clabel-4', { opacity: 1, duration: 0.35 }, '-=0.2')
-      .to('.lit-particles-4', { opacity: 1, duration: 0.3 }, '-=0.15')
-
-    // 6. Ring 5: Ethical — outermost, the governing constraint
-      .to('.lit-band-5', { opacity: 1, duration: 0.4 }, '-=0.1')
-      .to('.lit-ring-5', { opacity: 1, duration: 0.6 }, '-=0.3')
-      .to('.lit-clabel-5', { opacity: 1, duration: 0.4 }, '-=0.3')
-      .to('.lit-particles-5', { opacity: 1, duration: 0.4 }, '-=0.2')
-      .to('.lit-glow-ring', { opacity: 1, duration: 0.5 }, '-=0.3');
-
-    // Continuous: pulse the core glow
-    gsap.to('.lit-core-pulse', {
-      attr: { r: 48 },
-      opacity: 0,
-      duration: 2,
-      ease: 'sine.inOut',
-      repeat: -1,
-      delay: 2
-    });
-
-    // Continuous: breathe the ethical ring
-    gsap.to('.lit-ring-5', {
-      strokeWidth: 3.5,
-      duration: 2.5,
-      ease: 'sine.inOut',
-      repeat: -1,
-      yoyo: true,
-      delay: 2.5
-    });
+  // In iframe mode, ScrollTrigger can't read scroll position reliably.
+  // Use a scroll listener on the window instead and map scrollY to progress.
+  if (isIframe) {
+    animateLIT_iframe(diagram);
+    return;
   }
 
-  onVisible(section, playLIT);
-  setTimeout(() => { if (!firedSections.has('lit')) playLIT(); }, SAFETY_TIMEOUT_MS);
+  // Standalone: use GSAP ScrollTrigger scrub
+  const tl = gsap.timeline({
+    scrollTrigger: {
+      trigger: diagram,
+      start: 'top 80%',
+      end: 'bottom 30%',
+      scrub: 0.8,
+    },
+    defaults: { ease: 'none' }
+  });
+
+  buildLITTimeline(tl);
+  startLITContinuousAnimations();
+}
+
+// Iframe-compatible scroll-driven build
+function animateLIT_iframe(diagram) {
+  const tl = gsap.timeline({ paused: true, defaults: { ease: 'none' } });
+  buildLITTimeline(tl);
+
+  let built = false;
+  function onScroll() {
+    const rect = diagram.getBoundingClientRect();
+    const wh = window.innerHeight;
+    // Progress: 0 when diagram top hits 80% viewport, 1 when bottom hits 30%
+    const startY = wh * 0.8;
+    const endY = wh * 0.3;
+    const totalTravel = (rect.height + startY - endY);
+    const progress = (startY - rect.top) / totalTravel;
+    const clamped = Math.max(0, Math.min(1, progress));
+    tl.progress(clamped);
+
+    if (clamped >= 1 && !built) {
+      built = true;
+      startLITContinuousAnimations();
+    }
+  }
+
+  window.addEventListener('scroll', onScroll, { passive: true });
+  // Initial check
+  onScroll();
+}
+
+// Shared timeline builder — core outward, each ring a stage
+function buildLITTimeline(tl) {
+  // 1. Core — Ethics
+  tl.to('.lit-core', { opacity: 1, duration: 0.08 })
+    .to('.lit-core-label', { opacity: 1, duration: 0.05 }, '-=0.02')
+    .to('.lit-core-sub', { opacity: 1, duration: 0.04 }, '-=0.01')
+    .to('.lit-core-pulse', { opacity: 0.4, duration: 0.03 })
+
+  // 2. Ring 1: Cognitive
+    .to('.lit-band-1', { opacity: 1, duration: 0.06 })
+    .to('.lit-ring-1', { opacity: 1, duration: 0.06 }, '-=0.03')
+    .to('.lit-clabel-1', { opacity: 1, duration: 0.05 }, '-=0.02')
+    .to('.lit-particles-1', { opacity: 1, duration: 0.04 }, '-=0.01')
+
+  // 3. Ring 2: Emotional
+    .to('.lit-band-2, .lit-band-fill-2', { opacity: 1, duration: 0.06 })
+    .to('.lit-ring-2', { opacity: 1, duration: 0.06 }, '-=0.03')
+    .to('.lit-clabel-2', { opacity: 1, duration: 0.05 }, '-=0.02')
+    .to('.lit-particles-2', { opacity: 1, duration: 0.04 }, '-=0.01')
+
+  // 4. Ring 3: Symbolic
+    .to('.lit-band-3, .lit-band-fill-3', { opacity: 1, duration: 0.06 })
+    .to('.lit-ring-3', { opacity: 1, duration: 0.06 }, '-=0.03')
+    .to('.lit-clabel-3', { opacity: 1, duration: 0.05 }, '-=0.02')
+    .to('.lit-particles-3', { opacity: 1, duration: 0.04 }, '-=0.01')
+
+  // 5. Ring 4: Strategic
+    .to('.lit-band-4, .lit-band-fill-4', { opacity: 1, duration: 0.06 })
+    .to('.lit-ring-4', { opacity: 1, duration: 0.06 }, '-=0.03')
+    .to('.lit-clabel-4', { opacity: 1, duration: 0.05 }, '-=0.02')
+    .to('.lit-particles-4', { opacity: 1, duration: 0.04 }, '-=0.01')
+
+  // 6. Ring 5: Ethical — outermost governing constraint
+    .to('.lit-band-5', { opacity: 1, duration: 0.06 })
+    .to('.lit-ring-5', { opacity: 1, duration: 0.08 }, '-=0.04')
+    .to('.lit-clabel-5', { opacity: 1, duration: 0.06 }, '-=0.03')
+    .to('.lit-particles-5', { opacity: 1, duration: 0.05 }, '-=0.02')
+    .to('.lit-glow-ring', { opacity: 1, duration: 0.06 }, '-=0.03');
+}
+
+// Continuous looping animations (start after diagram is fully built)
+function startLITContinuousAnimations() {
+  gsap.to('.lit-core-pulse', {
+    attr: { r: 48 },
+    opacity: 0,
+    duration: 2,
+    ease: 'sine.inOut',
+    repeat: -1,
+    delay: 0.5
+  });
+  gsap.to('.lit-ring-5', {
+    strokeWidth: 3.5,
+    duration: 2.5,
+    ease: 'sine.inOut',
+    repeat: -1,
+    yoyo: true,
+    delay: 1
+  });
 }
 
 // === LIR Diagram Animation ===
