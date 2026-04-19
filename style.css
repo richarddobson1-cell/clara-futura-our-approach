@@ -168,6 +168,22 @@ body {
   line-height: 1.75;
 }
 
+/* === Paper reference === */
+.paper-ref {
+  margin-top: 2rem;
+  padding: 1.25rem 1.5rem;
+  background: rgba(242, 181, 77, 0.06);
+  border-left: 3px solid var(--amber);
+  border-radius: 0 8px 8px 0;
+  color: var(--silver) !important;
+  font-size: 0.9375rem !important;
+  font-style: italic;
+}
+.paper-ref em {
+  color: var(--cream);
+  font-style: italic;
+}
+
 /* === LIT Diagram === */
 .lit-diagram-wrap {
   margin: 3rem 0;
