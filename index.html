@@ -75,12 +75,13 @@ if (window.self !== window.top) {
       <div class="lit-diagram" id="litDiagram">
         <svg viewBox="0 0 600 600" class="lit-svg">
           <defs>
-            <!-- Text paths for layer names curved along rings -->
-            <path id="ring1path" d="M300,250 A50,50 0 1,1 299.9,250" fill="none"/>
-            <path id="ring2path" d="M300,200 A100,100 0 1,1 299.9,200" fill="none"/>
-            <path id="ring3path" d="M300,150 A150,150 0 1,1 299.9,150" fill="none"/>
-            <path id="ring4path" d="M300,100 A200,200 0 1,1 299.9,100" fill="none"/>
-            <path id="ring5path" d="M300,50 A250,250 0 1,1 299.9,50" fill="none"/>
+            <!-- Outer text paths: clockwise arcs sitting just outside each ring -->
+            <!-- For outside text we go clockwise (sweep=0) so text reads right-side-up on top arc -->
+            <path id="ring1path" d="M 244,300 A 56,56 0 1,1 356,300 A 56,56 0 1,1 244,300" fill="none"/>
+            <path id="ring2path" d="M 192,300 A 108,108 0 1,1 408,300 A 108,108 0 1,1 192,300" fill="none"/>
+            <path id="ring3path" d="M 140,300 A 160,160 0 1,1 460,300 A 160,160 0 1,1 140,300" fill="none"/>
+            <path id="ring4path" d="M 90,300 A 210,210 0 1,1 510,300 A 210,210 0 1,1 90,300" fill="none"/>
+            <path id="ring5path" d="M 38,300 A 262,262 0 1,1 562,300 A 262,262 0 1,1 38,300" fill="none"/>
           </defs>
 
           <!-- Outer glow ring -->
@@ -89,31 +90,31 @@ if (window.self !== window.top) {
           <!-- Layer 5: Ethical (outermost — governing ring, dashed amber) -->
           <circle cx="300" cy="300" r="250" fill="none" stroke="#F2B54D" stroke-width="2.5" stroke-dasharray="8 4" class="lit-ring lit-ring-5" opacity="0"/>
           <text class="lit-curved-label lit-clabel-5" opacity="0">
-            <textPath href="#ring5path" startOffset="12%" text-anchor="middle">ETHICAL</textPath>
+            <textPath href="#ring5path" startOffset="25%" text-anchor="middle">ETHICAL</textPath>
           </text>
 
           <!-- Layer 4: Strategic -->
           <circle cx="300" cy="300" r="200" fill="none" stroke="#C8D0D8" stroke-width="1.5" class="lit-ring lit-ring-4" opacity="0"/>
           <text class="lit-curved-label lit-clabel-4" opacity="0">
-            <textPath href="#ring4path" startOffset="12%" text-anchor="middle">STRATEGIC</textPath>
+            <textPath href="#ring4path" startOffset="25%" text-anchor="middle">STRATEGIC</textPath>
           </text>
 
           <!-- Layer 3: Symbolic -->
           <circle cx="300" cy="300" r="150" fill="none" stroke="#C8D0D8" stroke-width="1.5" class="lit-ring lit-ring-3" opacity="0"/>
           <text class="lit-curved-label lit-clabel-3" opacity="0">
-            <textPath href="#ring3path" startOffset="12%" text-anchor="middle">SYMBOLIC</textPath>
+            <textPath href="#ring3path" startOffset="25%" text-anchor="middle">SYMBOLIC</textPath>
           </text>
 
           <!-- Layer 2: Emotional -->
           <circle cx="300" cy="300" r="100" fill="none" stroke="#C8D0D8" stroke-width="1.5" class="lit-ring lit-ring-2" opacity="0"/>
           <text class="lit-curved-label lit-clabel-2" opacity="0">
-            <textPath href="#ring2path" startOffset="12%" text-anchor="middle">EMOTIONAL</textPath>
+            <textPath href="#ring2path" startOffset="25%" text-anchor="middle">EMOTIONAL</textPath>
           </text>
 
           <!-- Layer 1: Cognitive -->
           <circle cx="300" cy="300" r="50" fill="none" stroke="#C8D0D8" stroke-width="1.5" class="lit-ring lit-ring-1" opacity="0"/>
           <text class="lit-curved-label lit-clabel-1" opacity="0">
-            <textPath href="#ring1path" startOffset="12%" text-anchor="middle">COGNITIVE</textPath>
+            <textPath href="#ring1path" startOffset="25%" text-anchor="middle">COGNITIVE</textPath>
           </text>
 
           <!-- Core: Ethics label -->
