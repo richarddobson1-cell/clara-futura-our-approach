@@ -161,30 +161,17 @@ function revealSections() {
 }
 
 // === Hero entrance ===
+// Uses CSS class .hero-ready as the primary reveal mechanism.
+// GSAP is optional enhancement — if it fails, CSS transitions handle the animation.
 function animateHero() {
-  const heroEls = ['.hero .label', '.hero h1', '.hero-sub', '.scroll-indicator'];
-  
-  function forceVisible() {
-    heroEls.forEach(sel => {
-      const el = document.querySelector(sel);
-      if (el) {
-        gsap.set(el, { opacity: 1, y: 0, clearProps: 'all' });
-      }
-    });
-  }
+  const hero = document.querySelector('.hero');
+  if (!hero) return;
 
-  // Safety: ensure hero text is always visible after 2.5s
-  setTimeout(forceVisible, 2500);
-
-  try {
-    const tl = gsap.timeline({ delay: 0.3 });
-    tl.from('.hero .label', { y: 20, opacity: 0, duration: 0.6, ease: 'power3.out' })
-      .from('.hero h1', { y: 30, opacity: 0, duration: 0.8, ease: 'power3.out' }, '-=0.3')
-      .from('.hero-sub', { y: 20, opacity: 0, duration: 0.6, ease: 'power3.out' }, '-=0.4')
-      .from('.scroll-indicator', { opacity: 0, duration: 0.6, ease: 'power2.out' }, '-=0.2');
-  } catch(e) {
-    forceVisible();
-  }
+  // Reveal hero text after a short delay using CSS class
+  // This works regardless of whether GSAP loads
+  setTimeout(() => {
+    hero.classList.add('hero-ready');
+  }, 400);
 }
 
 // === Init ===

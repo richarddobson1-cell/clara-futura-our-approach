@@ -3,7 +3,7 @@
 /* Hide nav when inside iframe */
 body.in-iframe .nav { display: none; }
 body.in-iframe .hero { padding-top: 0; min-height: 85vh; }
-body.in-iframe { overflow-x: hidden; }
+body.in-iframe { overflow-x: hidden; overflow-y: auto; }
 
 :root {
   --deep-navy: #0C2137;
@@ -99,6 +99,22 @@ body {
   position: relative;
   z-index: 1;
   max-width: 780px;
+}
+/* Hero text starts hidden, JS adds .hero-ready to reveal */
+.hero .label,
+.hero h1,
+.hero-sub,
+.scroll-indicator {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+}
+.hero-ready .label,
+.hero-ready h1,
+.hero-ready .hero-sub,
+.hero-ready .scroll-indicator {
+  opacity: 1 !important;
+  transform: translateY(0) !important;
 }
 .hero h1 {
   font-size: clamp(3rem, 1.5rem + 5vw, 5.5rem);
