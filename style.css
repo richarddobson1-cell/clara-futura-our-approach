@@ -238,20 +238,21 @@ body {
   font-size: 9px;
   letter-spacing: 0.08em;
 }
-/* Curved text labels outside rings — all gold */
-.lit-curved-label {
+/* Straight text labels positioned outside each ring — all gold + icons */
+.lit-outer-label {
+  transition: opacity 400ms ease;
+}
+.lit-label-text {
   fill: var(--amber);
   font-family: 'Inter', sans-serif;
-  font-size: 11px;
+  font-size: 12px;
   font-weight: 600;
   letter-spacing: 0.18em;
   text-transform: uppercase;
 }
-.lit-clabel-5 { fill: var(--amber); font-size: 14px; letter-spacing: 0.22em; }
-.lit-clabel-4 { fill: var(--amber); font-size: 12px; letter-spacing: 0.2em; }
-.lit-clabel-3 { fill: var(--amber); font-size: 11px; letter-spacing: 0.18em; }
-.lit-clabel-2 { fill: var(--amber); font-size: 10px; letter-spacing: 0.16em; }
-.lit-clabel-1 { fill: var(--amber); font-size: 9px; letter-spacing: 0.14em; }
+.lit-label-sm { font-size: 10px; letter-spacing: 0.14em; }
+.lit-label-md { font-size: 11px; letter-spacing: 0.16em; }
+.lit-label-lg { font-size: 14px; letter-spacing: 0.22em; }
 /* Core Ethics label */
 .lit-core-label {
   fill: var(--amber);

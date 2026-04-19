@@ -73,49 +73,89 @@ if (window.self !== window.top) {
     <!-- Animated Five-Layer Diagram — builds on scroll -->
     <div class="lit-diagram-wrap">
       <div class="lit-diagram" id="litDiagram">
-        <svg viewBox="0 0 600 600" class="lit-svg">
-          <defs>
-            <!-- Outer text paths: clockwise arcs sitting just outside each ring -->
-            <!-- For outside text we go clockwise (sweep=0) so text reads right-side-up on top arc -->
-            <path id="ring1path" d="M 244,300 A 56,56 0 1,1 356,300 A 56,56 0 1,1 244,300" fill="none"/>
-            <path id="ring2path" d="M 192,300 A 108,108 0 1,1 408,300 A 108,108 0 1,1 192,300" fill="none"/>
-            <path id="ring3path" d="M 140,300 A 160,160 0 1,1 460,300 A 160,160 0 1,1 140,300" fill="none"/>
-            <path id="ring4path" d="M 90,300 A 210,210 0 1,1 510,300 A 210,210 0 1,1 90,300" fill="none"/>
-            <path id="ring5path" d="M 38,300 A 262,262 0 1,1 562,300 A 262,262 0 1,1 38,300" fill="none"/>
-          </defs>
-
+        <svg viewBox="0 0 700 600" class="lit-svg">
           <!-- Outer glow ring -->
           <circle cx="300" cy="300" r="275" fill="none" stroke="rgba(242,181,77,0.06)" stroke-width="1" class="lit-glow-ring"/>
 
           <!-- Layer 5: Ethical (outermost — governing ring, dashed amber) -->
           <circle cx="300" cy="300" r="250" fill="none" stroke="#F2B54D" stroke-width="2.5" stroke-dasharray="8 4" class="lit-ring lit-ring-5" opacity="0"/>
-          <text class="lit-curved-label lit-clabel-5" opacity="0">
-            <textPath href="#ring5path" startOffset="25%" text-anchor="middle">ETHICAL</textPath>
-          </text>
 
           <!-- Layer 4: Strategic -->
           <circle cx="300" cy="300" r="200" fill="none" stroke="#C8D0D8" stroke-width="1.5" class="lit-ring lit-ring-4" opacity="0"/>
-          <text class="lit-curved-label lit-clabel-4" opacity="0">
-            <textPath href="#ring4path" startOffset="25%" text-anchor="middle">STRATEGIC</textPath>
-          </text>
 
           <!-- Layer 3: Symbolic -->
           <circle cx="300" cy="300" r="150" fill="none" stroke="#C8D0D8" stroke-width="1.5" class="lit-ring lit-ring-3" opacity="0"/>
-          <text class="lit-curved-label lit-clabel-3" opacity="0">
-            <textPath href="#ring3path" startOffset="25%" text-anchor="middle">SYMBOLIC</textPath>
-          </text>
 
           <!-- Layer 2: Emotional -->
           <circle cx="300" cy="300" r="100" fill="none" stroke="#C8D0D8" stroke-width="1.5" class="lit-ring lit-ring-2" opacity="0"/>
-          <text class="lit-curved-label lit-clabel-2" opacity="0">
-            <textPath href="#ring2path" startOffset="25%" text-anchor="middle">EMOTIONAL</textPath>
-          </text>
 
           <!-- Layer 1: Cognitive -->
           <circle cx="300" cy="300" r="50" fill="none" stroke="#C8D0D8" stroke-width="1.5" class="lit-ring lit-ring-1" opacity="0"/>
-          <text class="lit-curved-label lit-clabel-1" opacity="0">
-            <textPath href="#ring1path" startOffset="25%" text-anchor="middle">COGNITIVE</textPath>
-          </text>
+
+          <!-- === LABELS OUTSIDE EACH RING — gold text + small icons === -->
+
+          <!-- Label 1: COGNITIVE — positioned outside ring 1 (r=50), top-right -->
+          <g class="lit-outer-label lit-clabel-1" opacity="0">
+            <line x1="335" y1="265" x2="390" y2="228" stroke="rgba(242,181,77,0.4)" stroke-width="0.75" stroke-dasharray="3 2"/>
+            <circle cx="390" cy="228" r="1.5" fill="#F2B54D"/>
+            <!-- Icon: brain/gear -->
+            <g transform="translate(395,218)">
+              <circle cx="6" cy="6" r="5.5" fill="none" stroke="#F2B54D" stroke-width="1"/>
+              <circle cx="6" cy="6" r="2" fill="#F2B54D" opacity="0.6"/>
+              <line x1="6" y1="0.5" x2="6" y2="2.5" stroke="#F2B54D" stroke-width="0.8"/>
+              <line x1="6" y1="9.5" x2="6" y2="11.5" stroke="#F2B54D" stroke-width="0.8"/>
+              <line x1="0.5" y1="6" x2="2.5" y2="6" stroke="#F2B54D" stroke-width="0.8"/>
+              <line x1="9.5" y1="6" x2="11.5" y2="6" stroke="#F2B54D" stroke-width="0.8"/>
+            </g>
+            <text x="412" y="227" class="lit-label-text lit-label-sm">COGNITIVE</text>
+          </g>
+
+          <!-- Label 2: EMOTIONAL — positioned outside ring 2 (r=100), right -->
+          <g class="lit-outer-label lit-clabel-2" opacity="0">
+            <line x1="370" y1="225" x2="430" y2="190" stroke="rgba(242,181,77,0.4)" stroke-width="0.75" stroke-dasharray="3 2"/>
+            <circle cx="430" cy="190" r="1.5" fill="#F2B54D"/>
+            <!-- Icon: heart -->
+            <g transform="translate(435,180)">
+              <path d="M6,10 C6,10 0,6 0,3.5 C0,1.5 1.5,0 3.5,0 C4.8,0 5.6,0.7 6,1.5 C6.4,0.7 7.2,0 8.5,0 C10.5,0 12,1.5 12,3.5 C12,6 6,10 6,10 Z" fill="#F2B54D" opacity="0.8"/>
+            </g>
+            <text x="452" y="189" class="lit-label-text lit-label-md">EMOTIONAL</text>
+          </g>
+
+          <!-- Label 3: SYMBOLIC — positioned outside ring 3 (r=150), upper-right -->
+          <g class="lit-outer-label lit-clabel-3" opacity="0">
+            <line x1="400" y1="185" x2="468" y2="148" stroke="rgba(242,181,77,0.4)" stroke-width="0.75" stroke-dasharray="3 2"/>
+            <circle cx="468" cy="148" r="1.5" fill="#F2B54D"/>
+            <!-- Icon: infinity/loop -->
+            <g transform="translate(473,139)">
+              <path d="M3,5 C1,3 1,1 3,1 C5,1 6,3 7,5 C8,7 9,9 11,9 C13,9 13,7 11,5 C9,3 8,1 7,1" fill="none" stroke="#F2B54D" stroke-width="1.2" stroke-linecap="round"/>
+            </g>
+            <text x="492" y="151" class="lit-label-text lit-label-md">SYMBOLIC</text>
+          </g>
+
+          <!-- Label 4: STRATEGIC — positioned outside ring 4 (r=200), upper-right -->
+          <g class="lit-outer-label lit-clabel-4" opacity="0">
+            <line x1="435" y1="145" x2="498" y2="108" stroke="rgba(242,181,77,0.4)" stroke-width="0.75" stroke-dasharray="3 2"/>
+            <circle cx="498" cy="108" r="1.5" fill="#F2B54D"/>
+            <!-- Icon: compass -->
+            <g transform="translate(503,98)">
+              <circle cx="6" cy="6" r="5.5" fill="none" stroke="#F2B54D" stroke-width="1"/>
+              <polygon points="6,1.5 7.5,5 6,4 4.5,5" fill="#F2B54D" opacity="0.8"/>
+              <polygon points="6,10.5 4.5,7 6,8 7.5,7" fill="#F2B54D" opacity="0.4"/>
+            </g>
+            <text x="520" y="111" class="lit-label-text">STRATEGIC</text>
+          </g>
+
+          <!-- Label 5: ETHICAL — positioned outside ring 5 (r=250), top-right -->
+          <g class="lit-outer-label lit-clabel-5" opacity="0">
+            <line x1="465" y1="100" x2="520" y2="68" stroke="rgba(242,181,77,0.4)" stroke-width="0.75" stroke-dasharray="3 2"/>
+            <circle cx="520" cy="68" r="1.5" fill="#F2B54D"/>
+            <!-- Icon: shield -->
+            <g transform="translate(525,57)">
+              <path d="M6,0 L12,3 L12,7 C12,10 9,12 6,13 C3,12 0,10 0,7 L0,3 Z" fill="none" stroke="#F2B54D" stroke-width="1"/>
+              <path d="M4,6.5 L5.5,8 L8.5,5" fill="none" stroke="#F2B54D" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
+            </g>
+            <text x="542" y="71" class="lit-label-text lit-label-lg">ETHICAL</text>
+          </g>
 
           <!-- Core: Ethics label -->
           <circle cx="300" cy="300" r="32" fill="rgba(242,181,77,0.15)" stroke="#F2B54D" stroke-width="1.5" class="lit-core" opacity="0"/>
