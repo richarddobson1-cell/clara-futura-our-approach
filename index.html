@@ -70,52 +70,99 @@ if (window.self !== window.top) {
       <p>This derivation rests on a structural claim: any cognitive system — cellular, human, or artificial — that must survive and act under constitutive ambiguity requires five, and only five, irreducible functional capabilities. These requirements map directly onto the five functional capabilities identified as universal to living systems at the cellular scale. Not a list of talents. An architecture grounded in biology.</p>
     </div>
 
-    <!-- Animated Five-Layer Diagram -->
+    <!-- Animated Five-Layer Diagram — builds on scroll -->
     <div class="lit-diagram-wrap">
       <div class="lit-diagram" id="litDiagram">
-        <svg viewBox="0 -40 600 640" class="lit-svg">
-          <!-- Outer glow ring -->
-          <circle cx="300" cy="300" r="270" fill="none" stroke="rgba(242,181,77,0.08)" stroke-width="1" class="lit-glow-ring"/>
+        <svg viewBox="0 0 600 600" class="lit-svg">
+          <defs>
+            <!-- Text paths for layer names curved along rings -->
+            <path id="ring1path" d="M300,250 A50,50 0 1,1 299.9,250" fill="none"/>
+            <path id="ring2path" d="M300,200 A100,100 0 1,1 299.9,200" fill="none"/>
+            <path id="ring3path" d="M300,150 A150,150 0 1,1 299.9,150" fill="none"/>
+            <path id="ring4path" d="M300,100 A200,200 0 1,1 299.9,100" fill="none"/>
+            <path id="ring5path" d="M300,50 A250,250 0 1,1 299.9,50" fill="none"/>
+          </defs>
 
-          <!-- Layer 5: Ethical (outermost governing ring) -->
+          <!-- Outer glow ring -->
+          <circle cx="300" cy="300" r="275" fill="none" stroke="rgba(242,181,77,0.06)" stroke-width="1" class="lit-glow-ring"/>
+
+          <!-- Layer 5: Ethical (outermost — governing ring, dashed amber) -->
           <circle cx="300" cy="300" r="250" fill="none" stroke="#F2B54D" stroke-width="2.5" stroke-dasharray="8 4" class="lit-ring lit-ring-5" opacity="0"/>
-          <text x="300" y="-5" text-anchor="middle" class="lit-ring-label lit-label-5" opacity="0">ETHICAL INTELLIGENCE</text>
-          <text x="300" y="16" text-anchor="middle" class="lit-ring-sublabel lit-sublabel-5" opacity="0">Governing Constraint</text>
+          <text class="lit-curved-label lit-clabel-5" opacity="0">
+            <textPath href="#ring5path" startOffset="12%" text-anchor="middle">ETHICAL</textPath>
+          </text>
 
           <!-- Layer 4: Strategic -->
-          <circle cx="300" cy="300" r="200" fill="none" stroke="#A4AEB7" stroke-width="1.5" class="lit-ring lit-ring-4" opacity="0"/>
+          <circle cx="300" cy="300" r="200" fill="none" stroke="#C8D0D8" stroke-width="1.5" class="lit-ring lit-ring-4" opacity="0"/>
+          <text class="lit-curved-label lit-clabel-4" opacity="0">
+            <textPath href="#ring4path" startOffset="12%" text-anchor="middle">STRATEGIC</textPath>
+          </text>
 
           <!-- Layer 3: Symbolic -->
-          <circle cx="300" cy="300" r="150" fill="none" stroke="#A4AEB7" stroke-width="1.5" class="lit-ring lit-ring-3" opacity="0"/>
+          <circle cx="300" cy="300" r="150" fill="none" stroke="#C8D0D8" stroke-width="1.5" class="lit-ring lit-ring-3" opacity="0"/>
+          <text class="lit-curved-label lit-clabel-3" opacity="0">
+            <textPath href="#ring3path" startOffset="12%" text-anchor="middle">SYMBOLIC</textPath>
+          </text>
 
           <!-- Layer 2: Emotional -->
-          <circle cx="300" cy="300" r="100" fill="none" stroke="#A4AEB7" stroke-width="1.5" class="lit-ring lit-ring-2" opacity="0"/>
+          <circle cx="300" cy="300" r="100" fill="none" stroke="#C8D0D8" stroke-width="1.5" class="lit-ring lit-ring-2" opacity="0"/>
+          <text class="lit-curved-label lit-clabel-2" opacity="0">
+            <textPath href="#ring2path" startOffset="12%" text-anchor="middle">EMOTIONAL</textPath>
+          </text>
 
-          <!-- Layer 1: Cognitive (core) -->
-          <circle cx="300" cy="300" r="50" fill="rgba(242,181,77,0.15)" stroke="#F2B54D" stroke-width="1.5" class="lit-ring lit-ring-1" opacity="0"/>
+          <!-- Layer 1: Cognitive -->
+          <circle cx="300" cy="300" r="50" fill="none" stroke="#C8D0D8" stroke-width="1.5" class="lit-ring lit-ring-1" opacity="0"/>
+          <text class="lit-curved-label lit-clabel-1" opacity="0">
+            <textPath href="#ring1path" startOffset="12%" text-anchor="middle">COGNITIVE</textPath>
+          </text>
 
-          <!-- Connecting tension lines (reciprocal constraints) -->
-          <g class="lit-tension-lines" opacity="0">
-            <line x1="300" y1="250" x2="300" y2="100" stroke="rgba(242,181,77,0.15)" stroke-width="0.5"/>
-            <line x1="350" y1="260" x2="450" y2="150" stroke="rgba(242,181,77,0.15)" stroke-width="0.5"/>
-            <line x1="250" y1="260" x2="150" y2="150" stroke="rgba(242,181,77,0.15)" stroke-width="0.5"/>
-            <line x1="350" y1="340" x2="450" y2="450" stroke="rgba(242,181,77,0.15)" stroke-width="0.5"/>
-            <line x1="250" y1="340" x2="150" y2="450" stroke="rgba(242,181,77,0.15)" stroke-width="0.5"/>
+          <!-- Core: Ethics label -->
+          <circle cx="300" cy="300" r="32" fill="rgba(242,181,77,0.15)" stroke="#F2B54D" stroke-width="1.5" class="lit-core" opacity="0"/>
+          <text x="300" y="297" text-anchor="middle" class="lit-core-label" opacity="0">ETHICS</text>
+          <text x="300" y="312" text-anchor="middle" class="lit-core-sub" opacity="0">Governing</text>
+
+          <!-- Orbiting particles: 4 per ring (alternating silver/amber) -->
+          <!-- Ring 5 particles (r=250) -->
+          <g class="lit-particles-5" opacity="0">
+            <circle r="5" fill="#DDE2E7"><animateMotion dur="12s" repeatCount="indefinite" path="M300,50 A250,250 0 1,1 299.9,50 Z"/></circle>
+            <circle r="4" fill="#F5C870"><animateMotion dur="12s" repeatCount="indefinite" begin="-3s" path="M300,50 A250,250 0 1,1 299.9,50 Z"/></circle>
+            <circle r="5" fill="#C8D0D8"><animateMotion dur="12s" repeatCount="indefinite" begin="-6s" path="M300,50 A250,250 0 1,1 299.9,50 Z"/></circle>
+            <circle r="4" fill="#F2B54D"><animateMotion dur="12s" repeatCount="indefinite" begin="-9s" path="M300,50 A250,250 0 1,1 299.9,50 Z"/></circle>
+          </g>
+          <!-- Ring 4 particles (r=200) -->
+          <g class="lit-particles-4" opacity="0">
+            <circle r="4.5" fill="#DDE2E7"><animateMotion dur="10s" repeatCount="indefinite" path="M300,100 A200,200 0 1,1 299.9,100 Z"/></circle>
+            <circle r="3.5" fill="#F5C870"><animateMotion dur="10s" repeatCount="indefinite" begin="-2.5s" path="M300,100 A200,200 0 1,1 299.9,100 Z"/></circle>
+            <circle r="4.5" fill="#C8D0D8"><animateMotion dur="10s" repeatCount="indefinite" begin="-5s" path="M300,100 A200,200 0 1,1 299.9,100 Z"/></circle>
+            <circle r="3.5" fill="#F2B54D"><animateMotion dur="10s" repeatCount="indefinite" begin="-7.5s" path="M300,100 A200,200 0 1,1 299.9,100 Z"/></circle>
+          </g>
+          <!-- Ring 3 particles (r=150) -->
+          <g class="lit-particles-3" opacity="0">
+            <circle r="4" fill="#DDE2E7"><animateMotion dur="8s" repeatCount="indefinite" path="M300,150 A150,150 0 1,1 299.9,150 Z"/></circle>
+            <circle r="3.5" fill="#F5C870"><animateMotion dur="8s" repeatCount="indefinite" begin="-2s" path="M300,150 A150,150 0 1,1 299.9,150 Z"/></circle>
+            <circle r="4" fill="#C8D0D8"><animateMotion dur="8s" repeatCount="indefinite" begin="-4s" path="M300,150 A150,150 0 1,1 299.9,150 Z"/></circle>
+            <circle r="3.5" fill="#F2B54D"><animateMotion dur="8s" repeatCount="indefinite" begin="-6s" path="M300,150 A150,150 0 1,1 299.9,150 Z"/></circle>
+          </g>
+          <!-- Ring 2 particles (r=100) -->
+          <g class="lit-particles-2" opacity="0">
+            <circle r="3.5" fill="#DDE2E7"><animateMotion dur="6s" repeatCount="indefinite" path="M300,200 A100,100 0 1,1 299.9,200 Z"/></circle>
+            <circle r="3" fill="#F5C870"><animateMotion dur="6s" repeatCount="indefinite" begin="-1.5s" path="M300,200 A100,100 0 1,1 299.9,200 Z"/></circle>
+            <circle r="3.5" fill="#C8D0D8"><animateMotion dur="6s" repeatCount="indefinite" begin="-3s" path="M300,200 A100,100 0 1,1 299.9,200 Z"/></circle>
+            <circle r="3" fill="#F2B54D"><animateMotion dur="6s" repeatCount="indefinite" begin="-4.5s" path="M300,200 A100,100 0 1,1 299.9,200 Z"/></circle>
+          </g>
+          <!-- Ring 1 particles (r=50) -->
+          <g class="lit-particles-1" opacity="0">
+            <circle r="3" fill="#DDE2E7"><animateMotion dur="4s" repeatCount="indefinite" path="M300,250 A50,50 0 1,1 299.9,250 Z"/></circle>
+            <circle r="2.5" fill="#F5C870"><animateMotion dur="4s" repeatCount="indefinite" begin="-1s" path="M300,250 A50,50 0 1,1 299.9,250 Z"/></circle>
+            <circle r="3" fill="#C8D0D8"><animateMotion dur="4s" repeatCount="indefinite" begin="-2s" path="M300,250 A50,50 0 1,1 299.9,250 Z"/></circle>
+            <circle r="2.5" fill="#F2B54D"><animateMotion dur="4s" repeatCount="indefinite" begin="-3s" path="M300,250 A50,50 0 1,1 299.9,250 Z"/></circle>
           </g>
 
-          <!-- Orbiting particles representing recursive feedback -->
-          <circle r="5" fill="#A4AEB7" class="lit-particle lit-particle-1" opacity="0">
-            <animateMotion dur="8s" repeatCount="indefinite" path="M300,50 A250,250 0 1,1 299,50 Z" />
-          </circle>
-          <circle r="4" fill="#F2B54D" class="lit-particle lit-particle-2" opacity="0">
-            <animateMotion dur="6s" repeatCount="indefinite" path="M300,100 A200,200 0 1,1 299,100 Z" />
-          </circle>
-          <circle r="3.5" fill="#F2B54D" class="lit-particle lit-particle-3" opacity="0">
-            <animateMotion dur="5s" repeatCount="indefinite" path="M300,150 A150,150 0 1,1 299,150 Z" />
-          </circle>
+          <!-- Pulsing core glow -->
+          <circle cx="300" cy="300" r="32" fill="none" stroke="#F2B54D" stroke-width="0.5" class="lit-core-pulse" opacity="0"/>
         </svg>
 
-        <!-- Layer labels positioned around diagram -->
+        <!-- Layer description cards below diagram -->
         <div class="lit-labels">
           <div class="lit-label-card lit-card-1" data-layer="1">
             <span class="lit-num">01</span>
@@ -154,6 +201,33 @@ if (window.self !== window.top) {
   </div>
 </section>
 
+<!-- Wave divider: LIT to LIR -->
+<div class="wave-divider-oa">
+  <svg viewBox="0 0 1440 100" preserveAspectRatio="none">
+    <path d="M0,50 Q360,10 720,50 Q1080,90 1440,50" fill="none" stroke="rgba(242,181,77,0.4)" stroke-width="1.5">
+      <animate attributeName="d" dur="6s" repeatCount="indefinite" values="M0,50 Q360,10 720,50 Q1080,90 1440,50;M0,50 Q360,90 720,50 Q1080,10 1440,50;M0,50 Q360,10 720,50 Q1080,90 1440,50"/>
+    </path>
+    <path d="M0,50 Q360,30 720,50 Q1080,70 1440,50" fill="none" stroke="rgba(200,208,216,0.25)" stroke-width="1">
+      <animate attributeName="d" dur="8s" repeatCount="indefinite" values="M0,50 Q360,30 720,50 Q1080,70 1440,50;M0,50 Q360,70 720,50 Q1080,30 1440,50;M0,50 Q360,30 720,50 Q1080,70 1440,50"/>
+    </path>
+    <path d="M0,50 Q180,35 360,55 Q540,70 720,48 Q900,30 1080,52 Q1260,68 1440,48" fill="none" stroke="rgba(242,181,77,0.18)" stroke-width="0.75">
+      <animate attributeName="d" dur="10s" repeatCount="indefinite" values="M0,50 Q180,35 360,55 Q540,70 720,48 Q900,30 1080,52 Q1260,68 1440,48;M0,50 Q180,65 360,45 Q540,30 720,52 Q900,70 1080,48 Q1260,32 1440,52;M0,50 Q180,35 360,55 Q540,70 720,48 Q900,30 1080,52 Q1260,68 1440,48"/>
+    </path>
+    <circle r="5" fill="#DDE2E7" opacity="1">
+      <animateMotion dur="3.5s" repeatCount="indefinite" path="M0,50 Q360,10 720,50 Q1080,90 1440,50"/>
+    </circle>
+    <circle r="4" fill="#F5C870" opacity="1">
+      <animateMotion dur="4.5s" repeatCount="indefinite" path="M0,50 Q360,90 720,50 Q1080,10 1440,50"/>
+    </circle>
+    <circle r="3.5" fill="#C8D0D8" opacity="0.9">
+      <animateMotion dur="5.5s" repeatCount="indefinite" path="M0,50 Q360,10 720,50 Q1080,90 1440,50" begin="1.5s"/>
+    </circle>
+    <circle r="3" fill="#F2B54D" opacity="0.9">
+      <animateMotion dur="6s" repeatCount="indefinite" path="M0,50 Q180,35 360,55 Q540,70 720,48 Q900,30 1080,52 Q1260,68 1440,48" begin="0.5s"/>
+    </circle>
+  </svg>
+</div>
+
 <!-- LIR Section -->
 <section class="section section-surface" id="lir">
   <div class="container">
@@ -186,22 +260,28 @@ if (window.self !== window.top) {
           <!-- Half-circle arcs connecting the two poles -->
           <g class="lir-tension">
             <!-- Top half-circle: Actualised edge → arcs over top → Potential edge -->
-            <path d="M255,200 A95,95 0 0,1 445,200" fill="none" stroke="#F2B54D" stroke-width="1.5" opacity="0.6" class="lir-flow lir-flow-top"/>
+            <path d="M255,200 A95,95 0 0,1 445,200" fill="none" stroke="#F2B54D" stroke-width="2" opacity="0.7" class="lir-flow lir-flow-top"/>
             <!-- Bottom half-circle: Potential edge → arcs under bottom → Actualised edge -->
-            <path d="M255,200 A95,95 0 0,0 445,200" fill="none" stroke="#A4AEB7" stroke-width="1.5" opacity="0.6" class="lir-flow lir-flow-bottom"/>
+            <path d="M255,200 A95,95 0 0,0 445,200" fill="none" stroke="#C8D0D8" stroke-width="2" opacity="0.7" class="lir-flow lir-flow-bottom"/>
             <!-- Flowing particles on top amber arc → silver dots -->
-            <circle r="4.5" fill="#A4AEB7" opacity="1">
+            <circle r="5.5" fill="#DDE2E7" opacity="1">
               <animateMotion dur="3s" repeatCount="indefinite" path="M255,200 A95,95 0 0,1 445,200"/>
             </circle>
-            <circle r="3.5" fill="#A4AEB7" opacity="0.8">
-              <animateMotion dur="3s" repeatCount="indefinite" begin="1.5s" path="M255,200 A95,95 0 0,1 445,200"/>
+            <circle r="4" fill="#C8D0D8" opacity="1">
+              <animateMotion dur="3s" repeatCount="indefinite" begin="1s" path="M255,200 A95,95 0 0,1 445,200"/>
+            </circle>
+            <circle r="3" fill="#DDE2E7" opacity="0.9">
+              <animateMotion dur="3s" repeatCount="indefinite" begin="2s" path="M255,200 A95,95 0 0,1 445,200"/>
             </circle>
             <!-- Flowing particles on bottom silver arc → amber dots -->
-            <circle r="4.5" fill="#F2B54D" opacity="1">
+            <circle r="5.5" fill="#F5C870" opacity="1">
               <animateMotion dur="3s" repeatCount="indefinite" path="M445,200 A95,95 0 0,1 255,200"/>
             </circle>
-            <circle r="3.5" fill="#F2B54D" opacity="0.8">
-              <animateMotion dur="3s" repeatCount="indefinite" begin="1.5s" path="M445,200 A95,95 0 0,1 255,200"/>
+            <circle r="4" fill="#F2B54D" opacity="1">
+              <animateMotion dur="3s" repeatCount="indefinite" begin="1s" path="M445,200 A95,95 0 0,1 255,200"/>
+            </circle>
+            <circle r="3" fill="#F5C870" opacity="0.9">
+              <animateMotion dur="3s" repeatCount="indefinite" begin="2s" path="M445,200 A95,95 0 0,1 255,200"/>
             </circle>
           </g>
 
@@ -229,6 +309,33 @@ if (window.self !== window.top) {
   </div>
 </section>
 
+<!-- Wave divider: LIR to Dynamic Alignment -->
+<div class="wave-divider-oa">
+  <svg viewBox="0 0 1440 100" preserveAspectRatio="none">
+    <path d="M0,50 Q240,15 480,50 Q720,85 960,50 Q1200,15 1440,50" fill="none" stroke="rgba(242,181,77,0.4)" stroke-width="1.5">
+      <animate attributeName="d" dur="7s" repeatCount="indefinite" values="M0,50 Q240,15 480,50 Q720,85 960,50 Q1200,15 1440,50;M0,50 Q240,85 480,50 Q720,15 960,50 Q1200,85 1440,50;M0,50 Q240,15 480,50 Q720,85 960,50 Q1200,15 1440,50"/>
+    </path>
+    <path d="M0,52 Q300,30 600,55 Q900,75 1200,48 Q1350,38 1440,52" fill="none" stroke="rgba(200,208,216,0.28)" stroke-width="1">
+      <animate attributeName="d" dur="9s" repeatCount="indefinite" values="M0,52 Q300,30 600,55 Q900,75 1200,48 Q1350,38 1440,52;M0,48 Q300,70 600,45 Q900,25 1200,52 Q1350,62 1440,48;M0,52 Q300,30 600,55 Q900,75 1200,48 Q1350,38 1440,52"/>
+    </path>
+    <path d="M0,50 Q120,40 240,50 Q360,60 480,50 Q600,40 720,50 Q840,60 960,50 Q1080,40 1200,50 Q1320,60 1440,50" fill="none" stroke="rgba(242,181,77,0.12)" stroke-width="0.5">
+      <animate attributeName="d" dur="4s" repeatCount="indefinite" values="M0,50 Q120,40 240,50 Q360,60 480,50 Q600,40 720,50 Q840,60 960,50 Q1080,40 1200,50 Q1320,60 1440,50;M0,50 Q120,60 240,50 Q360,40 480,50 Q600,60 720,50 Q840,40 960,50 Q1080,60 1200,50 Q1320,40 1440,50;M0,50 Q120,40 240,50 Q360,60 480,50 Q600,40 720,50 Q840,60 960,50 Q1080,40 1200,50 Q1320,60 1440,50"/>
+    </path>
+    <circle r="5" fill="#DDE2E7" opacity="1">
+      <animateMotion dur="4s" repeatCount="indefinite" path="M0,50 Q240,15 480,50 Q720,85 960,50 Q1200,15 1440,50"/>
+    </circle>
+    <circle r="4.5" fill="#F5C870" opacity="1">
+      <animateMotion dur="5s" repeatCount="indefinite" path="M0,52 Q300,30 600,55 Q900,75 1200,48 Q1350,38 1440,52"/>
+    </circle>
+    <circle r="3.5" fill="#C8D0D8" opacity="0.9">
+      <animateMotion dur="6s" repeatCount="indefinite" path="M0,50 Q240,85 480,50 Q720,15 960,50 Q1200,85 1440,50" begin="2s"/>
+    </circle>
+    <circle r="3" fill="#F2B54D" opacity="0.9">
+      <animateMotion dur="7s" repeatCount="indefinite" path="M0,50 Q240,15 480,50 Q720,85 960,50 Q1200,15 1440,50" begin="1s"/>
+    </circle>
+  </svg>
+</div>
+
 <!-- Dynamic Alignment Section -->
 <section class="section section-dark" id="alignment">
   <div class="container">
@@ -243,29 +350,38 @@ if (window.self !== window.top) {
       <div class="da-diagram" id="daDiagram">
         <svg viewBox="0 0 700 500" class="da-svg">
           <!-- Outer glow ring -->
-          <circle cx="350" cy="250" r="200" fill="none" stroke="rgba(242,181,77,0.06)" stroke-width="1"/>
+          <circle cx="350" cy="250" r="200" fill="none" stroke="rgba(242,181,77,0.12)" stroke-width="1.5"/>
 
           <!-- Main connecting circle — passes through all four framework positions -->
-          <circle cx="350" cy="250" r="160" fill="none" stroke="#F2B54D" stroke-width="2" opacity="0.4" class="da-main-circle"/>
+          <circle cx="350" cy="250" r="160" fill="none" stroke="#F2B54D" stroke-width="2.5" opacity="0.55" class="da-main-circle"/>
 
           <!-- Animated particles orbiting the circle — silver dots on amber circle -->
-          <circle r="5" fill="#C8D0D8" opacity="1">
+          <circle r="6" fill="#DDE2E7" opacity="1">
             <animateMotion dur="8s" repeatCount="indefinite" path="M350,90 A160,160 0 1,1 349.9,90 Z"/>
           </circle>
-          <circle r="4" fill="#C8D0D8" opacity="0.8">
+          <circle r="4.5" fill="#C8D0D8" opacity="1">
             <animateMotion dur="8s" repeatCount="indefinite" begin="-4s" path="M350,90 A160,160 0 1,1 349.9,90 Z"/>
           </circle>
-          <circle r="3.5" fill="#F5C870" opacity="0.9">
+          <circle r="5" fill="#F5C870" opacity="1">
             <animateMotion dur="8s" repeatCount="indefinite" begin="-2s" path="M350,90 A160,160 0 1,1 349.9,90 Z"/>
+          </circle>
+          <circle r="3.5" fill="#DDE2E7" opacity="0.9">
+            <animateMotion dur="8s" repeatCount="indefinite" begin="-6s" path="M350,90 A160,160 0 1,1 349.9,90 Z"/>
+          </circle>
+          <circle r="4" fill="#F2B54D" opacity="0.9">
+            <animateMotion dur="10s" repeatCount="indefinite" begin="-1s" path="M350,90 A160,160 0 1,1 349.9,90 Z"/>
+          </circle>
+          <circle r="3" fill="#C8D0D8" opacity="0.85">
+            <animateMotion dur="10s" repeatCount="indefinite" begin="-5s" path="M350,90 A160,160 0 1,1 349.9,90 Z"/>
           </circle>
 
           <!-- Cross-connection lines through centre -->
-          <line x1="190" y1="250" x2="510" y2="250" stroke="rgba(242,181,77,0.15)" stroke-width="1"/>
-          <line x1="350" y1="90" x2="350" y2="410" stroke="rgba(242,181,77,0.15)" stroke-width="1"/>
-          <line x1="190" y1="250" x2="350" y2="90" stroke="rgba(164,174,183,0.1)" stroke-width="0.75" stroke-dasharray="4 4"/>
-          <line x1="350" y1="90" x2="510" y2="250" stroke="rgba(164,174,183,0.1)" stroke-width="0.75" stroke-dasharray="4 4"/>
-          <line x1="510" y1="250" x2="350" y2="410" stroke="rgba(164,174,183,0.1)" stroke-width="0.75" stroke-dasharray="4 4"/>
-          <line x1="350" y1="410" x2="190" y2="250" stroke="rgba(164,174,183,0.1)" stroke-width="0.75" stroke-dasharray="4 4"/>
+          <line x1="190" y1="250" x2="510" y2="250" stroke="rgba(242,181,77,0.25)" stroke-width="1"/>
+          <line x1="350" y1="90" x2="350" y2="410" stroke="rgba(242,181,77,0.25)" stroke-width="1"/>
+          <line x1="190" y1="250" x2="350" y2="90" stroke="rgba(200,208,216,0.18)" stroke-width="0.75" stroke-dasharray="4 4"/>
+          <line x1="350" y1="90" x2="510" y2="250" stroke="rgba(200,208,216,0.18)" stroke-width="0.75" stroke-dasharray="4 4"/>
+          <line x1="510" y1="250" x2="350" y2="410" stroke="rgba(200,208,216,0.18)" stroke-width="0.75" stroke-dasharray="4 4"/>
+          <line x1="350" y1="410" x2="190" y2="250" stroke="rgba(200,208,216,0.18)" stroke-width="0.75" stroke-dasharray="4 4"/>
 
           <!-- Four framework nodes positioned on the circle -->
           <!-- LIT — top (12 o'clock) -->
