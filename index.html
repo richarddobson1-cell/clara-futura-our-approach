@@ -73,168 +73,162 @@ if (window.self !== window.top) {
     <!-- Animated Five-Layer Diagram — builds on scroll -->
     <div class="lit-diagram-wrap">
       <div class="lit-diagram" id="litDiagram">
-        <svg viewBox="0 -20 600 640" class="lit-svg">
+        <svg viewBox="0 -20 900 960" class="lit-svg">
           <defs>
-            <!-- Curved text paths: top arcs at each ring's midpoint radius -->
-            <!-- Ring 1 label path: midpoint between core (32) and ring 1 (50) — but ring 1 is too small, place at top of ring 1 band, radius ~72 -->
-            <path id="litArc1" d="M 300 228 A 72 72 0 0 1 300 228" fill="none"/>
-            <!-- Ring 2 label path: midpoint between ring 1 (50) and ring 2 (100) — radius 75 -->
+            <!-- Curved text paths for labels inside each ring band -->
+            <!-- Ring 1 (Cognitive): midpoint radius ~75 (between core r=40 and ring1 r=110) -->
+            <path id="litArcTop1" fill="none"
+                  d="M 375 450 A 75 75 0 1 1 525 450"/>
+            <!-- Ring 2 (Emotional): midpoint radius ~148 (between ring1 r=110 and ring2 r=185) -->
             <path id="litArcTop2" fill="none"
-                  d="M 225 300 A 75 75 0 1 1 375 300"/>
-            <!-- Ring 3 label path: midpoint between ring 2 (100) and ring 3 (150) — radius 125 -->
+                  d="M 302 450 A 148 148 0 1 1 598 450"/>
+            <!-- Ring 3 (Symbolic): midpoint radius ~222 (between ring2 r=185 and ring3 r=260) -->
             <path id="litArcTop3" fill="none"
-                  d="M 175 300 A 125 125 0 1 1 425 300"/>
-            <!-- Ring 4 label path: midpoint between ring 3 (150) and ring 4 (200) — radius 175 -->
+                  d="M 228 450 A 222 222 0 1 1 672 450"/>
+            <!-- Ring 4 (Strategic): midpoint radius ~300 (between ring3 r=260 and ring4 r=340) -->
             <path id="litArcTop4" fill="none"
-                  d="M 125 300 A 175 175 0 1 1 475 300"/>
-            <!-- Ring 5 label path: midpoint between ring 4 (200) and ring 5 (250) — radius 225 -->
+                  d="M 150 450 A 300 300 0 1 1 750 450"/>
+            <!-- Ring 5 (Ethical): midpoint radius ~380 (between ring4 r=340 and ring5 r=420) -->
             <path id="litArcTop5" fill="none"
-                  d="M 75 300 A 225 225 0 1 1 525 300"/>
+                  d="M 70 450 A 380 380 0 1 1 830 450"/>
           </defs>
 
           <!-- Outer glow ring -->
-          <circle cx="300" cy="300" r="275" fill="none" stroke="rgba(242,181,77,0.06)" stroke-width="1" class="lit-glow-ring"/>
+          <circle cx="450" cy="450" r="445" fill="none" stroke="rgba(242,181,77,0.06)" stroke-width="1" class="lit-glow-ring"/>
 
           <!-- Subtle band fills for each ring zone -->
-          <circle cx="300" cy="300" r="250" fill="rgba(242,181,77,0.03)" class="lit-band lit-band-5" opacity="0"/>
-          <circle cx="300" cy="300" r="200" fill="rgba(18,44,69,1)" class="lit-band lit-band-4" opacity="0"/>
-          <circle cx="300" cy="300" r="200" fill="rgba(164,174,183,0.03)" class="lit-band-fill-4" opacity="0"/>
-          <circle cx="300" cy="300" r="150" fill="rgba(18,44,69,1)" class="lit-band lit-band-3" opacity="0"/>
-          <circle cx="300" cy="300" r="150" fill="rgba(164,174,183,0.03)" class="lit-band-fill-3" opacity="0"/>
-          <circle cx="300" cy="300" r="100" fill="rgba(18,44,69,1)" class="lit-band lit-band-2" opacity="0"/>
-          <circle cx="300" cy="300" r="100" fill="rgba(164,174,183,0.03)" class="lit-band-fill-2" opacity="0"/>
-          <circle cx="300" cy="300" r="50" fill="rgba(18,44,69,1)" class="lit-band lit-band-1" opacity="0"/>
+          <circle cx="450" cy="450" r="420" fill="rgba(242,181,77,0.03)" class="lit-band lit-band-5" opacity="0"/>
+          <circle cx="450" cy="450" r="340" fill="rgba(18,44,69,1)" class="lit-band lit-band-4" opacity="0"/>
+          <circle cx="450" cy="450" r="340" fill="rgba(164,174,183,0.03)" class="lit-band-fill-4" opacity="0"/>
+          <circle cx="450" cy="450" r="260" fill="rgba(18,44,69,1)" class="lit-band lit-band-3" opacity="0"/>
+          <circle cx="450" cy="450" r="260" fill="rgba(164,174,183,0.03)" class="lit-band-fill-3" opacity="0"/>
+          <circle cx="450" cy="450" r="185" fill="rgba(18,44,69,1)" class="lit-band lit-band-2" opacity="0"/>
+          <circle cx="450" cy="450" r="185" fill="rgba(164,174,183,0.03)" class="lit-band-fill-2" opacity="0"/>
+          <circle cx="450" cy="450" r="110" fill="rgba(18,44,69,1)" class="lit-band lit-band-1" opacity="0"/>
 
           <!-- Layer 5: Ethical (outermost — governing ring, dashed amber) -->
-          <circle cx="300" cy="300" r="250" fill="none" stroke="#F2B54D" stroke-width="2.5" stroke-dasharray="8 4" class="lit-ring lit-ring-5" opacity="0"/>
+          <circle cx="450" cy="450" r="420" fill="none" stroke="#F2B54D" stroke-width="2.5" stroke-dasharray="8 4" class="lit-ring lit-ring-5" opacity="0"/>
 
           <!-- Layer 4: Strategic -->
-          <circle cx="300" cy="300" r="200" fill="none" stroke="#C8D0D8" stroke-width="1.5" class="lit-ring lit-ring-4" opacity="0"/>
+          <circle cx="450" cy="450" r="340" fill="none" stroke="#C8D0D8" stroke-width="1.5" class="lit-ring lit-ring-4" opacity="0"/>
 
           <!-- Layer 3: Symbolic -->
-          <circle cx="300" cy="300" r="150" fill="none" stroke="#C8D0D8" stroke-width="1.5" class="lit-ring lit-ring-3" opacity="0"/>
+          <circle cx="450" cy="450" r="260" fill="none" stroke="#C8D0D8" stroke-width="1.5" class="lit-ring lit-ring-3" opacity="0"/>
 
           <!-- Layer 2: Emotional -->
-          <circle cx="300" cy="300" r="100" fill="none" stroke="#C8D0D8" stroke-width="1.5" class="lit-ring lit-ring-2" opacity="0"/>
+          <circle cx="450" cy="450" r="185" fill="none" stroke="#C8D0D8" stroke-width="1.5" class="lit-ring lit-ring-2" opacity="0"/>
 
           <!-- Layer 1: Cognitive -->
-          <circle cx="300" cy="300" r="50" fill="none" stroke="#C8D0D8" stroke-width="1.5" class="lit-ring lit-ring-1" opacity="0"/>
+          <circle cx="450" cy="450" r="110" fill="none" stroke="#C8D0D8" stroke-width="1.5" class="lit-ring lit-ring-1" opacity="0"/>
 
-          <!-- === LABELS INSIDE EACH RING BAND — curved gold text + icons === -->
+          <!-- === LABELS INSIDE EACH RING BAND — curved gold text + icons to the right === -->
 
-          <!-- Label 5: ETHICAL — inside outermost band (r=200 to r=250), top arc at r=225 -->
+          <!-- Label 5: ETHICAL — outermost band, text at top arc r=380 -->
           <g class="lit-inner-label lit-clabel-5" opacity="0">
-            <!-- Shield icon -->
-            <g transform="translate(291,42)">
+            <text class="lit-label-text lit-label-ring5">
+              <textPath href="#litArcTop5" startOffset="46%" text-anchor="middle">ETHICAL</textPath>
+            </text>
+            <!-- Shield icon — right of text -->
+            <g transform="translate(590,52) scale(1.3)">
               <path d="M8,0 L16,4 L16,9.5 C16,13.5 12,16.5 8,18 C4,16.5 0,13.5 0,9.5 L0,4 Z" fill="none" stroke="#F2B54D" stroke-width="1.4"/>
               <path d="M5,9.5 L7.5,12 L11.5,7" fill="none" stroke="#F2B54D" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/>
             </g>
-            <text class="lit-label-text lit-label-ring5">
-              <textPath href="#litArcTop5" startOffset="50%" text-anchor="middle">ETHICAL</textPath>
-            </text>
           </g>
 
-          <!-- Label 4: STRATEGIC — inside band (r=150 to r=200), top arc at r=175 -->
+          <!-- Label 4: STRATEGIC — band r=260–340, text at top arc r=300 -->
           <g class="lit-inner-label lit-clabel-4" opacity="0">
-            <!-- Telescope icon -->
-            <g transform="translate(292,96)">
-              <!-- Telescope body -->
+            <text class="lit-label-text lit-label-ring4">
+              <textPath href="#litArcTop4" startOffset="46%" text-anchor="middle">STRATEGIC</textPath>
+            </text>
+            <!-- Telescope icon — right of text -->
+            <g transform="translate(570,135) scale(1.2)">
               <line x1="2" y1="14" x2="12" y2="2" stroke="#F2B54D" stroke-width="1.4" stroke-linecap="round"/>
-              <!-- Lens (wider end) -->
               <ellipse cx="13" cy="1.5" rx="3" ry="1.8" fill="none" stroke="#F2B54D" stroke-width="1.1" transform="rotate(-50,13,1.5)"/>
-              <!-- Tripod legs -->
               <line x1="5" y1="11" x2="0" y2="16" stroke="#F2B54D" stroke-width="1" stroke-linecap="round"/>
               <line x1="5" y1="11" x2="9" y2="16" stroke="#F2B54D" stroke-width="1" stroke-linecap="round"/>
             </g>
-            <text class="lit-label-text lit-label-ring4">
-              <textPath href="#litArcTop4" startOffset="50%" text-anchor="middle">STRATEGIC</textPath>
-            </text>
           </g>
 
-          <!-- Label 3: SYMBOLIC — inside band (r=100 to r=150), top arc at r=125 -->
+          <!-- Label 3: SYMBOLIC — band r=185–260, text at top arc r=222 -->
           <g class="lit-inner-label lit-clabel-3" opacity="0">
-            <!-- Eye icon -->
-            <g transform="translate(292,155)">
+            <text class="lit-label-text lit-label-ring3">
+              <textPath href="#litArcTop3" startOffset="46%" text-anchor="middle">SYMBOLIC</textPath>
+            </text>
+            <!-- Eye icon — right of text -->
+            <g transform="translate(545,218) scale(1.15)">
               <path d="M0,7 Q7,0 14,7 Q7,14 0,7 Z" fill="none" stroke="#F2B54D" stroke-width="1.2"/>
               <circle cx="7" cy="7" r="3" fill="none" stroke="#F2B54D" stroke-width="1.1"/>
               <circle cx="7" cy="7" r="1.2" fill="#F2B54D" opacity="0.8"/>
             </g>
-            <text class="lit-label-text lit-label-ring3">
-              <textPath href="#litArcTop3" startOffset="50%" text-anchor="middle">SYMBOLIC</textPath>
-            </text>
           </g>
 
-          <!-- Label 2: EMOTIONAL — inside band (r=50 to r=100), top arc at r=75 -->
+          <!-- Label 2: EMOTIONAL — band r=110–185, text at top arc r=148 -->
           <g class="lit-inner-label lit-clabel-2" opacity="0">
-            <!-- Heart icon -->
-            <g transform="translate(294,210)">
+            <text class="lit-label-text lit-label-ring2">
+              <textPath href="#litArcTop2" startOffset="46%" text-anchor="middle">EMOTIONAL</textPath>
+            </text>
+            <!-- Heart icon — right of text -->
+            <g transform="translate(512,298) scale(1.1)">
               <path d="M6,11 C6,11 0,7 0,3.5 C0,1.5 1.5,0 3.5,0 C5,0 5.8,0.8 6,1.6 C6.2,0.8 7,0 8.5,0 C10.5,0 12,1.5 12,3.5 C12,7 6,11 6,11 Z" fill="#F2B54D" opacity="0.85"/>
             </g>
-            <text class="lit-label-text lit-label-ring2">
-              <textPath href="#litArcTop2" startOffset="50%" text-anchor="middle">EMOTIONAL</textPath>
-            </text>
           </g>
 
-          <!-- Label 1: COGNITIVE — placed below the core in ring 1 band -->
+          <!-- Label 1: COGNITIVE — innermost band r=40–110, text below core -->
           <g class="lit-inner-label lit-clabel-1" opacity="0">
-            <!-- Microscope icon at bottom of ring 1 band -->
-            <g transform="translate(294,337)">
-              <!-- Eyepiece -->
+            <text x="450" y="500" text-anchor="middle" class="lit-label-text lit-label-ring1">COGNITIVE</text>
+            <!-- Microscope icon — right of text -->
+            <g transform="translate(495,488) scale(1.1)">
               <rect x="3" y="0" width="6" height="2.5" rx="1" fill="none" stroke="#F2B54D" stroke-width="0.8"/>
-              <!-- Body tube -->
               <line x1="6" y1="2.5" x2="6" y2="7" stroke="#F2B54D" stroke-width="1" stroke-linecap="round"/>
-              <!-- Objective -->
               <circle cx="6" cy="8.5" r="1.3" fill="none" stroke="#F2B54D" stroke-width="0.8"/>
-              <!-- Base -->
               <line x1="2" y1="10.5" x2="10" y2="10.5" stroke="#F2B54D" stroke-width="0.9" stroke-linecap="round"/>
             </g>
-            <text x="300" y="336" text-anchor="middle" class="lit-label-text lit-label-ring1">COGNITIVE</text>
           </g>
 
           <!-- Core: Ethics label -->
-          <circle cx="300" cy="300" r="32" fill="rgba(242,181,77,0.15)" stroke="#F2B54D" stroke-width="1.5" class="lit-core" opacity="0"/>
-          <text x="300" y="297" text-anchor="middle" class="lit-core-label" opacity="0">ETHICS</text>
-          <text x="300" y="312" text-anchor="middle" class="lit-core-sub" opacity="0">Governing</text>
+          <circle cx="450" cy="450" r="40" fill="rgba(242,181,77,0.15)" stroke="#F2B54D" stroke-width="1.5" class="lit-core" opacity="0"/>
+          <text x="450" y="447" text-anchor="middle" class="lit-core-label" opacity="0">ETHICS</text>
+          <text x="450" y="464" text-anchor="middle" class="lit-core-sub" opacity="0">Governing</text>
 
           <!-- Orbiting particles: 4 per ring (alternating silver/amber) -->
-          <!-- Ring 5 particles (r=250) -->
+          <!-- Ring 5 particles (r=420) -->
           <g class="lit-particles-5" opacity="0">
-            <circle r="5" fill="#DDE2E7"><animateMotion dur="12s" repeatCount="indefinite" path="M300,50 A250,250 0 1,1 299.9,50 Z"/></circle>
-            <circle r="4" fill="#F5C870"><animateMotion dur="12s" repeatCount="indefinite" begin="-3s" path="M300,50 A250,250 0 1,1 299.9,50 Z"/></circle>
-            <circle r="5" fill="#C8D0D8"><animateMotion dur="12s" repeatCount="indefinite" begin="-6s" path="M300,50 A250,250 0 1,1 299.9,50 Z"/></circle>
-            <circle r="4" fill="#F2B54D"><animateMotion dur="12s" repeatCount="indefinite" begin="-9s" path="M300,50 A250,250 0 1,1 299.9,50 Z"/></circle>
+            <circle r="6" fill="#DDE2E7"><animateMotion dur="14s" repeatCount="indefinite" path="M450,30 A420,420 0 1,1 449.9,30 Z"/></circle>
+            <circle r="5" fill="#F5C870"><animateMotion dur="14s" repeatCount="indefinite" begin="-3.5s" path="M450,30 A420,420 0 1,1 449.9,30 Z"/></circle>
+            <circle r="6" fill="#C8D0D8"><animateMotion dur="14s" repeatCount="indefinite" begin="-7s" path="M450,30 A420,420 0 1,1 449.9,30 Z"/></circle>
+            <circle r="5" fill="#F2B54D"><animateMotion dur="14s" repeatCount="indefinite" begin="-10.5s" path="M450,30 A420,420 0 1,1 449.9,30 Z"/></circle>
           </g>
-          <!-- Ring 4 particles (r=200) -->
+          <!-- Ring 4 particles (r=340) -->
           <g class="lit-particles-4" opacity="0">
-            <circle r="4.5" fill="#DDE2E7"><animateMotion dur="10s" repeatCount="indefinite" path="M300,100 A200,200 0 1,1 299.9,100 Z"/></circle>
-            <circle r="3.5" fill="#F5C870"><animateMotion dur="10s" repeatCount="indefinite" begin="-2.5s" path="M300,100 A200,200 0 1,1 299.9,100 Z"/></circle>
-            <circle r="4.5" fill="#C8D0D8"><animateMotion dur="10s" repeatCount="indefinite" begin="-5s" path="M300,100 A200,200 0 1,1 299.9,100 Z"/></circle>
-            <circle r="3.5" fill="#F2B54D"><animateMotion dur="10s" repeatCount="indefinite" begin="-7.5s" path="M300,100 A200,200 0 1,1 299.9,100 Z"/></circle>
+            <circle r="5.5" fill="#DDE2E7"><animateMotion dur="12s" repeatCount="indefinite" path="M450,110 A340,340 0 1,1 449.9,110 Z"/></circle>
+            <circle r="4.5" fill="#F5C870"><animateMotion dur="12s" repeatCount="indefinite" begin="-3s" path="M450,110 A340,340 0 1,1 449.9,110 Z"/></circle>
+            <circle r="5.5" fill="#C8D0D8"><animateMotion dur="12s" repeatCount="indefinite" begin="-6s" path="M450,110 A340,340 0 1,1 449.9,110 Z"/></circle>
+            <circle r="4.5" fill="#F2B54D"><animateMotion dur="12s" repeatCount="indefinite" begin="-9s" path="M450,110 A340,340 0 1,1 449.9,110 Z"/></circle>
           </g>
-          <!-- Ring 3 particles (r=150) -->
+          <!-- Ring 3 particles (r=260) -->
           <g class="lit-particles-3" opacity="0">
-            <circle r="4" fill="#DDE2E7"><animateMotion dur="8s" repeatCount="indefinite" path="M300,150 A150,150 0 1,1 299.9,150 Z"/></circle>
-            <circle r="3.5" fill="#F5C870"><animateMotion dur="8s" repeatCount="indefinite" begin="-2s" path="M300,150 A150,150 0 1,1 299.9,150 Z"/></circle>
-            <circle r="4" fill="#C8D0D8"><animateMotion dur="8s" repeatCount="indefinite" begin="-4s" path="M300,150 A150,150 0 1,1 299.9,150 Z"/></circle>
-            <circle r="3.5" fill="#F2B54D"><animateMotion dur="8s" repeatCount="indefinite" begin="-6s" path="M300,150 A150,150 0 1,1 299.9,150 Z"/></circle>
+            <circle r="5" fill="#DDE2E7"><animateMotion dur="10s" repeatCount="indefinite" path="M450,190 A260,260 0 1,1 449.9,190 Z"/></circle>
+            <circle r="4" fill="#F5C870"><animateMotion dur="10s" repeatCount="indefinite" begin="-2.5s" path="M450,190 A260,260 0 1,1 449.9,190 Z"/></circle>
+            <circle r="5" fill="#C8D0D8"><animateMotion dur="10s" repeatCount="indefinite" begin="-5s" path="M450,190 A260,260 0 1,1 449.9,190 Z"/></circle>
+            <circle r="4" fill="#F2B54D"><animateMotion dur="10s" repeatCount="indefinite" begin="-7.5s" path="M450,190 A260,260 0 1,1 449.9,190 Z"/></circle>
           </g>
-          <!-- Ring 2 particles (r=100) -->
+          <!-- Ring 2 particles (r=185) -->
           <g class="lit-particles-2" opacity="0">
-            <circle r="3.5" fill="#DDE2E7"><animateMotion dur="6s" repeatCount="indefinite" path="M300,200 A100,100 0 1,1 299.9,200 Z"/></circle>
-            <circle r="3" fill="#F5C870"><animateMotion dur="6s" repeatCount="indefinite" begin="-1.5s" path="M300,200 A100,100 0 1,1 299.9,200 Z"/></circle>
-            <circle r="3.5" fill="#C8D0D8"><animateMotion dur="6s" repeatCount="indefinite" begin="-3s" path="M300,200 A100,100 0 1,1 299.9,200 Z"/></circle>
-            <circle r="3" fill="#F2B54D"><animateMotion dur="6s" repeatCount="indefinite" begin="-4.5s" path="M300,200 A100,100 0 1,1 299.9,200 Z"/></circle>
+            <circle r="4.5" fill="#DDE2E7"><animateMotion dur="8s" repeatCount="indefinite" path="M450,265 A185,185 0 1,1 449.9,265 Z"/></circle>
+            <circle r="3.5" fill="#F5C870"><animateMotion dur="8s" repeatCount="indefinite" begin="-2s" path="M450,265 A185,185 0 1,1 449.9,265 Z"/></circle>
+            <circle r="4.5" fill="#C8D0D8"><animateMotion dur="8s" repeatCount="indefinite" begin="-4s" path="M450,265 A185,185 0 1,1 449.9,265 Z"/></circle>
+            <circle r="3.5" fill="#F2B54D"><animateMotion dur="8s" repeatCount="indefinite" begin="-6s" path="M450,265 A185,185 0 1,1 449.9,265 Z"/></circle>
           </g>
-          <!-- Ring 1 particles (r=50) -->
+          <!-- Ring 1 particles (r=110) -->
           <g class="lit-particles-1" opacity="0">
-            <circle r="3" fill="#DDE2E7"><animateMotion dur="4s" repeatCount="indefinite" path="M300,250 A50,50 0 1,1 299.9,250 Z"/></circle>
-            <circle r="2.5" fill="#F5C870"><animateMotion dur="4s" repeatCount="indefinite" begin="-1s" path="M300,250 A50,50 0 1,1 299.9,250 Z"/></circle>
-            <circle r="3" fill="#C8D0D8"><animateMotion dur="4s" repeatCount="indefinite" begin="-2s" path="M300,250 A50,50 0 1,1 299.9,250 Z"/></circle>
-            <circle r="2.5" fill="#F2B54D"><animateMotion dur="4s" repeatCount="indefinite" begin="-3s" path="M300,250 A50,50 0 1,1 299.9,250 Z"/></circle>
+            <circle r="4" fill="#DDE2E7"><animateMotion dur="5s" repeatCount="indefinite" path="M450,340 A110,110 0 1,1 449.9,340 Z"/></circle>
+            <circle r="3" fill="#F5C870"><animateMotion dur="5s" repeatCount="indefinite" begin="-1.25s" path="M450,340 A110,110 0 1,1 449.9,340 Z"/></circle>
+            <circle r="4" fill="#C8D0D8"><animateMotion dur="5s" repeatCount="indefinite" begin="-2.5s" path="M450,340 A110,110 0 1,1 449.9,340 Z"/></circle>
+            <circle r="3" fill="#F2B54D"><animateMotion dur="5s" repeatCount="indefinite" begin="-3.75s" path="M450,340 A110,110 0 1,1 449.9,340 Z"/></circle>
           </g>
 
           <!-- Pulsing core glow -->
-          <circle cx="300" cy="300" r="32" fill="none" stroke="#F2B54D" stroke-width="0.5" class="lit-core-pulse" opacity="0"/>
+          <circle cx="450" cy="450" r="40" fill="none" stroke="#F2B54D" stroke-width="0.5" class="lit-core-pulse" opacity="0"/>
         </svg>
 
         <!-- Layer description cards below diagram -->

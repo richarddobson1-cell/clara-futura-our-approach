@@ -239,7 +239,7 @@ body {
 }
 .lit-diagram {
   position: relative;
-  max-width: 600px;
+  max-width: 900px;
   margin: 0 auto;
 }
 .lit-svg {
@@ -270,24 +270,24 @@ body {
   letter-spacing: 0.18em;
   text-transform: uppercase;
 }
-/* Size scale: outer rings get larger text, inner rings smaller */
-.lit-label-ring5 { font-size: 16px; letter-spacing: 0.24em; }
-.lit-label-ring4 { font-size: 13px; letter-spacing: 0.20em; }
-.lit-label-ring3 { font-size: 11px; letter-spacing: 0.16em; }
-.lit-label-ring2 { font-size: 9.5px; letter-spacing: 0.14em; }
-.lit-label-ring1 { font-size: 7px; letter-spacing: 0.10em; }
+/* Size scale: outer rings get larger text, inner rings smaller — enlarged diagram */
+.lit-label-ring5 { font-size: 22px; letter-spacing: 0.28em; }
+.lit-label-ring4 { font-size: 18px; letter-spacing: 0.24em; }
+.lit-label-ring3 { font-size: 15px; letter-spacing: 0.20em; }
+.lit-label-ring2 { font-size: 13px; letter-spacing: 0.18em; }
+.lit-label-ring1 { font-size: 11px; letter-spacing: 0.14em; }
 /* Core Ethics label */
 .lit-core-label {
   fill: var(--amber);
   font-family: 'Inter', sans-serif;
-  font-size: 11px;
+  font-size: 14px;
   font-weight: 700;
   letter-spacing: 0.18em;
 }
 .lit-core-sub {
   fill: var(--silver);
   font-family: 'Inter', sans-serif;
-  font-size: 7.5px;
+  font-size: 10px;
   letter-spacing: 0.08em;
 }
 /* Wave dividers for Our Approach */

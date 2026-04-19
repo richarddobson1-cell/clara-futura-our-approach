@@ -98,7 +98,7 @@ function animateLIT() {
 
     // Continuous: pulse the core glow
     gsap.to('.lit-core-pulse', {
-      attr: { r: 38 },
+      attr: { r: 48 },
       opacity: 0,
       duration: 2,
       ease: 'sine.inOut',
