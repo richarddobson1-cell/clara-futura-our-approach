@@ -74,24 +74,7 @@ if (window.self !== window.top) {
     <div class="lit-diagram-wrap">
       <div class="lit-diagram" id="litDiagram">
         <svg viewBox="0 -20 900 960" class="lit-svg">
-          <defs>
-            <!-- Curved text paths for labels inside each ring band -->
-            <!-- Ring 1 (Cognitive): midpoint radius ~75 (between core r=40 and ring1 r=110) -->
-            <path id="litArcTop1" fill="none"
-                  d="M 375 450 A 75 75 0 1 1 525 450"/>
-            <!-- Ring 2 (Emotional): midpoint radius ~148 (between ring1 r=110 and ring2 r=185) -->
-            <path id="litArcTop2" fill="none"
-                  d="M 302 450 A 148 148 0 1 1 598 450"/>
-            <!-- Ring 3 (Symbolic): midpoint radius ~222 (between ring2 r=185 and ring3 r=260) -->
-            <path id="litArcTop3" fill="none"
-                  d="M 228 450 A 222 222 0 1 1 672 450"/>
-            <!-- Ring 4 (Strategic): midpoint radius ~300 (between ring3 r=260 and ring4 r=340) -->
-            <path id="litArcTop4" fill="none"
-                  d="M 150 450 A 300 300 0 1 1 750 450"/>
-            <!-- Ring 5 (Ethical): midpoint radius ~380 (between ring4 r=340 and ring5 r=420) -->
-            <path id="litArcTop5" fill="none"
-                  d="M 70 450 A 380 380 0 1 1 830 450"/>
-          </defs>
+          <!-- No defs needed — labels are straight horizontal text -->
 
           <!-- Outer glow ring -->
           <circle cx="450" cy="450" r="445" fill="none" stroke="rgba(242,181,77,0.06)" stroke-width="1" class="lit-glow-ring"/>
@@ -121,68 +104,31 @@ if (window.self !== window.top) {
           <!-- Layer 1: Cognitive -->
           <circle cx="450" cy="450" r="110" fill="none" stroke="#C8D0D8" stroke-width="1.5" class="lit-ring lit-ring-1" opacity="0"/>
 
-          <!-- === LABELS INSIDE EACH RING BAND — curved gold text + icons to the right === -->
+          <!-- === LABELS INSIDE EACH RING BAND — straight horizontal text, vertically aligned above core === -->
 
-          <!-- Label 5: ETHICAL — outermost band, text at top arc r=380 -->
+          <!-- Label 5: ETHICAL — outermost band, midpoint y=70 -->
           <g class="lit-inner-label lit-clabel-5" opacity="0">
-            <text class="lit-label-text lit-label-ring5">
-              <textPath href="#litArcTop5" startOffset="46%" text-anchor="middle">ETHICAL</textPath>
-            </text>
-            <!-- Shield icon — right of text -->
-            <g transform="translate(590,52) scale(1.3)">
-              <path d="M8,0 L16,4 L16,9.5 C16,13.5 12,16.5 8,18 C4,16.5 0,13.5 0,9.5 L0,4 Z" fill="none" stroke="#F2B54D" stroke-width="1.4"/>
-              <path d="M5,9.5 L7.5,12 L11.5,7" fill="none" stroke="#F2B54D" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/>
-            </g>
+            <text x="450" y="70" text-anchor="middle" class="lit-label-text lit-label-ring5">ETHICAL</text>
           </g>
 
-          <!-- Label 4: STRATEGIC — band r=260–340, text at top arc r=300 -->
+          <!-- Label 4: STRATEGIC — band midpoint y=150 -->
           <g class="lit-inner-label lit-clabel-4" opacity="0">
-            <text class="lit-label-text lit-label-ring4">
-              <textPath href="#litArcTop4" startOffset="46%" text-anchor="middle">STRATEGIC</textPath>
-            </text>
-            <!-- Telescope icon — right of text -->
-            <g transform="translate(570,135) scale(1.2)">
-              <line x1="2" y1="14" x2="12" y2="2" stroke="#F2B54D" stroke-width="1.4" stroke-linecap="round"/>
-              <ellipse cx="13" cy="1.5" rx="3" ry="1.8" fill="none" stroke="#F2B54D" stroke-width="1.1" transform="rotate(-50,13,1.5)"/>
-              <line x1="5" y1="11" x2="0" y2="16" stroke="#F2B54D" stroke-width="1" stroke-linecap="round"/>
-              <line x1="5" y1="11" x2="9" y2="16" stroke="#F2B54D" stroke-width="1" stroke-linecap="round"/>
-            </g>
+            <text x="450" y="150" text-anchor="middle" class="lit-label-text lit-label-ring4">STRATEGIC</text>
           </g>
 
-          <!-- Label 3: SYMBOLIC — band r=185–260, text at top arc r=222 -->
+          <!-- Label 3: SYMBOLIC — band midpoint y=228 -->
           <g class="lit-inner-label lit-clabel-3" opacity="0">
-            <text class="lit-label-text lit-label-ring3">
-              <textPath href="#litArcTop3" startOffset="46%" text-anchor="middle">SYMBOLIC</textPath>
-            </text>
-            <!-- Eye icon — right of text -->
-            <g transform="translate(545,218) scale(1.15)">
-              <path d="M0,7 Q7,0 14,7 Q7,14 0,7 Z" fill="none" stroke="#F2B54D" stroke-width="1.2"/>
-              <circle cx="7" cy="7" r="3" fill="none" stroke="#F2B54D" stroke-width="1.1"/>
-              <circle cx="7" cy="7" r="1.2" fill="#F2B54D" opacity="0.8"/>
-            </g>
+            <text x="450" y="228" text-anchor="middle" class="lit-label-text lit-label-ring3">SYMBOLIC</text>
           </g>
 
-          <!-- Label 2: EMOTIONAL — band r=110–185, text at top arc r=148 -->
+          <!-- Label 2: EMOTIONAL — band midpoint y=302 -->
           <g class="lit-inner-label lit-clabel-2" opacity="0">
-            <text class="lit-label-text lit-label-ring2">
-              <textPath href="#litArcTop2" startOffset="46%" text-anchor="middle">EMOTIONAL</textPath>
-            </text>
-            <!-- Heart icon — right of text -->
-            <g transform="translate(512,298) scale(1.1)">
-              <path d="M6,11 C6,11 0,7 0,3.5 C0,1.5 1.5,0 3.5,0 C5,0 5.8,0.8 6,1.6 C6.2,0.8 7,0 8.5,0 C10.5,0 12,1.5 12,3.5 C12,7 6,11 6,11 Z" fill="#F2B54D" opacity="0.85"/>
-            </g>
+            <text x="450" y="302" text-anchor="middle" class="lit-label-text lit-label-ring2">EMOTIONAL</text>
           </g>
 
-          <!-- Label 1: COGNITIVE — innermost band r=40–110, text below core -->
+          <!-- Label 1: COGNITIVE — innermost band, above core, midpoint y=375 -->
           <g class="lit-inner-label lit-clabel-1" opacity="0">
-            <text x="450" y="500" text-anchor="middle" class="lit-label-text lit-label-ring1">COGNITIVE</text>
-            <!-- Microscope icon — right of text -->
-            <g transform="translate(495,488) scale(1.1)">
-              <rect x="3" y="0" width="6" height="2.5" rx="1" fill="none" stroke="#F2B54D" stroke-width="0.8"/>
-              <line x1="6" y1="2.5" x2="6" y2="7" stroke="#F2B54D" stroke-width="1" stroke-linecap="round"/>
-              <circle cx="6" cy="8.5" r="1.3" fill="none" stroke="#F2B54D" stroke-width="0.8"/>
-              <line x1="2" y1="10.5" x2="10" y2="10.5" stroke="#F2B54D" stroke-width="0.9" stroke-linecap="round"/>
-            </g>
+            <text x="450" y="378" text-anchor="middle" class="lit-label-text lit-label-ring1">COGNITIVE</text>
           </g>
 
           <!-- Core: Ethics label -->
