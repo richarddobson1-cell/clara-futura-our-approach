@@ -164,13 +164,17 @@ function revealSections() {
 function animateHero() {
   const heroEls = ['.hero .label', '.hero h1', '.hero-sub', '.scroll-indicator'];
   
-  // Safety: ensure hero text is always visible after 3s even if GSAP fails
-  setTimeout(() => {
+  function forceVisible() {
     heroEls.forEach(sel => {
       const el = document.querySelector(sel);
-      if (el) { el.style.opacity = '1'; el.style.transform = 'none'; }
+      if (el) {
+        gsap.set(el, { opacity: 1, y: 0, clearProps: 'all' });
+      }
     });
-  }, 3000);
+  }
+
+  // Safety: ensure hero text is always visible after 2.5s
+  setTimeout(forceVisible, 2500);
 
   try {
     const tl = gsap.timeline({ delay: 0.3 });
@@ -179,11 +183,7 @@ function animateHero() {
       .from('.hero-sub', { y: 20, opacity: 0, duration: 0.6, ease: 'power3.out' }, '-=0.4')
       .from('.scroll-indicator', { opacity: 0, duration: 0.6, ease: 'power2.out' }, '-=0.2');
   } catch(e) {
-    // If GSAP fails, just show everything
-    heroEls.forEach(sel => {
-      const el = document.querySelector(sel);
-      if (el) { el.style.opacity = '1'; el.style.transform = 'none'; }
-    });
+    forceVisible();
   }
 }
 

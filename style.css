@@ -2,7 +2,7 @@
 
 /* Hide nav when inside iframe */
 body.in-iframe .nav { display: none; }
-body.in-iframe .hero { padding-top: 0; }
+body.in-iframe .hero { padding-top: 0; min-height: 85vh; }
 body.in-iframe { overflow-x: hidden; }
 
 :root {
