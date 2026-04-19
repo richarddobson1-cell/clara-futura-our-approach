@@ -238,81 +238,66 @@ if (window.self !== window.top) {
       <p class="lead">For any sufficiently capable socio-technical system embedded in human institutions, alignment is recursive rather than terminal, pluralism-preserving rather than monistic, and governed rather than merely engineered.</p>
     </div>
 
-    <!-- Animated Dynamic Alignment Diagram -->
+    <!-- Animated Dynamic Alignment Diagram — Circle with four linked nodes -->
     <div class="da-diagram-wrap">
       <div class="da-diagram" id="daDiagram">
         <svg viewBox="0 0 700 500" class="da-svg">
-          <!-- Background glow rings -->
-          <circle cx="350" cy="250" r="180" fill="none" stroke="rgba(242,181,77,0.06)" stroke-width="1"/>
-          <circle cx="350" cy="250" r="130" fill="none" stroke="rgba(242,181,77,0.04)" stroke-width="1"/>
+          <!-- Outer glow ring -->
+          <circle cx="350" cy="250" r="200" fill="none" stroke="rgba(242,181,77,0.06)" stroke-width="1"/>
 
-          <!-- Spiral path that connects all four frameworks -->
-          <!-- The spiral starts at LIT (top-left), sweeps through LIR (top-right), -->
-          <!-- down to VPM (bottom-right), across to ERI (bottom-left), and inward to centre -->
-          <g class="da-spiral">
-            <path d="M180,115 C280,80 500,80 520,115 C580,180 580,320 520,385 C460,440 220,450 180,385 C130,310 150,200 200,170 C260,140 430,145 460,200 C490,260 470,350 420,370 C360,395 270,380 255,330 C235,280 260,220 300,210 C340,195 400,210 410,250 C420,290 390,330 360,330 C330,330 320,300 330,280 C340,260 350,250 350,250"
-                  fill="none" stroke="#F2B54D" stroke-width="2" class="da-spiral-path" opacity="0.5" stroke-linecap="round"/>
-            <!-- Animated particle tracing the spiral → silver dot on amber line -->
-            <circle r="5" fill="#C8D0D8" class="da-spiral-particle">
-              <animateMotion dur="8s" repeatCount="indefinite"
-                path="M180,115 C280,80 500,80 520,115 C580,180 580,320 520,385 C460,440 220,450 180,385 C130,310 150,200 200,170 C260,140 430,145 460,200 C490,260 470,350 420,370 C360,395 270,380 255,330 C235,280 260,220 300,210 C340,195 400,210 410,250 C420,290 390,330 360,330 C330,330 320,300 330,280 C340,260 350,250 350,250"/>
-            </circle>
-            <circle r="4" fill="#C8D0D8" class="da-spiral-particle" opacity="0.8">
-              <animateMotion dur="8s" repeatCount="indefinite" begin="-4s"
-                path="M180,115 C280,80 500,80 520,115 C580,180 580,320 520,385 C460,440 220,450 180,385 C130,310 150,200 200,170 C260,140 430,145 460,200 C490,260 470,350 420,370 C360,395 270,380 255,330 C235,280 260,220 300,210 C340,195 400,210 410,250 C420,290 390,330 360,330 C330,330 320,300 330,280 C340,260 350,250 350,250"/>
-            </circle>
+          <!-- Main connecting circle — passes through all four framework positions -->
+          <circle cx="350" cy="250" r="160" fill="none" stroke="#F2B54D" stroke-width="2" opacity="0.4" class="da-main-circle"/>
+
+          <!-- Animated particles orbiting the circle — silver dots on amber circle -->
+          <circle r="5" fill="#C8D0D8" opacity="1">
+            <animateMotion dur="8s" repeatCount="indefinite" path="M350,90 A160,160 0 1,1 349.9,90 Z"/>
+          </circle>
+          <circle r="4" fill="#C8D0D8" opacity="0.8">
+            <animateMotion dur="8s" repeatCount="indefinite" begin="-4s" path="M350,90 A160,160 0 1,1 349.9,90 Z"/>
+          </circle>
+          <circle r="3.5" fill="#F5C870" opacity="0.9">
+            <animateMotion dur="8s" repeatCount="indefinite" begin="-2s" path="M350,90 A160,160 0 1,1 349.9,90 Z"/>
+          </circle>
+
+          <!-- Cross-connection lines through centre -->
+          <line x1="190" y1="250" x2="510" y2="250" stroke="rgba(242,181,77,0.15)" stroke-width="1"/>
+          <line x1="350" y1="90" x2="350" y2="410" stroke="rgba(242,181,77,0.15)" stroke-width="1"/>
+          <line x1="190" y1="250" x2="350" y2="90" stroke="rgba(164,174,183,0.1)" stroke-width="0.75" stroke-dasharray="4 4"/>
+          <line x1="350" y1="90" x2="510" y2="250" stroke="rgba(164,174,183,0.1)" stroke-width="0.75" stroke-dasharray="4 4"/>
+          <line x1="510" y1="250" x2="350" y2="410" stroke="rgba(164,174,183,0.1)" stroke-width="0.75" stroke-dasharray="4 4"/>
+          <line x1="350" y1="410" x2="190" y2="250" stroke="rgba(164,174,183,0.1)" stroke-width="0.75" stroke-dasharray="4 4"/>
+
+          <!-- Four framework nodes positioned on the circle -->
+          <!-- LIT — top (12 o'clock) -->
+          <g class="da-quad da-quad-lit">
+            <circle cx="350" cy="90" r="8" fill="rgba(242,181,77,0.3)" stroke="#F2B54D" stroke-width="1.5"/>
+            <rect x="260" y="20" width="180" height="58" rx="10" fill="rgba(242,181,77,0.08)" stroke="rgba(242,181,77,0.3)" stroke-width="1"/>
+            <text x="350" y="42" text-anchor="middle" class="da-quad-title">LIT</text>
+            <text x="350" y="62" text-anchor="middle" class="da-quad-desc">Multi-layered alignment</text>
           </g>
 
-          <!-- Solid connecting lines from spiral to each quadrant node -->
-          <!-- These show the spiral physically linking each framework -->
-          <g class="da-connectors" opacity="0.6">
-            <!-- Spiral → LIT (top-left) -->
-            <line x1="210" y1="135" x2="180" y2="115" stroke="#F2B54D" stroke-width="1.5"/>
-            <circle cx="180" cy="115" r="6" fill="rgba(242,181,77,0.3)" stroke="#F2B54D" stroke-width="1"/>
-            <!-- Spiral → LIR (top-right) -->
-            <line x1="490" y1="135" x2="520" y2="115" stroke="#A4AEB7" stroke-width="1.5"/>
-            <circle cx="520" cy="115" r="6" fill="rgba(164,174,183,0.3)" stroke="#A4AEB7" stroke-width="1"/>
-            <!-- Spiral → ERI (bottom-left) -->
-            <line x1="210" y1="385" x2="180" y2="425" stroke="#E8E5DD" stroke-width="1.5"/>
-            <circle cx="180" cy="425" r="6" fill="rgba(232,229,221,0.2)" stroke="#E8E5DD" stroke-width="1"/>
-            <!-- Spiral → VPM (bottom-right) -->
-            <line x1="490" y1="370" x2="520" y2="400" stroke="#F2B54D" stroke-width="1.5"/>
-            <circle cx="520" cy="400" r="6" fill="rgba(242,181,77,0.2)" stroke="#F2B54D" stroke-width="1"/>
+          <!-- LIR — right (3 o'clock) -->
+          <g class="da-quad da-quad-lir">
+            <circle cx="510" cy="250" r="8" fill="rgba(164,174,183,0.3)" stroke="#A4AEB7" stroke-width="1.5"/>
+            <rect x="530" y="221" width="160" height="58" rx="10" fill="rgba(164,174,183,0.08)" stroke="rgba(164,174,183,0.3)" stroke-width="1"/>
+            <text x="610" y="243" text-anchor="middle" class="da-quad-title">LIR</text>
+            <text x="610" y="263" text-anchor="middle" class="da-quad-desc">Cannot be static</text>
           </g>
 
-          <!-- Four quadrant labels — positioned at spiral anchor points -->
-          <g class="da-quadrants">
-            <!-- LIT (top-left) -->
-            <g class="da-quad da-quad-lit">
-              <rect x="60" y="50" width="200" height="100" rx="12" fill="rgba(242,181,77,0.08)" stroke="rgba(242,181,77,0.3)" stroke-width="1"/>
-              <text x="160" y="82" text-anchor="middle" class="da-quad-title">LIT</text>
-              <text x="160" y="105" text-anchor="middle" class="da-quad-desc">Shows why alignment</text>
-              <text x="160" y="123" text-anchor="middle" class="da-quad-desc">must be multi-layered</text>
-            </g>
+          <!-- VPM — bottom (6 o'clock) -->
+          <g class="da-quad da-quad-vpm">
+            <circle cx="350" cy="410" r="8" fill="rgba(242,181,77,0.2)" stroke="#F2B54D" stroke-width="1.5"/>
+            <rect x="255" y="430" width="190" height="58" rx="10" fill="rgba(242,181,77,0.06)" stroke="rgba(242,181,77,0.2)" stroke-width="1"/>
+            <text x="350" y="452" text-anchor="middle" class="da-quad-title">VPM</text>
+            <text x="350" y="472" text-anchor="middle" class="da-quad-desc">Conditions for legitimacy</text>
+          </g>
 
-            <!-- LIR (top-right) -->
-            <g class="da-quad da-quad-lir">
-              <rect x="440" y="50" width="200" height="100" rx="12" fill="rgba(164,174,183,0.08)" stroke="rgba(164,174,183,0.3)" stroke-width="1"/>
-              <text x="540" y="82" text-anchor="middle" class="da-quad-title">LIR</text>
-              <text x="540" y="105" text-anchor="middle" class="da-quad-desc">Shows why alignment</text>
-              <text x="540" y="123" text-anchor="middle" class="da-quad-desc">cannot be static</text>
-            </g>
-
-            <!-- ERI (bottom-left) -->
-            <g class="da-quad da-quad-eri">
-              <rect x="60" y="380" width="200" height="100" rx="12" fill="rgba(232,229,221,0.06)" stroke="rgba(232,229,221,0.2)" stroke-width="1"/>
-              <text x="160" y="412" text-anchor="middle" class="da-quad-title">ERI</text>
-              <text x="160" y="435" text-anchor="middle" class="da-quad-desc">Shows why alignment</text>
-              <text x="160" y="453" text-anchor="middle" class="da-quad-desc">requires trajectories</text>
-            </g>
-
-            <!-- VPM (bottom-right) -->
-            <g class="da-quad da-quad-vpm">
-              <rect x="440" y="370" width="200" height="100" rx="12" fill="rgba(242,181,77,0.06)" stroke="rgba(242,181,77,0.2)" stroke-width="1"/>
-              <text x="540" y="402" text-anchor="middle" class="da-quad-title">VPM</text>
-              <text x="540" y="425" text-anchor="middle" class="da-quad-desc">Shows the normative</text>
-              <text x="540" y="443" text-anchor="middle" class="da-quad-desc">conditions for legitimacy</text>
-            </g>
+          <!-- ERI — left (9 o'clock) -->
+          <g class="da-quad da-quad-eri">
+            <circle cx="190" cy="250" r="8" fill="rgba(232,229,221,0.2)" stroke="#E8E5DD" stroke-width="1.5"/>
+            <rect x="10" y="221" width="170" height="58" rx="10" fill="rgba(232,229,221,0.06)" stroke="rgba(232,229,221,0.2)" stroke-width="1"/>
+            <text x="95" y="243" text-anchor="middle" class="da-quad-title">ERI</text>
+            <text x="95" y="263" text-anchor="middle" class="da-quad-desc">Requires trajectories</text>
           </g>
 
           <!-- Centre label -->
