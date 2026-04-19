@@ -10,6 +10,27 @@ body.in-iframe .hero h1 { font-size: clamp(2.5rem, 1.2rem + 4vw, 4.5rem); margin
 body.in-iframe .hero-sub { font-size: clamp(0.95rem, 0.8rem + 0.4vw, 1.125rem); }
 body.in-iframe .scroll-indicator { position: relative; bottom: auto; margin-top: 1.5rem; }
 body.in-iframe { overflow-x: hidden; overflow-y: auto; }
+/* In iframe: IntersectionObserver is unreliable — force all cards and SVG elements visible */
+body.in-iframe .lit-label-card,
+body.in-iframe .lir-card,
+body.in-iframe .da-card,
+body.in-iframe .practice-card,
+body.in-iframe .service-card {
+  opacity: 1 !important;
+  transform: none !important;
+}
+body.in-iframe .lit-ring,
+body.in-iframe .lit-inner-label,
+body.in-iframe .lit-band,
+body.in-iframe [class*="lit-band-fill"],
+body.in-iframe .lit-core,
+body.in-iframe .lit-core-label,
+body.in-iframe .lit-core-sub,
+body.in-iframe .lit-core-pulse,
+body.in-iframe .lit-glow-ring,
+body.in-iframe [class*="lit-particles-"] {
+  opacity: 1 !important;
+}
 
 :root {
   --deep-navy: #0C2137;
@@ -218,7 +239,7 @@ body {
 }
 .lit-diagram {
   position: relative;
-  max-width: 700px;
+  max-width: 600px;
   margin: 0 auto;
 }
 .lit-svg {
@@ -238,21 +259,23 @@ body {
   font-size: 9px;
   letter-spacing: 0.08em;
 }
-/* Straight text labels positioned outside each ring — all gold + icons */
-.lit-outer-label {
+/* Labels inside each ring band — curved gold text + icons */
+.lit-inner-label {
   transition: opacity 400ms ease;
 }
 .lit-label-text {
   fill: var(--amber);
   font-family: 'Inter', sans-serif;
-  font-size: 12px;
   font-weight: 600;
   letter-spacing: 0.18em;
   text-transform: uppercase;
 }
-.lit-label-sm { font-size: 10px; letter-spacing: 0.14em; }
-.lit-label-md { font-size: 11px; letter-spacing: 0.16em; }
-.lit-label-lg { font-size: 14px; letter-spacing: 0.22em; }
+/* Size scale: outer rings get larger text, inner rings smaller */
+.lit-label-ring5 { font-size: 16px; letter-spacing: 0.24em; }
+.lit-label-ring4 { font-size: 13px; letter-spacing: 0.20em; }
+.lit-label-ring3 { font-size: 11px; letter-spacing: 0.16em; }
+.lit-label-ring2 { font-size: 9.5px; letter-spacing: 0.14em; }
+.lit-label-ring1 { font-size: 7px; letter-spacing: 0.10em; }
 /* Core Ethics label */
 .lit-core-label {
   fill: var(--amber);

@@ -7,9 +7,17 @@ const SAFETY_TIMEOUT_MS = 4000;
 const firedSections = new Set();
 function markFired(id) { firedSections.add(id); }
 
+const isIframe = document.body.classList.contains('in-iframe');
+
 // === IntersectionObserver trigger helper ===
+// In iframe mode, fire callback immediately (IO is unreliable in tall iframes)
 function onVisible(element, callback, threshold = 0.15) {
   if (!element) return;
+  if (isIframe) {
+    // Delay slightly so DOM is ready, then fire
+    setTimeout(callback, 200);
+    return;
+  }
   const observer = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
       if (entry.isIntersecting) {
@@ -58,27 +66,32 @@ function animateLIT() {
       .to('.lit-core-pulse', { opacity: 0.4, duration: 0.3 }, '-=0.1')
 
     // 2. Ring 1: Cognitive — draws outward
-      .to('.lit-ring-1', { opacity: 1, duration: 0.5 }, '-=0.1')
+      .to('.lit-band-1', { opacity: 1, duration: 0.4 }, '-=0.1')
+      .to('.lit-ring-1', { opacity: 1, duration: 0.5 }, '-=0.3')
       .to('.lit-clabel-1', { opacity: 1, duration: 0.35 }, '-=0.2')
       .to('.lit-particles-1', { opacity: 1, duration: 0.3 }, '-=0.15')
 
     // 3. Ring 2: Emotional
-      .to('.lit-ring-2', { opacity: 1, duration: 0.5 }, '-=0.1')
+      .to('.lit-band-2, .lit-band-fill-2', { opacity: 1, duration: 0.4 }, '-=0.1')
+      .to('.lit-ring-2', { opacity: 1, duration: 0.5 }, '-=0.3')
       .to('.lit-clabel-2', { opacity: 1, duration: 0.35 }, '-=0.2')
       .to('.lit-particles-2', { opacity: 1, duration: 0.3 }, '-=0.15')
 
     // 4. Ring 3: Symbolic
-      .to('.lit-ring-3', { opacity: 1, duration: 0.5 }, '-=0.1')
+      .to('.lit-band-3, .lit-band-fill-3', { opacity: 1, duration: 0.4 }, '-=0.1')
+      .to('.lit-ring-3', { opacity: 1, duration: 0.5 }, '-=0.3')
       .to('.lit-clabel-3', { opacity: 1, duration: 0.35 }, '-=0.2')
       .to('.lit-particles-3', { opacity: 1, duration: 0.3 }, '-=0.15')
 
     // 5. Ring 4: Strategic
-      .to('.lit-ring-4', { opacity: 1, duration: 0.5 }, '-=0.1')
+      .to('.lit-band-4, .lit-band-fill-4', { opacity: 1, duration: 0.4 }, '-=0.1')
+      .to('.lit-ring-4', { opacity: 1, duration: 0.5 }, '-=0.3')
       .to('.lit-clabel-4', { opacity: 1, duration: 0.35 }, '-=0.2')
       .to('.lit-particles-4', { opacity: 1, duration: 0.3 }, '-=0.15')
 
     // 6. Ring 5: Ethical — outermost, the governing constraint
-      .to('.lit-ring-5', { opacity: 1, duration: 0.6 }, '-=0.1')
+      .to('.lit-band-5', { opacity: 1, duration: 0.4 }, '-=0.1')
+      .to('.lit-ring-5', { opacity: 1, duration: 0.6 }, '-=0.3')
       .to('.lit-clabel-5', { opacity: 1, duration: 0.4 }, '-=0.3')
       .to('.lit-particles-5', { opacity: 1, duration: 0.4 }, '-=0.2')
       .to('.lit-glow-ring', { opacity: 1, duration: 0.5 }, '-=0.3');
