@@ -1,4 +1,10 @@
 /* === Clara Futura — Our Approach === */
+
+/* Hide nav when inside iframe */
+body.in-iframe .nav { display: none; }
+body.in-iframe .hero { padding-top: 0; }
+body.in-iframe { overflow-x: hidden; }
+
 :root {
   --deep-navy: #0C2137;
   --surface: #122C45;
