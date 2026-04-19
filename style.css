@@ -2,10 +2,13 @@
 
 /* Hide nav when inside iframe */
 body.in-iframe .nav { display: none; }
-body.in-iframe .hero { padding-top: 1rem; min-height: 50vh; padding-bottom: 2rem; }
+/* CRITICAL: In a scrolling="no" iframe with large fixed height, vh units
+   reference the iframe height (e.g. 6800px), not the user's viewport.
+   Use fixed px values instead of vh for hero sizing in iframe mode. */
+body.in-iframe .hero { padding-top: 1rem; min-height: 500px; max-height: 650px; padding-bottom: 2rem; }
 body.in-iframe .hero h1 { font-size: clamp(2.5rem, 1.2rem + 4vw, 4.5rem); margin-bottom: 1rem; }
 body.in-iframe .hero-sub { font-size: clamp(0.95rem, 0.8rem + 0.4vw, 1.125rem); }
-body.in-iframe .scroll-indicator { bottom: 0.5rem; }
+body.in-iframe .scroll-indicator { position: relative; bottom: auto; margin-top: 1.5rem; }
 body.in-iframe { overflow-x: hidden; overflow-y: auto; }
 
 :root {
@@ -548,7 +551,7 @@ body {
 
 @media (max-width: 480px) {
   .hero { min-height: 80vh; padding: 5rem 1.25rem 3rem; }
-  body.in-iframe .hero { min-height: 45vh; padding: 0.5rem 1.25rem 2rem; }
+  body.in-iframe .hero { min-height: 400px; max-height: 550px; padding: 0.5rem 1.25rem 2rem; }
   .hero h1 { font-size: 2.5rem; }
 }
 
