@@ -120,14 +120,22 @@ function animateDA() {
     if (firedSections.has('alignment')) return;
     markFired('alignment');
 
+    // Draw the spiral path in progressively
+    const spiralPath = document.querySelector('.da-spiral-path');
+    if (spiralPath) {
+      const len = spiralPath.getTotalLength();
+      spiralPath.style.strokeDasharray = len;
+      spiralPath.style.strokeDashoffset = len;
+    }
+
     const tl = gsap.timeline();
     tl.from('.da-svg circle:not(.da-pulse):not(.da-spiral-particle)', {
       scale: 0, transformOrigin: 'center', duration: 0.6, ease: 'back.out(1.7)'
     })
     .from('.da-centre-label', { opacity: 0, duration: 0.4, ease: 'power2.out' }, '-=0.2')
-    .from('.da-spiral-path', { opacity: 0, duration: 1.2, ease: 'power3.out' }, '-=0.3')
+    .to('.da-spiral-path', { strokeDashoffset: 0, opacity: 0.6, duration: 2, ease: 'power2.inOut' }, '-=0.3')
     .from('.da-spiral-particle', { opacity: 0, duration: 0.4 }, '-=0.6')
-    .from('.da-quad-lit', { x: -30, opacity: 0, duration: 0.6, ease: 'power3.out' }, '-=0.8')
+    .from('.da-quad-lit', { x: -30, opacity: 0, duration: 0.6, ease: 'power3.out' }, '-=1.2')
     .from('.da-quad-lir', { x: 30, opacity: 0, duration: 0.6, ease: 'power3.out' }, '-=0.5')
     .from('.da-quad-eri', { x: -30, opacity: 0, duration: 0.6, ease: 'power3.out' }, '-=0.5')
     .from('.da-quad-vpm', { x: 30, opacity: 0, duration: 0.6, ease: 'power3.out' }, '-=0.5');
