@@ -183,22 +183,25 @@ if (window.self !== window.top) {
             <text x="525" y="215" text-anchor="middle" class="lir-pole-sub">What is latent</text>
           </g>
 
-          <!-- Dynamic tension arrows (animated) -->
+          <!-- Half-circle arcs connecting the two poles -->
           <g class="lir-tension">
-            <path d="M260,175 C350,120 350,120 460,175" fill="none" stroke="#F2B54D" stroke-width="1" opacity="0.6" class="lir-flow lir-flow-top"/>
-            <path d="M260,225 C350,280 350,280 460,225" fill="none" stroke="#A4AEB7" stroke-width="1" opacity="0.6" class="lir-flow lir-flow-bottom"/>
-            <!-- Flowing particles -->
-            <circle r="3" fill="#F2B54D" opacity="0.8">
-              <animateMotion dur="3s" repeatCount="indefinite" path="M260,175 C350,120 350,120 460,175"/>
+            <!-- Top half-circle: Actualised edge → arcs over top → Potential edge -->
+            <path d="M255,200 A95,95 0 0,1 445,200" fill="none" stroke="#F2B54D" stroke-width="1.5" opacity="0.6" class="lir-flow lir-flow-top"/>
+            <!-- Bottom half-circle: Potential edge → arcs under bottom → Actualised edge -->
+            <path d="M255,200 A95,95 0 0,0 445,200" fill="none" stroke="#A4AEB7" stroke-width="1.5" opacity="0.6" class="lir-flow lir-flow-bottom"/>
+            <!-- Flowing particles on top arc (Actualised → Potential) -->
+            <circle r="3.5" fill="#F2B54D" opacity="0.8">
+              <animateMotion dur="3s" repeatCount="indefinite" path="M255,200 A95,95 0 0,1 445,200"/>
             </circle>
             <circle r="3" fill="#F2B54D" opacity="0.5">
-              <animateMotion dur="3s" repeatCount="indefinite" begin="1s" path="M260,175 C350,120 350,120 460,175"/>
+              <animateMotion dur="3s" repeatCount="indefinite" begin="1.5s" path="M255,200 A95,95 0 0,1 445,200"/>
             </circle>
-            <circle r="3" fill="#A4AEB7" opacity="0.8">
-              <animateMotion dur="3s" repeatCount="indefinite" path="M460,225 C350,280 350,280 260,225"/>
+            <!-- Flowing particles on bottom arc (Potential → Actualised) -->
+            <circle r="3.5" fill="#A4AEB7" opacity="0.8">
+              <animateMotion dur="3s" repeatCount="indefinite" path="M445,200 A95,95 0 0,1 255,200"/>
             </circle>
             <circle r="3" fill="#A4AEB7" opacity="0.5">
-              <animateMotion dur="3s" repeatCount="indefinite" begin="1.5s" path="M460,225 C350,280 350,280 260,225"/>
+              <animateMotion dur="3s" repeatCount="indefinite" begin="1.5s" path="M445,200 A95,95 0 0,1 255,200"/>
             </circle>
           </g>
 
