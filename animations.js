@@ -75,32 +75,27 @@ function animateLIT() {
   startLITContinuousAnimations();
 }
 
-// Iframe-compatible scroll-driven build
-// In a non-scrolling iframe, the parent page scrolls the iframe element.
-// The iframe content is static — getBoundingClientRect and IO always report
-// the same values. We use the parent's postMessage or, if cross-origin,
-// poll the iframe element's clip via getComputedStyle on the visual viewport.
-//
-// Approach: try to read scroll from parent (same-origin). If blocked (cross-origin),
-// fall back to a time-based build triggered when the section enters the viewport.
+// Iframe-compatible build animation.
+// WordPress.com embeds GitHub Pages cross-origin, so we cannot read parent scroll.
+// The iframe itself does not scroll — its full height is set by WordPress CSS.
+// Strategy: play a time-based build shortly after page load (brief delay so
+// the user sees the empty space first, then the rings build outward).
+// Same-origin parents (rare): use parent scroll to drive progress.
 function animateLIT_iframe(diagram) {
-  const tl = gsap.timeline({ paused: true, defaults: { ease: 'none' } });
-  buildLITTimeline(tl);
-
-  let continuousStarted = false;
   let parentAccessible = false;
-
-  // Check if we can access parent scroll (same-origin)
   try {
     const _ = window.parent.scrollY;
     parentAccessible = true;
   } catch(e) {}
 
   if (parentAccessible) {
-    // Same-origin: read parent scroll and map to diagram progress
+    // Same-origin: scrub timeline driven by parent scroll position
+    const tl = gsap.timeline({ paused: true, defaults: { ease: 'none' } });
+    buildLITTimeline(tl);
+    let continuousStarted = false;
+
     function onParentScroll() {
       try {
-        // Get our iframe element in the parent
         const frames = window.parent.document.querySelectorAll('iframe');
         let iframeEl = null;
         for (const f of frames) {
@@ -110,16 +105,11 @@ function animateLIT_iframe(diagram) {
 
         const iframeRect = iframeEl.getBoundingClientRect();
         const parentH = window.parent.innerHeight;
-        // diagram's position within the iframe content
         const diagramRect = diagram.getBoundingClientRect();
-        // diagram's position relative to parent viewport
         const diagramTopInParent = iframeRect.top + diagramRect.top;
-        const diagramBottomInParent = iframeRect.top + diagramRect.bottom;
 
-        // Progress: 0 when diagram top enters parent viewport bottom,
-        //           1 when diagram center reaches parent viewport center
-        const start = parentH; // diagram top at bottom of parent viewport
-        const end = parentH * 0.2; // diagram top at 20% from top
+        const start = parentH;
+        const end = parentH * 0.2;
         const travel = start - end;
         const progress = (start - diagramTopInParent) / travel;
         const clamped = Math.max(0, Math.min(1, progress));
@@ -135,105 +125,102 @@ function animateLIT_iframe(diagram) {
     window.parent.addEventListener('scroll', onParentScroll, { passive: true });
     onParentScroll();
   } else {
-    // Cross-origin fallback: play as a time-based animation when visible
+    // Cross-origin: play the timed build after a short delay.
+    // The iframe content doesn't scroll, so IO is unreliable. Just play it.
     const playTl = gsap.timeline({
+      paused: true,
       defaults: { ease: 'power2.out' },
       onComplete: () => startLITContinuousAnimations()
     });
     buildLITTimeline_timed(playTl);
 
-    // Use IO to trigger when diagram enters iframe viewport
-    const observer = new IntersectionObserver((entries) => {
-      if (entries[0].isIntersecting) {
-        playTl.play();
-        observer.disconnect();
-      }
-    }, { threshold: 0.1 });
-    observer.observe(diagram);
+    // Brief delay so the page settles, then play the build animation
+    setTimeout(() => { playTl.play(); }, 800);
   }
 }
 
 // Shared timeline builder — core outward, each ring a stage
+// Uses attr:{opacity} because SVG elements have opacity="0" in markup;
+// GSAP's plain opacity sets CSS style which does NOT override the SVG attribute.
 function buildLITTimeline(tl) {
   // 1. Core — Ethics
-  tl.to('.lit-core', { opacity: 1, duration: 0.08 })
-    .to('.lit-core-label', { opacity: 1, duration: 0.05 }, '-=0.02')
-    .to('.lit-core-sub', { opacity: 1, duration: 0.04 }, '-=0.01')
-    .to('.lit-core-pulse', { opacity: 0.4, duration: 0.03 })
+  tl.to('.lit-core', { attr: { opacity: 1 }, duration: 0.08 })
+    .to('.lit-core-label', { attr: { opacity: 1 }, duration: 0.05 }, '-=0.02')
+    .to('.lit-core-sub', { attr: { opacity: 1 }, duration: 0.04 }, '-=0.01')
+    .to('.lit-core-pulse', { attr: { opacity: 0.4 }, duration: 0.03 })
 
   // 2. Ring 1: Cognitive
-    .to('.lit-band-1', { opacity: 1, duration: 0.06 })
-    .to('.lit-ring-1', { opacity: 1, duration: 0.06 }, '-=0.03')
-    .to('.lit-clabel-1', { opacity: 1, duration: 0.05 }, '-=0.02')
-    .to('.lit-particles-1', { opacity: 1, duration: 0.04 }, '-=0.01')
+    .to('.lit-band-1', { attr: { opacity: 1 }, duration: 0.06 })
+    .to('.lit-ring-1', { attr: { opacity: 1 }, duration: 0.06 }, '-=0.03')
+    .to('.lit-clabel-1', { attr: { opacity: 1 }, duration: 0.05 }, '-=0.02')
+    .to('.lit-particles-1', { attr: { opacity: 1 }, duration: 0.04 }, '-=0.01')
 
   // 3. Ring 2: Emotional
-    .to('.lit-band-2, .lit-band-fill-2', { opacity: 1, duration: 0.06 })
-    .to('.lit-ring-2', { opacity: 1, duration: 0.06 }, '-=0.03')
-    .to('.lit-clabel-2', { opacity: 1, duration: 0.05 }, '-=0.02')
-    .to('.lit-particles-2', { opacity: 1, duration: 0.04 }, '-=0.01')
+    .to('.lit-band-2, .lit-band-fill-2', { attr: { opacity: 1 }, duration: 0.06 })
+    .to('.lit-ring-2', { attr: { opacity: 1 }, duration: 0.06 }, '-=0.03')
+    .to('.lit-clabel-2', { attr: { opacity: 1 }, duration: 0.05 }, '-=0.02')
+    .to('.lit-particles-2', { attr: { opacity: 1 }, duration: 0.04 }, '-=0.01')
 
   // 4. Ring 3: Symbolic
-    .to('.lit-band-3, .lit-band-fill-3', { opacity: 1, duration: 0.06 })
-    .to('.lit-ring-3', { opacity: 1, duration: 0.06 }, '-=0.03')
-    .to('.lit-clabel-3', { opacity: 1, duration: 0.05 }, '-=0.02')
-    .to('.lit-particles-3', { opacity: 1, duration: 0.04 }, '-=0.01')
+    .to('.lit-band-3, .lit-band-fill-3', { attr: { opacity: 1 }, duration: 0.06 })
+    .to('.lit-ring-3', { attr: { opacity: 1 }, duration: 0.06 }, '-=0.03')
+    .to('.lit-clabel-3', { attr: { opacity: 1 }, duration: 0.05 }, '-=0.02')
+    .to('.lit-particles-3', { attr: { opacity: 1 }, duration: 0.04 }, '-=0.01')
 
   // 5. Ring 4: Strategic
-    .to('.lit-band-4, .lit-band-fill-4', { opacity: 1, duration: 0.06 })
-    .to('.lit-ring-4', { opacity: 1, duration: 0.06 }, '-=0.03')
-    .to('.lit-clabel-4', { opacity: 1, duration: 0.05 }, '-=0.02')
-    .to('.lit-particles-4', { opacity: 1, duration: 0.04 }, '-=0.01')
+    .to('.lit-band-4, .lit-band-fill-4', { attr: { opacity: 1 }, duration: 0.06 })
+    .to('.lit-ring-4', { attr: { opacity: 1 }, duration: 0.06 }, '-=0.03')
+    .to('.lit-clabel-4', { attr: { opacity: 1 }, duration: 0.05 }, '-=0.02')
+    .to('.lit-particles-4', { attr: { opacity: 1 }, duration: 0.04 }, '-=0.01')
 
   // 6. Ring 5: Ethical — outermost governing constraint
-    .to('.lit-band-5', { opacity: 1, duration: 0.06 })
-    .to('.lit-ring-5', { opacity: 1, duration: 0.08 }, '-=0.04')
-    .to('.lit-clabel-5', { opacity: 1, duration: 0.06 }, '-=0.03')
-    .to('.lit-particles-5', { opacity: 1, duration: 0.05 }, '-=0.02')
-    .to('.lit-glow-ring', { opacity: 1, duration: 0.06 }, '-=0.03');
+    .to('.lit-band-5', { attr: { opacity: 1 }, duration: 0.06 })
+    .to('.lit-ring-5', { attr: { opacity: 1 }, duration: 0.08 }, '-=0.04')
+    .to('.lit-clabel-5', { attr: { opacity: 1 }, duration: 0.06 }, '-=0.03')
+    .to('.lit-particles-5', { attr: { opacity: 1 }, duration: 0.05 }, '-=0.02')
+    .to('.lit-glow-ring', { attr: { opacity: 1 }, duration: 0.06 }, '-=0.03');
 }
 
 // Time-based version for cross-origin fallback (longer durations)
 function buildLITTimeline_timed(tl) {
-  tl.to('.lit-core', { opacity: 1, scale: 1, duration: 0.6 })
-    .to('.lit-core-label', { opacity: 1, duration: 0.4 }, '-=0.3')
-    .to('.lit-core-sub', { opacity: 1, duration: 0.3 }, '-=0.2')
-    .to('.lit-core-pulse', { opacity: 0.4, duration: 0.3 }, '-=0.1')
-    .to('.lit-band-1', { opacity: 1, duration: 0.4 }, '-=0.1')
-    .to('.lit-ring-1', { opacity: 1, duration: 0.5 }, '-=0.3')
-    .to('.lit-clabel-1', { opacity: 1, duration: 0.35 }, '-=0.2')
-    .to('.lit-particles-1', { opacity: 1, duration: 0.3 }, '-=0.15')
-    .to('.lit-band-2, .lit-band-fill-2', { opacity: 1, duration: 0.4 }, '-=0.1')
-    .to('.lit-ring-2', { opacity: 1, duration: 0.5 }, '-=0.3')
-    .to('.lit-clabel-2', { opacity: 1, duration: 0.35 }, '-=0.2')
-    .to('.lit-particles-2', { opacity: 1, duration: 0.3 }, '-=0.15')
-    .to('.lit-band-3, .lit-band-fill-3', { opacity: 1, duration: 0.4 }, '-=0.1')
-    .to('.lit-ring-3', { opacity: 1, duration: 0.5 }, '-=0.3')
-    .to('.lit-clabel-3', { opacity: 1, duration: 0.35 }, '-=0.2')
-    .to('.lit-particles-3', { opacity: 1, duration: 0.3 }, '-=0.15')
-    .to('.lit-band-4, .lit-band-fill-4', { opacity: 1, duration: 0.4 }, '-=0.1')
-    .to('.lit-ring-4', { opacity: 1, duration: 0.5 }, '-=0.3')
-    .to('.lit-clabel-4', { opacity: 1, duration: 0.35 }, '-=0.2')
-    .to('.lit-particles-4', { opacity: 1, duration: 0.3 }, '-=0.15')
-    .to('.lit-band-5', { opacity: 1, duration: 0.4 }, '-=0.1')
-    .to('.lit-ring-5', { opacity: 1, duration: 0.6 }, '-=0.3')
-    .to('.lit-clabel-5', { opacity: 1, duration: 0.4 }, '-=0.3')
-    .to('.lit-particles-5', { opacity: 1, duration: 0.4 }, '-=0.2')
-    .to('.lit-glow-ring', { opacity: 1, duration: 0.5 }, '-=0.3');
+  tl.to('.lit-core', { attr: { opacity: 1 }, duration: 0.6 })
+    .to('.lit-core-label', { attr: { opacity: 1 }, duration: 0.4 }, '-=0.3')
+    .to('.lit-core-sub', { attr: { opacity: 1 }, duration: 0.3 }, '-=0.2')
+    .to('.lit-core-pulse', { attr: { opacity: 0.4 }, duration: 0.3 }, '-=0.1')
+    .to('.lit-band-1', { attr: { opacity: 1 }, duration: 0.4 }, '-=0.1')
+    .to('.lit-ring-1', { attr: { opacity: 1 }, duration: 0.5 }, '-=0.3')
+    .to('.lit-clabel-1', { attr: { opacity: 1 }, duration: 0.35 }, '-=0.2')
+    .to('.lit-particles-1', { attr: { opacity: 1 }, duration: 0.3 }, '-=0.15')
+    .to('.lit-band-2, .lit-band-fill-2', { attr: { opacity: 1 }, duration: 0.4 }, '-=0.1')
+    .to('.lit-ring-2', { attr: { opacity: 1 }, duration: 0.5 }, '-=0.3')
+    .to('.lit-clabel-2', { attr: { opacity: 1 }, duration: 0.35 }, '-=0.2')
+    .to('.lit-particles-2', { attr: { opacity: 1 }, duration: 0.3 }, '-=0.15')
+    .to('.lit-band-3, .lit-band-fill-3', { attr: { opacity: 1 }, duration: 0.4 }, '-=0.1')
+    .to('.lit-ring-3', { attr: { opacity: 1 }, duration: 0.5 }, '-=0.3')
+    .to('.lit-clabel-3', { attr: { opacity: 1 }, duration: 0.35 }, '-=0.2')
+    .to('.lit-particles-3', { attr: { opacity: 1 }, duration: 0.3 }, '-=0.15')
+    .to('.lit-band-4, .lit-band-fill-4', { attr: { opacity: 1 }, duration: 0.4 }, '-=0.1')
+    .to('.lit-ring-4', { attr: { opacity: 1 }, duration: 0.5 }, '-=0.3')
+    .to('.lit-clabel-4', { attr: { opacity: 1 }, duration: 0.35 }, '-=0.2')
+    .to('.lit-particles-4', { attr: { opacity: 1 }, duration: 0.3 }, '-=0.15')
+    .to('.lit-band-5', { attr: { opacity: 1 }, duration: 0.4 }, '-=0.1')
+    .to('.lit-ring-5', { attr: { opacity: 1 }, duration: 0.6 }, '-=0.3')
+    .to('.lit-clabel-5', { attr: { opacity: 1 }, duration: 0.4 }, '-=0.3')
+    .to('.lit-particles-5', { attr: { opacity: 1 }, duration: 0.4 }, '-=0.2')
+    .to('.lit-glow-ring', { attr: { opacity: 1 }, duration: 0.5 }, '-=0.3');
 }
 
 // Continuous looping animations (start after diagram is fully built)
 function startLITContinuousAnimations() {
   gsap.to('.lit-core-pulse', {
-    attr: { r: 48 },
-    opacity: 0,
+    attr: { r: 48, opacity: 0 },
     duration: 2,
     ease: 'sine.inOut',
     repeat: -1,
     delay: 0.5
   });
   gsap.to('.lit-ring-5', {
-    strokeWidth: 3.5,
+    attr: { 'stroke-width': 3.5 },
     duration: 2.5,
     ease: 'sine.inOut',
     repeat: -1,
