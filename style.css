@@ -19,9 +19,13 @@ body.in-iframe .service-card {
   opacity: 1 !important;
   transform: none !important;
 }
-/* LIT diagram elements start at opacity:0 inline on SVG.
-   GSAP scroll-build animation reveals them progressively
-   in both standalone and iframe modes. */
+/* LIT & LIR diagram elements start at opacity:0 inline on SVG.
+   In iframe mode, JavaScript sets opacity="1" and CSS transition handles the fade.
+   This avoids GSAP attr:{opacity} issues on Safari/WebKit. */
+body.in-iframe .lit-svg [opacity],
+body.in-iframe .lir-svg [opacity] {
+  transition: opacity 0.6s ease-out;
+}
 
 :root {
   --deep-navy: #0C2137;

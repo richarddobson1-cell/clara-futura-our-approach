@@ -1,5 +1,7 @@
 // === Clara Futura — Our Approach Animations ===
-// Uses GSAP + IntersectionObserver for scroll-triggered diagram builds
+// Uses GSAP + ScrollTrigger for standalone scroll-driven builds.
+// In cross-origin iframes (WordPress embeds), uses native JS setAttribute
+// with CSS transitions for maximum Safari/iOS compatibility.
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -9,13 +11,23 @@ function markFired(id) { firedSections.add(id); }
 
 const isIframe = document.body.classList.contains('in-iframe');
 
+// === CSS transition helper for iframe mode ===
+// Safari/WebKit can fail with GSAP attr:{opacity} on SVG elements.
+// Direct setAttribute + CSS transition is universally reliable.
+function revealSVG(selector, delayMs) {
+  setTimeout(() => {
+    document.querySelectorAll(selector).forEach(el => {
+      el.setAttribute('opacity', '1');
+    });
+  }, delayMs);
+}
+
 // === IntersectionObserver trigger helper ===
-// In iframe mode, fire callback immediately (IO is unreliable in tall iframes)
+// In iframe mode, fire callback after a delay (IO is unreliable in non-scrolling iframes)
 function onVisible(element, callback, threshold = 0.15) {
   if (!element) return;
   if (isIframe) {
-    // Delay slightly so DOM is ready, then fire
-    setTimeout(callback, 200);
+    setTimeout(callback, 600);
     return;
   }
   const observer = new IntersectionObserver((entries) => {
@@ -48,19 +60,19 @@ function revealCards(selector, stagger = 0.12) {
   setTimeout(() => { if (!firedSections.has(sectionId)) doReveal(); }, SAFETY_TIMEOUT_MS + 1000);
 }
 
-// === LIT Diagram Animation — builds from core outward as user scrolls ===
+// ============================================================
+// LIT DIAGRAM — builds from core outward
+// ============================================================
 function animateLIT() {
   const diagram = document.getElementById('litDiagram');
   if (!diagram) return;
 
-  // In iframe mode, ScrollTrigger can't read scroll position reliably.
-  // Use a scroll listener on the window instead and map scrollY to progress.
   if (isIframe) {
     animateLIT_iframe(diagram);
     return;
   }
 
-  // Standalone: use GSAP ScrollTrigger scrub
+  // Standalone: GSAP ScrollTrigger scrub
   const tl = gsap.timeline({
     scrollTrigger: {
       trigger: diagram,
@@ -75,105 +87,75 @@ function animateLIT() {
   startLITContinuousAnimations();
 }
 
-// Iframe-compatible build animation.
-// WordPress.com embeds GitHub Pages cross-origin, so we cannot read parent scroll.
-// The iframe itself does not scroll — its full height is set by WordPress CSS.
-// Strategy: play a time-based build shortly after page load (brief delay so
-// the user sees the empty space first, then the rings build outward).
-// Same-origin parents (rare): use parent scroll to drive progress.
+// Iframe mode: use direct setAttribute for Safari compatibility
 function animateLIT_iframe(diagram) {
-  let parentAccessible = false;
-  try {
-    const _ = window.parent.scrollY;
-    parentAccessible = true;
-  } catch(e) {}
+  // Stage the reveal from core outward with staggered delays
+  const baseDelay = 800; // wait for page to settle
+  const step = 400;      // ms between each ring stage
 
-  if (parentAccessible) {
-    // Same-origin: scrub timeline driven by parent scroll position
-    const tl = gsap.timeline({ paused: true, defaults: { ease: 'none' } });
-    buildLITTimeline(tl);
-    let continuousStarted = false;
+  // 1. Core — Ethics
+  revealSVG('.lit-core', baseDelay);
+  revealSVG('.lit-core-label', baseDelay + 100);
+  revealSVG('.lit-core-sub', baseDelay + 150);
+  revealSVG('.lit-core-pulse', baseDelay + 200);
 
-    function onParentScroll() {
-      try {
-        const frames = window.parent.document.querySelectorAll('iframe');
-        let iframeEl = null;
-        for (const f of frames) {
-          try { if (f.contentWindow === window) { iframeEl = f; break; } } catch(e) {}
-        }
-        if (!iframeEl) return;
+  // 2. Ring 1: Cognitive
+  revealSVG('.lit-band-1', baseDelay + step);
+  revealSVG('.lit-ring-1', baseDelay + step + 50);
+  revealSVG('.lit-clabel-1', baseDelay + step + 100);
+  revealSVG('.lit-particles-1', baseDelay + step + 150);
 
-        const iframeRect = iframeEl.getBoundingClientRect();
-        const parentH = window.parent.innerHeight;
-        const diagramRect = diagram.getBoundingClientRect();
-        const diagramTopInParent = iframeRect.top + diagramRect.top;
+  // 3. Ring 2: Emotional
+  revealSVG('.lit-band-2, .lit-band-fill-2', baseDelay + step * 2);
+  revealSVG('.lit-ring-2', baseDelay + step * 2 + 50);
+  revealSVG('.lit-clabel-2', baseDelay + step * 2 + 100);
+  revealSVG('.lit-particles-2', baseDelay + step * 2 + 150);
 
-        const start = parentH;
-        const end = parentH * 0.2;
-        const travel = start - end;
-        const progress = (start - diagramTopInParent) / travel;
-        const clamped = Math.max(0, Math.min(1, progress));
-        tl.progress(clamped);
+  // 4. Ring 3: Symbolic
+  revealSVG('.lit-band-3, .lit-band-fill-3', baseDelay + step * 3);
+  revealSVG('.lit-ring-3', baseDelay + step * 3 + 50);
+  revealSVG('.lit-clabel-3', baseDelay + step * 3 + 100);
+  revealSVG('.lit-particles-3', baseDelay + step * 3 + 150);
 
-        if (clamped >= 1 && !continuousStarted) {
-          continuousStarted = true;
-          startLITContinuousAnimations();
-        }
-      } catch(e) {}
-    }
+  // 5. Ring 4: Strategic
+  revealSVG('.lit-band-4, .lit-band-fill-4', baseDelay + step * 4);
+  revealSVG('.lit-ring-4', baseDelay + step * 4 + 50);
+  revealSVG('.lit-clabel-4', baseDelay + step * 4 + 100);
+  revealSVG('.lit-particles-4', baseDelay + step * 4 + 150);
 
-    window.parent.addEventListener('scroll', onParentScroll, { passive: true });
-    onParentScroll();
-  } else {
-    // Cross-origin: play the timed build after a short delay.
-    // The iframe content doesn't scroll, so IO is unreliable. Just play it.
-    const playTl = gsap.timeline({
-      paused: true,
-      defaults: { ease: 'power2.out' },
-      onComplete: () => startLITContinuousAnimations()
-    });
-    buildLITTimeline_timed(playTl);
+  // 6. Ring 5: Ethical (outermost)
+  revealSVG('.lit-band-5', baseDelay + step * 5);
+  revealSVG('.lit-ring-5', baseDelay + step * 5 + 50);
+  revealSVG('.lit-clabel-5', baseDelay + step * 5 + 100);
+  revealSVG('.lit-particles-5', baseDelay + step * 5 + 150);
+  revealSVG('.lit-glow-ring', baseDelay + step * 5 + 200);
 
-    // Brief delay so the page settles, then play the build animation
-    setTimeout(() => { playTl.play(); }, 800);
-  }
+  // Start continuous animations after full build
+  setTimeout(() => startLITContinuousAnimations(), baseDelay + step * 6);
 }
 
-// Shared timeline builder — core outward, each ring a stage
-// Uses attr:{opacity} because SVG elements have opacity="0" in markup;
-// GSAP's plain opacity sets CSS style which does NOT override the SVG attribute.
+// GSAP scrub timeline (standalone only)
 function buildLITTimeline(tl) {
-  // 1. Core — Ethics
   tl.to('.lit-core', { attr: { opacity: 1 }, duration: 0.08 })
     .to('.lit-core-label', { attr: { opacity: 1 }, duration: 0.05 }, '-=0.02')
     .to('.lit-core-sub', { attr: { opacity: 1 }, duration: 0.04 }, '-=0.01')
     .to('.lit-core-pulse', { attr: { opacity: 0.4 }, duration: 0.03 })
-
-  // 2. Ring 1: Cognitive
     .to('.lit-band-1', { attr: { opacity: 1 }, duration: 0.06 })
     .to('.lit-ring-1', { attr: { opacity: 1 }, duration: 0.06 }, '-=0.03')
     .to('.lit-clabel-1', { attr: { opacity: 1 }, duration: 0.05 }, '-=0.02')
     .to('.lit-particles-1', { attr: { opacity: 1 }, duration: 0.04 }, '-=0.01')
-
-  // 3. Ring 2: Emotional
     .to('.lit-band-2, .lit-band-fill-2', { attr: { opacity: 1 }, duration: 0.06 })
     .to('.lit-ring-2', { attr: { opacity: 1 }, duration: 0.06 }, '-=0.03')
     .to('.lit-clabel-2', { attr: { opacity: 1 }, duration: 0.05 }, '-=0.02')
     .to('.lit-particles-2', { attr: { opacity: 1 }, duration: 0.04 }, '-=0.01')
-
-  // 4. Ring 3: Symbolic
     .to('.lit-band-3, .lit-band-fill-3', { attr: { opacity: 1 }, duration: 0.06 })
     .to('.lit-ring-3', { attr: { opacity: 1 }, duration: 0.06 }, '-=0.03')
     .to('.lit-clabel-3', { attr: { opacity: 1 }, duration: 0.05 }, '-=0.02')
     .to('.lit-particles-3', { attr: { opacity: 1 }, duration: 0.04 }, '-=0.01')
-
-  // 5. Ring 4: Strategic
     .to('.lit-band-4, .lit-band-fill-4', { attr: { opacity: 1 }, duration: 0.06 })
     .to('.lit-ring-4', { attr: { opacity: 1 }, duration: 0.06 }, '-=0.03')
     .to('.lit-clabel-4', { attr: { opacity: 1 }, duration: 0.05 }, '-=0.02')
     .to('.lit-particles-4', { attr: { opacity: 1 }, duration: 0.04 }, '-=0.01')
-
-  // 6. Ring 5: Ethical — outermost governing constraint
     .to('.lit-band-5', { attr: { opacity: 1 }, duration: 0.06 })
     .to('.lit-ring-5', { attr: { opacity: 1 }, duration: 0.08 }, '-=0.04')
     .to('.lit-clabel-5', { attr: { opacity: 1 }, duration: 0.06 }, '-=0.03')
@@ -181,44 +163,12 @@ function buildLITTimeline(tl) {
     .to('.lit-glow-ring', { attr: { opacity: 1 }, duration: 0.06 }, '-=0.03');
 }
 
-// Time-based version for cross-origin fallback (longer durations)
-function buildLITTimeline_timed(tl) {
-  tl.to('.lit-core', { attr: { opacity: 1 }, duration: 0.6 })
-    .to('.lit-core-label', { attr: { opacity: 1 }, duration: 0.4 }, '-=0.3')
-    .to('.lit-core-sub', { attr: { opacity: 1 }, duration: 0.3 }, '-=0.2')
-    .to('.lit-core-pulse', { attr: { opacity: 0.4 }, duration: 0.3 }, '-=0.1')
-    .to('.lit-band-1', { attr: { opacity: 1 }, duration: 0.4 }, '-=0.1')
-    .to('.lit-ring-1', { attr: { opacity: 1 }, duration: 0.5 }, '-=0.3')
-    .to('.lit-clabel-1', { attr: { opacity: 1 }, duration: 0.35 }, '-=0.2')
-    .to('.lit-particles-1', { attr: { opacity: 1 }, duration: 0.3 }, '-=0.15')
-    .to('.lit-band-2, .lit-band-fill-2', { attr: { opacity: 1 }, duration: 0.4 }, '-=0.1')
-    .to('.lit-ring-2', { attr: { opacity: 1 }, duration: 0.5 }, '-=0.3')
-    .to('.lit-clabel-2', { attr: { opacity: 1 }, duration: 0.35 }, '-=0.2')
-    .to('.lit-particles-2', { attr: { opacity: 1 }, duration: 0.3 }, '-=0.15')
-    .to('.lit-band-3, .lit-band-fill-3', { attr: { opacity: 1 }, duration: 0.4 }, '-=0.1')
-    .to('.lit-ring-3', { attr: { opacity: 1 }, duration: 0.5 }, '-=0.3')
-    .to('.lit-clabel-3', { attr: { opacity: 1 }, duration: 0.35 }, '-=0.2')
-    .to('.lit-particles-3', { attr: { opacity: 1 }, duration: 0.3 }, '-=0.15')
-    .to('.lit-band-4, .lit-band-fill-4', { attr: { opacity: 1 }, duration: 0.4 }, '-=0.1')
-    .to('.lit-ring-4', { attr: { opacity: 1 }, duration: 0.5 }, '-=0.3')
-    .to('.lit-clabel-4', { attr: { opacity: 1 }, duration: 0.35 }, '-=0.2')
-    .to('.lit-particles-4', { attr: { opacity: 1 }, duration: 0.3 }, '-=0.15')
-    .to('.lit-band-5', { attr: { opacity: 1 }, duration: 0.4 }, '-=0.1')
-    .to('.lit-ring-5', { attr: { opacity: 1 }, duration: 0.6 }, '-=0.3')
-    .to('.lit-clabel-5', { attr: { opacity: 1 }, duration: 0.4 }, '-=0.3')
-    .to('.lit-particles-5', { attr: { opacity: 1 }, duration: 0.4 }, '-=0.2')
-    .to('.lit-glow-ring', { attr: { opacity: 1 }, duration: 0.5 }, '-=0.3');
-}
-
-// Continuous looping animations (start after diagram is fully built)
+// Continuous looping animations (GSAP is fine for ongoing loops)
 function startLITContinuousAnimations() {
-  gsap.to('.lit-core-pulse', {
-    attr: { r: 48, opacity: 0 },
-    duration: 2,
-    ease: 'sine.inOut',
-    repeat: -1,
-    delay: 0.5
-  });
+  gsap.fromTo('.lit-core-pulse',
+    { attr: { r: 40, opacity: 0.4 } },
+    { attr: { r: 48, opacity: 0 }, duration: 2, ease: 'sine.inOut', repeat: -1, delay: 0.5 }
+  );
   gsap.to('.lit-ring-5', {
     attr: { 'stroke-width': 3.5 },
     duration: 2.5,
@@ -229,9 +179,9 @@ function startLITContinuousAnimations() {
   });
 }
 
-// === LIR Diagram Animation ===
-// Three-stage build: 1) Actualised circle  2) Potential circle  3) Dynamic Opposition
-// Then continuous pulsation and revolving effects
+// ============================================================
+// LIR DIAGRAM — Actualised → Potential → Dynamic Opposition
+// ============================================================
 function animateLIR() {
   const diagram = document.getElementById('lirDiagram');
   if (!diagram) return;
@@ -240,36 +190,38 @@ function animateLIR() {
     if (firedSections.has('lir')) return;
     markFired('lir');
 
-    const tl = gsap.timeline({
-      defaults: { ease: 'power2.out' },
-      onComplete: startLIRContinuousAnimations
-    });
-
-    // Stage 1: Actualised circle materialises from left
-    tl.to('.lir-actual', { attr: { opacity: 1 }, duration: 0.8, ease: 'power3.out' })
-
-    // Stage 2: Potential circle materialises from right (overlaps slightly)
-      .to('.lir-potential', { attr: { opacity: 1 }, duration: 0.8, ease: 'power3.out' }, '-=0.3')
-
-    // Stage 3: Dynamic Opposition — arcs + particles appear
-      .to('.lir-tension', { attr: { opacity: 1 }, duration: 0.7 }, '-=0.2')
-
-    // Centre label fades in with scale
-      .to('.lir-centre-group', { attr: { opacity: 1 }, duration: 0.6 }, '-=0.3');
+    if (isIframe) {
+      // Safari-safe: use direct setAttribute with CSS transitions
+      const base = 0;
+      revealSVG('.lir-actual', base);
+      revealSVG('.lir-potential', base + 600);
+      revealSVG('.lir-tension', base + 1200);
+      revealSVG('.lir-centre-group', base + 1500);
+      setTimeout(() => startLIRContinuousAnimations(), base + 2200);
+    } else {
+      // Standalone: GSAP timeline
+      const tl = gsap.timeline({
+        defaults: { ease: 'power2.out' },
+        onComplete: startLIRContinuousAnimations
+      });
+      tl.to('.lir-actual', { attr: { opacity: 1 }, duration: 0.8, ease: 'power3.out' })
+        .to('.lir-potential', { attr: { opacity: 1 }, duration: 0.8, ease: 'power3.out' }, '-=0.3')
+        .to('.lir-tension', { attr: { opacity: 1 }, duration: 0.7 }, '-=0.2')
+        .to('.lir-centre-group', { attr: { opacity: 1 }, duration: 0.6 }, '-=0.3');
+    }
   }
 
   onVisible(diagram, playLIR);
   setTimeout(() => { if (!firedSections.has('lir')) playLIR(); }, SAFETY_TIMEOUT_MS + 500);
 }
 
-// Continuous looping animations for LIR after build completes
+// Continuous looping animations for LIR
 function startLIRContinuousAnimations() {
-  // Actualised pole: expanding ripple that fades out
+  // Actualised pole: expanding ripple
   gsap.fromTo('.lir-pulse-actual',
     { attr: { r: 80, opacity: 0.6 } },
     { attr: { r: 100, opacity: 0 }, duration: 2.5, ease: 'sine.out', repeat: -1, delay: 0.3 }
   );
-  // Keep the main actualised ring gently breathing
   gsap.to('.lir-actual circle:first-child', {
     attr: { r: 86 },
     duration: 2.8,
@@ -292,7 +244,7 @@ function startLIRContinuousAnimations() {
     delay: 1.4
   });
 
-  // Dynamic Opposition arcs: stroke-width pulse to emphasise energy flow
+  // Dynamic Opposition arcs: stroke-width pulse
   gsap.to('.lir-flow-top', {
     attr: { 'stroke-width': 3.5 },
     duration: 1.8,
@@ -310,17 +262,15 @@ function startLIRContinuousAnimations() {
   });
 
   // Centre label gentle opacity pulse
-  gsap.to('.lir-centre-group', {
-    attr: { opacity: 0.6 },
-    duration: 2,
-    ease: 'sine.inOut',
-    repeat: -1,
-    yoyo: true,
-    delay: 0.5
-  });
+  gsap.fromTo('.lir-centre-group',
+    { attr: { opacity: 1 } },
+    { attr: { opacity: 0.5 }, duration: 2, ease: 'sine.inOut', repeat: -1, yoyo: true, delay: 0.5 }
+  );
 }
 
-// === Dynamic Alignment Animation ===
+// ============================================================
+// DYNAMIC ALIGNMENT DIAGRAM
+// ============================================================
 function animateDA() {
   const section = document.getElementById('alignment');
   if (!section) return;
@@ -331,21 +281,15 @@ function animateDA() {
 
     const tl = gsap.timeline({ defaults: { ease: 'power3.out' } });
 
-    // Centre builds first
     tl.from('.da-svg .da-centre-label, .da-svg circle[cx=\"350\"][cy=\"250\"][r=\"45\"]', {
         scale: 0, opacity: 0, transformOrigin: 'center', duration: 0.6, ease: 'back.out(1.7)'
       })
-      // Main circle draws
       .to('.da-main-circle', { opacity: 0.55, duration: 0.8 }, '-=0.2')
-      // Glow ring
       .from('.da-svg circle[r=\"200\"]', { opacity: 0, duration: 0.5 }, '-=0.4')
-      // Particles appear
       .from('.da-svg circle[r=\"6\"], .da-svg circle[r=\"4.5\"], .da-svg circle[r=\"5\"], .da-svg circle[r=\"3.5\"][fill=\"#DDE2E7\"], .da-svg circle[r=\"4\"][fill=\"#F2B54D\"], .da-svg circle[r=\"3\"][fill=\"#C8D0D8\"]', {
         opacity: 0, duration: 0.4, stagger: 0.08
       }, '-=0.3')
-      // Cross-connection lines
       .from('.da-svg line', { opacity: 0, duration: 0.5, stagger: 0.05 }, '-=0.3')
-      // Nodes fly in from their directions
       .from('.da-quad-lit', { y: -30, opacity: 0, duration: 0.6 }, '-=0.4')
       .from('.da-quad-lir', { x: 30, opacity: 0, duration: 0.6 }, '-=0.4')
       .from('.da-quad-vpm', { y: 30, opacity: 0, duration: 0.6 }, '-=0.4')
@@ -356,7 +300,9 @@ function animateDA() {
   setTimeout(() => { if (!firedSections.has('alignment')) playDA(); }, SAFETY_TIMEOUT_MS + 1000);
 }
 
-// === Section heading reveals ===
+// ============================================================
+// SECTION HEADING REVEALS
+// ============================================================
 function revealSections() {
   document.querySelectorAll('.section').forEach((section, idx) => {
     const label = section.querySelector('.label');
@@ -378,14 +324,18 @@ function revealSections() {
   });
 }
 
-// === Hero entrance ===
+// ============================================================
+// HERO ENTRANCE
+// ============================================================
 function animateHero() {
   const hero = document.querySelector('.hero');
   if (!hero) return;
   setTimeout(() => { hero.classList.add('hero-ready'); }, 400);
 }
 
-// === Init ===
+// ============================================================
+// INIT
+// ============================================================
 document.addEventListener('DOMContentLoaded', () => {
   animateHero();
   revealSections();
