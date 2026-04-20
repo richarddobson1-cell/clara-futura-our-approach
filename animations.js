@@ -159,6 +159,24 @@ function animateLIT() {
   startLITContinuousAnimations();
 }
 
+// === Emanating wave helper ===
+// Fires a single wave from core (r=40) outward to targetR, fading out.
+// Uses GSAP attr:{r} (geometric — works in Safari) + style opacity.
+function fireLITWave(selector, targetR, duration, delayMs) {
+  setTimeout(() => {
+    const el = document.querySelector(selector);
+    if (!el) return;
+    el.removeAttribute('opacity');
+    el.style.opacity = '0';
+    el.setAttribute('r', '40');
+    // Animate: expand from core to target ring, bright start then fade
+    gsap.fromTo(el,
+      { attr: { r: 40, 'stroke-width': 4 }, opacity: 1 },
+      { attr: { r: targetR, 'stroke-width': 1 }, opacity: 0, duration: duration, ease: 'power2.out' }
+    );
+  }, delayMs);
+}
+
 // Iframe mode: use style.opacity with CSS transitions for Safari compatibility
 function animateLIT_iframe(diagram) {
   if (firedSections.has('lit-iframe')) return;
@@ -168,37 +186,45 @@ function animateLIT_iframe(diagram) {
   const baseDelay = 200; // short settling time (onVisible already waited)
   const step = 350;      // ms between each ring stage (tighter for snappier build)
 
+  // Ring radii for wave targets
+  const ringRadii = [110, 185, 260, 340, 420];
+
   // 1. Core — Ethics
   revealSVG('.lit-core', baseDelay);
   revealSVG('.lit-core-label', baseDelay + 100);
   revealSVG('.lit-core-sub', baseDelay + 150);
   revealSVG('.lit-core-pulse', baseDelay + 200);
 
-  // 2. Ring 1: Cognitive
+  // 2. Ring 1: Cognitive + wave emanating to ring 1
+  fireLITWave('.lit-wave-1', ringRadii[0], 0.8, baseDelay + step - 100);
   revealSVG('.lit-band-1', baseDelay + step);
   revealSVG('.lit-ring-1', baseDelay + step + 50);
   revealSVG('.lit-clabel-1', baseDelay + step + 100);
   revealSVG('.lit-particles-1', baseDelay + step + 150);
 
-  // 3. Ring 2: Emotional
+  // 3. Ring 2: Emotional + wave emanating to ring 2
+  fireLITWave('.lit-wave-2', ringRadii[1], 1.0, baseDelay + step * 2 - 100);
   revealSVG('.lit-band-2, .lit-band-fill-2', baseDelay + step * 2);
   revealSVG('.lit-ring-2', baseDelay + step * 2 + 50);
   revealSVG('.lit-clabel-2', baseDelay + step * 2 + 100);
   revealSVG('.lit-particles-2', baseDelay + step * 2 + 150);
 
-  // 4. Ring 3: Symbolic
+  // 4. Ring 3: Symbolic + wave emanating to ring 3
+  fireLITWave('.lit-wave-3', ringRadii[2], 1.2, baseDelay + step * 3 - 100);
   revealSVG('.lit-band-3, .lit-band-fill-3', baseDelay + step * 3);
   revealSVG('.lit-ring-3', baseDelay + step * 3 + 50);
   revealSVG('.lit-clabel-3', baseDelay + step * 3 + 100);
   revealSVG('.lit-particles-3', baseDelay + step * 3 + 150);
 
-  // 5. Ring 4: Strategic
+  // 5. Ring 4: Strategic + wave emanating to ring 4
+  fireLITWave('.lit-wave-4', ringRadii[3], 1.4, baseDelay + step * 4 - 100);
   revealSVG('.lit-band-4, .lit-band-fill-4', baseDelay + step * 4);
   revealSVG('.lit-ring-4', baseDelay + step * 4 + 50);
   revealSVG('.lit-clabel-4', baseDelay + step * 4 + 100);
   revealSVG('.lit-particles-4', baseDelay + step * 4 + 150);
 
-  // 6. Ring 5: Ethical (outermost)
+  // 6. Ring 5: Ethical (outermost) + wave emanating to ring 5
+  fireLITWave('.lit-wave-5', ringRadii[4], 1.6, baseDelay + step * 5 - 100);
   revealSVG('.lit-band-5', baseDelay + step * 5);
   revealSVG('.lit-ring-5', baseDelay + step * 5 + 50);
   revealSVG('.lit-clabel-5', baseDelay + step * 5 + 100);
@@ -240,10 +266,12 @@ function buildLITTimeline(tl) {
 
 // Continuous looping animations — standalone (GSAP attr:{} is fine outside iframes)
 function startLITContinuousAnimations() {
+  // Core pulse
   gsap.fromTo('.lit-core-pulse',
     { attr: { r: 40, opacity: 0.4 } },
     { attr: { r: 48, opacity: 0 }, duration: 2, ease: 'sine.inOut', repeat: -1, delay: 0.5 }
   );
+  // Outer ring stroke pulse
   gsap.to('.lit-ring-5', {
     attr: { 'stroke-width': 3.5 },
     duration: 2.5,
@@ -251,6 +279,19 @@ function startLITContinuousAnimations() {
     repeat: -1,
     yoyo: true,
     delay: 1
+  });
+  // Continuous emanating waves from core outward to outermost ring
+  // 3 staggered waves creating a constant ripple effect
+  ['.lit-wave-cont-1', '.lit-wave-cont-2', '.lit-wave-cont-3'].forEach((sel, i) => {
+    const el = document.querySelector(sel);
+    if (!el) return;
+    el.removeAttribute('opacity');
+    gsap.fromTo(el,
+      { attr: { r: 40, 'stroke-width': 3.5 }, opacity: 0.9 },
+      { attr: { r: 440, 'stroke-width': 0.5 }, opacity: 0,
+        duration: 3.5, ease: 'power1.out', repeat: -1, delay: i * 1.2
+      }
+    );
   });
 }
 
@@ -260,10 +301,12 @@ function startLITContinuousAnimations_iframe() {
   const corePulse = document.querySelector('.lit-core-pulse');
   if (corePulse) corePulse.removeAttribute('opacity');
 
+  // Core pulse
   gsap.fromTo('.lit-core-pulse',
     { attr: { r: 40 }, opacity: 0.4 },
     { attr: { r: 48 }, opacity: 0, duration: 2, ease: 'sine.inOut', repeat: -1, delay: 0.5 }
   );
+  // Outer ring stroke pulse
   gsap.to('.lit-ring-5', {
     attr: { 'stroke-width': 3.5 },
     duration: 2.5,
@@ -271,6 +314,19 @@ function startLITContinuousAnimations_iframe() {
     repeat: -1,
     yoyo: true,
     delay: 1
+  });
+  // Continuous emanating waves from core outward to outermost ring
+  // 3 staggered waves creating a constant ripple effect
+  ['.lit-wave-cont-1', '.lit-wave-cont-2', '.lit-wave-cont-3'].forEach((sel, i) => {
+    const el = document.querySelector(sel);
+    if (!el) return;
+    el.removeAttribute('opacity');
+    gsap.fromTo(el,
+      { attr: { r: 40, 'stroke-width': 3.5 }, opacity: 0.9 },
+      { attr: { r: 440, 'stroke-width': 0.5 }, opacity: 0,
+        duration: 3.5, ease: 'power1.out', repeat: -1, delay: i * 1.2
+      }
+    );
   });
 }
 
