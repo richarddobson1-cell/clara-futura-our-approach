@@ -230,26 +230,94 @@ function startLITContinuousAnimations() {
 }
 
 // === LIR Diagram Animation ===
+// Three-stage build: 1) Actualised circle  2) Potential circle  3) Dynamic Opposition
+// Then continuous pulsation and revolving effects
 function animateLIR() {
-  const section = document.getElementById('lir');
-  if (!section) return;
+  const diagram = document.getElementById('lirDiagram');
+  if (!diagram) return;
 
   function playLIR() {
     if (firedSections.has('lir')) return;
     markFired('lir');
 
-    const tl = gsap.timeline();
-    tl.from('.lir-actual', { x: -40, opacity: 0, duration: 0.8, ease: 'power3.out' })
-      .from('.lir-potential', { x: 40, opacity: 0, duration: 0.8, ease: 'power3.out' }, '-=0.6')
-      .from('.lir-tension', { opacity: 0, duration: 0.6, ease: 'power2.out' }, '-=0.3')
-      .from('.lir-centre-label', { opacity: 0, scale: 0.8, transformOrigin: 'center', duration: 0.5, ease: 'power2.out' }, '-=0.2');
+    const tl = gsap.timeline({
+      defaults: { ease: 'power2.out' },
+      onComplete: startLIRContinuousAnimations
+    });
 
-    gsap.to('.lir-actual circle:first-child', { r: 85, duration: 3, ease: 'sine.inOut', repeat: -1, yoyo: true });
-    gsap.to('.lir-potential circle:first-child', { r: 85, duration: 3, ease: 'sine.inOut', repeat: -1, yoyo: true, delay: 1.5 });
+    // Stage 1: Actualised circle materialises from left
+    tl.to('.lir-actual', { attr: { opacity: 1 }, duration: 0.8, ease: 'power3.out' })
+
+    // Stage 2: Potential circle materialises from right (overlaps slightly)
+      .to('.lir-potential', { attr: { opacity: 1 }, duration: 0.8, ease: 'power3.out' }, '-=0.3')
+
+    // Stage 3: Dynamic Opposition — arcs + particles appear
+      .to('.lir-tension', { attr: { opacity: 1 }, duration: 0.7 }, '-=0.2')
+
+    // Centre label fades in with scale
+      .to('.lir-centre-group', { attr: { opacity: 1 }, duration: 0.6 }, '-=0.3');
   }
 
-  onVisible(section, playLIR);
+  onVisible(diagram, playLIR);
   setTimeout(() => { if (!firedSections.has('lir')) playLIR(); }, SAFETY_TIMEOUT_MS + 500);
+}
+
+// Continuous looping animations for LIR after build completes
+function startLIRContinuousAnimations() {
+  // Actualised pole: expanding ripple that fades out
+  gsap.fromTo('.lir-pulse-actual',
+    { attr: { r: 80, opacity: 0.6 } },
+    { attr: { r: 100, opacity: 0 }, duration: 2.5, ease: 'sine.out', repeat: -1, delay: 0.3 }
+  );
+  // Keep the main actualised ring gently breathing
+  gsap.to('.lir-actual circle:first-child', {
+    attr: { r: 86 },
+    duration: 2.8,
+    ease: 'sine.inOut',
+    repeat: -1,
+    yoyo: true
+  });
+
+  // Potential pole: offset expanding ripple
+  gsap.fromTo('.lir-pulse-potential',
+    { attr: { r: 80, opacity: 0.5 } },
+    { attr: { r: 100, opacity: 0 }, duration: 2.5, ease: 'sine.out', repeat: -1, delay: 1.2 }
+  );
+  gsap.to('.lir-potential circle:first-child', {
+    attr: { r: 86 },
+    duration: 2.8,
+    ease: 'sine.inOut',
+    repeat: -1,
+    yoyo: true,
+    delay: 1.4
+  });
+
+  // Dynamic Opposition arcs: stroke-width pulse to emphasise energy flow
+  gsap.to('.lir-flow-top', {
+    attr: { 'stroke-width': 3.5 },
+    duration: 1.8,
+    ease: 'sine.inOut',
+    repeat: -1,
+    yoyo: true
+  });
+  gsap.to('.lir-flow-bottom', {
+    attr: { 'stroke-width': 3.5 },
+    duration: 1.8,
+    ease: 'sine.inOut',
+    repeat: -1,
+    yoyo: true,
+    delay: 0.9
+  });
+
+  // Centre label gentle opacity pulse
+  gsap.to('.lir-centre-group', {
+    attr: { opacity: 0.6 },
+    duration: 2,
+    ease: 'sine.inOut',
+    repeat: -1,
+    yoyo: true,
+    delay: 0.5
+  });
 }
 
 // === Dynamic Alignment Animation ===

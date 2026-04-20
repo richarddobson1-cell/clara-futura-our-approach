@@ -252,28 +252,32 @@ if (window.self !== window.top) {
       <p class="lead">LIT becomes significantly stronger when read through Joseph Brenner's Logic in Reality. LIR holds that real processes do not evolve through static binaries but through dynamic opposition between actualised and potential states.</p>
     </div>
 
-    <!-- Animated LIR Diagram -->
+    <!-- Animated LIR Diagram — builds progressively on scroll -->
     <div class="lir-diagram-wrap">
       <div class="lir-diagram" id="lirDiagram">
         <svg viewBox="0 0 700 400" class="lir-svg">
           <!-- Actualised pole -->
-          <g class="lir-pole lir-actual">
+          <g class="lir-pole lir-actual" opacity="0">
             <circle cx="175" cy="200" r="80" fill="rgba(242,181,77,0.12)" stroke="#F2B54D" stroke-width="1.5"/>
             <circle cx="175" cy="200" r="60" fill="rgba(242,181,77,0.08)" stroke="none"/>
             <text x="175" y="192" text-anchor="middle" class="lir-pole-label">ACTUALISED</text>
             <text x="175" y="215" text-anchor="middle" class="lir-pole-sub">What is expressed</text>
+            <!-- Pulsing glow ring -->
+            <circle cx="175" cy="200" r="80" fill="none" stroke="#F2B54D" stroke-width="0.5" class="lir-pulse-actual" opacity="0"/>
           </g>
 
           <!-- Potential pole -->
-          <g class="lir-pole lir-potential">
+          <g class="lir-pole lir-potential" opacity="0">
             <circle cx="525" cy="200" r="80" fill="rgba(164,174,183,0.12)" stroke="#A4AEB7" stroke-width="1.5"/>
             <circle cx="525" cy="200" r="60" fill="rgba(164,174,183,0.08)" stroke="none"/>
             <text x="525" y="192" text-anchor="middle" class="lir-pole-label">POTENTIAL</text>
             <text x="525" y="215" text-anchor="middle" class="lir-pole-sub">What is latent</text>
+            <!-- Pulsing glow ring -->
+            <circle cx="525" cy="200" r="80" fill="none" stroke="#A4AEB7" stroke-width="0.5" class="lir-pulse-potential" opacity="0"/>
           </g>
 
-          <!-- Half-circle arcs connecting the two poles -->
-          <g class="lir-tension">
+          <!-- Half-circle arcs connecting the two poles (Dynamic Opposition) -->
+          <g class="lir-tension" opacity="0">
             <!-- Top half-circle: Actualised edge → arcs over top → Potential edge -->
             <path d="M255,200 A95,95 0 0,1 445,200" fill="none" stroke="#F2B54D" stroke-width="2" opacity="0.7" class="lir-flow lir-flow-top"/>
             <!-- Bottom half-circle: Potential edge → arcs under bottom → Actualised edge -->
@@ -301,8 +305,10 @@ if (window.self !== window.top) {
           </g>
 
           <!-- Centre label -->
-          <text x="350" y="195" text-anchor="middle" class="lir-centre-label">DYNAMIC</text>
-          <text x="350" y="215" text-anchor="middle" class="lir-centre-label">OPPOSITION</text>
+          <g class="lir-centre-group" opacity="0">
+            <text x="350" y="195" text-anchor="middle" class="lir-centre-label">DYNAMIC</text>
+            <text x="350" y="215" text-anchor="middle" class="lir-centre-label">OPPOSITION</text>
+          </g>
         </svg>
       </div>
     </div>
