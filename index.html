@@ -256,51 +256,71 @@ if (window.self !== window.top) {
     <div class="lir-diagram-wrap">
       <div class="lir-diagram" id="lirDiagram">
         <svg viewBox="0 0 700 400" class="lir-svg">
+          <!-- SVG glow filters for dramatic luminous effect -->
+          <defs>
+            <filter id="glowAmber" x="-50%" y="-50%" width="200%" height="200%">
+              <feGaussianBlur stdDeviation="6" result="blur"/>
+              <feFlood flood-color="#F2B54D" flood-opacity="0.7" result="color"/>
+              <feComposite in="color" in2="blur" operator="in" result="glow"/>
+              <feMerge><feMergeNode in="glow"/><feMergeNode in="glow"/><feMergeNode in="SourceGraphic"/></feMerge>
+            </filter>
+            <filter id="glowSilver" x="-50%" y="-50%" width="200%" height="200%">
+              <feGaussianBlur stdDeviation="6" result="blur"/>
+              <feFlood flood-color="#C8D8E8" flood-opacity="0.7" result="color"/>
+              <feComposite in="color" in2="blur" operator="in" result="glow"/>
+              <feMerge><feMergeNode in="glow"/><feMergeNode in="glow"/><feMergeNode in="SourceGraphic"/></feMerge>
+            </filter>
+            <filter id="glowDot" x="-100%" y="-100%" width="300%" height="300%">
+              <feGaussianBlur stdDeviation="4" result="blur"/>
+              <feMerge><feMergeNode in="blur"/><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+            </filter>
+          </defs>
+
           <!-- Actualised pole -->
           <g class="lir-pole lir-actual" opacity="0">
-            <circle cx="175" cy="200" r="80" fill="rgba(242,181,77,0.22)" stroke="#F2B54D" stroke-width="2.5"/>
-            <circle cx="175" cy="200" r="60" fill="rgba(242,181,77,0.14)" stroke="none"/>
+            <circle cx="175" cy="200" r="82" fill="rgba(242,181,77,0.30)" stroke="#F2B54D" stroke-width="3.5"/>
+            <circle cx="175" cy="200" r="62" fill="rgba(242,181,77,0.18)" stroke="none"/>
             <text x="175" y="192" text-anchor="middle" class="lir-pole-label">ACTUALISED</text>
             <text x="175" y="215" text-anchor="middle" class="lir-pole-sub">What is expressed</text>
             <!-- Pulsing glow ring -->
-            <circle cx="175" cy="200" r="80" fill="none" stroke="#F2B54D" stroke-width="2" class="lir-pulse-actual" opacity="0"/>
+            <circle cx="175" cy="200" r="82" fill="none" stroke="#F2B54D" stroke-width="3" class="lir-pulse-actual" opacity="0" filter="url(#glowAmber)"/>
           </g>
 
           <!-- Potential pole -->
           <g class="lir-pole lir-potential" opacity="0">
-            <circle cx="525" cy="200" r="80" fill="rgba(164,174,183,0.22)" stroke="#A4AEB7" stroke-width="2.5"/>
-            <circle cx="525" cy="200" r="60" fill="rgba(164,174,183,0.14)" stroke="none"/>
+            <circle cx="525" cy="200" r="82" fill="rgba(164,174,183,0.30)" stroke="#C8D8E8" stroke-width="3.5"/>
+            <circle cx="525" cy="200" r="62" fill="rgba(164,174,183,0.18)" stroke="none"/>
             <text x="525" y="192" text-anchor="middle" class="lir-pole-label">POTENTIAL</text>
             <text x="525" y="215" text-anchor="middle" class="lir-pole-sub">What is latent</text>
             <!-- Pulsing glow ring -->
-            <circle cx="525" cy="200" r="80" fill="none" stroke="#A4AEB7" stroke-width="2" class="lir-pulse-potential" opacity="0"/>
+            <circle cx="525" cy="200" r="82" fill="none" stroke="#C8D8E8" stroke-width="3" class="lir-pulse-potential" opacity="0" filter="url(#glowSilver)"/>
           </g>
 
           <!-- Half-circle arcs connecting the two poles (Dynamic Opposition) -->
           <g class="lir-tension" opacity="0">
-            <!-- Top half-circle: Actualised edge → arcs over top → Potential edge -->
-            <path d="M255,200 A95,95 0 0,1 445,200" fill="none" stroke="#F2B54D" stroke-width="3" opacity="0.9" class="lir-flow lir-flow-top"/>
-            <!-- Bottom half-circle: Potential edge → arcs under bottom → Actualised edge -->
-            <path d="M255,200 A95,95 0 0,0 445,200" fill="none" stroke="#C8D0D8" stroke-width="3" opacity="0.9" class="lir-flow lir-flow-bottom"/>
-            <!-- Flowing particles on top amber arc → silver dots (brighter) -->
-            <circle r="7" fill="#FFFFFF" opacity="1">
-              <animateMotion dur="2.5s" repeatCount="indefinite" path="M255,200 A95,95 0 0,1 445,200"/>
+            <!-- Top half-circle: amber arc -->
+            <path d="M255,200 A95,95 0 0,1 445,200" fill="none" stroke="#F2B54D" stroke-width="4" opacity="1" class="lir-flow lir-flow-top"/>
+            <!-- Bottom half-circle: silver arc -->
+            <path d="M255,200 A95,95 0 0,0 445,200" fill="none" stroke="#D0D8E0" stroke-width="4" opacity="1" class="lir-flow lir-flow-bottom"/>
+            <!-- Flowing particles on top amber arc → BRIGHT silver dots with glow -->
+            <circle r="10" fill="#FFFFFF" opacity="1" filter="url(#glowDot)">
+              <animateMotion dur="2s" repeatCount="indefinite" path="M255,200 A95,95 0 0,1 445,200"/>
             </circle>
-            <circle r="5.5" fill="#E8EDF2" opacity="1">
-              <animateMotion dur="2.5s" repeatCount="indefinite" begin="0.8s" path="M255,200 A95,95 0 0,1 445,200"/>
+            <circle r="8" fill="#E8F0FF" opacity="1" filter="url(#glowDot)">
+              <animateMotion dur="2s" repeatCount="indefinite" begin="0.65s" path="M255,200 A95,95 0 0,1 445,200"/>
             </circle>
-            <circle r="4" fill="#DDE2E7" opacity="1">
-              <animateMotion dur="2.5s" repeatCount="indefinite" begin="1.6s" path="M255,200 A95,95 0 0,1 445,200"/>
+            <circle r="6" fill="#D8E4F0" opacity="1" filter="url(#glowDot)">
+              <animateMotion dur="2s" repeatCount="indefinite" begin="1.3s" path="M255,200 A95,95 0 0,1 445,200"/>
             </circle>
-            <!-- Flowing particles on bottom silver arc → amber dots (brighter) -->
-            <circle r="7" fill="#FFD080" opacity="1">
-              <animateMotion dur="2.5s" repeatCount="indefinite" path="M445,200 A95,95 0 0,1 255,200"/>
+            <!-- Flowing particles on bottom silver arc → BRIGHT amber dots with glow -->
+            <circle r="10" fill="#FFD080" opacity="1" filter="url(#glowDot)">
+              <animateMotion dur="2s" repeatCount="indefinite" path="M445,200 A95,95 0 0,1 255,200"/>
             </circle>
-            <circle r="5.5" fill="#F5C870" opacity="1">
-              <animateMotion dur="2.5s" repeatCount="indefinite" begin="0.8s" path="M445,200 A95,95 0 0,1 255,200"/>
+            <circle r="8" fill="#FFE0A0" opacity="1" filter="url(#glowDot)">
+              <animateMotion dur="2s" repeatCount="indefinite" begin="0.65s" path="M445,200 A95,95 0 0,1 255,200"/>
             </circle>
-            <circle r="4" fill="#F2B54D" opacity="1">
-              <animateMotion dur="2.5s" repeatCount="indefinite" begin="1.6s" path="M445,200 A95,95 0 0,1 255,200"/>
+            <circle r="6" fill="#F2B54D" opacity="1" filter="url(#glowDot)">
+              <animateMotion dur="2s" repeatCount="indefinite" begin="1.3s" path="M445,200 A95,95 0 0,1 255,200"/>
             </circle>
           </g>
 

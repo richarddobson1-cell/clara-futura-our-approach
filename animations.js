@@ -313,60 +313,60 @@ function animateLIR() {
   setTimeout(() => { if (!firedSections.has('lir')) playLIR(); }, SAFETY_TIMEOUT_MS + 500);
 }
 
-// Continuous looping animations for LIR — BRIGHTER & MORE DRAMATIC
+// Continuous looping animations for LIR — MUCH BRIGHTER & MORE DRAMATIC
 function startLIRContinuousAnimations() {
-  // Actualised pole: expanding ripple — larger radius, higher starting opacity
+  // Actualised pole: dramatic expanding ripple with glow
   gsap.fromTo('.lir-pulse-actual',
-    { attr: { r: 80, opacity: 0.9 } },
-    { attr: { r: 120, opacity: 0 }, duration: 2, ease: 'sine.out', repeat: -1, delay: 0.3 }
+    { attr: { r: 82, opacity: 1 } },
+    { attr: { r: 160, opacity: 0 }, duration: 1.6, ease: 'sine.out', repeat: -1, delay: 0.2 }
   );
   gsap.to('.lir-actual circle:first-child', {
-    attr: { r: 90 },
-    duration: 2.2,
+    attr: { r: 95 },
+    duration: 1.8,
     ease: 'sine.inOut',
     repeat: -1,
     yoyo: true
   });
 
-  // Potential pole: offset expanding ripple — larger, brighter
+  // Potential pole: dramatic offset expanding ripple
   gsap.fromTo('.lir-pulse-potential',
-    { attr: { r: 80, opacity: 0.8 } },
-    { attr: { r: 120, opacity: 0 }, duration: 2, ease: 'sine.out', repeat: -1, delay: 1.0 }
+    { attr: { r: 82, opacity: 1 } },
+    { attr: { r: 160, opacity: 0 }, duration: 1.6, ease: 'sine.out', repeat: -1, delay: 0.8 }
   );
   gsap.to('.lir-potential circle:first-child', {
-    attr: { r: 90 },
-    duration: 2.2,
+    attr: { r: 95 },
+    duration: 1.8,
     ease: 'sine.inOut',
     repeat: -1,
     yoyo: true,
-    delay: 1.0
+    delay: 0.8
   });
 
-  // Dynamic Opposition arcs: dramatic stroke-width pulse
+  // Dynamic Opposition arcs: dramatic stroke-width pulse — much thicker
   gsap.to('.lir-flow-top', {
-    attr: { 'stroke-width': 5.5 },
-    duration: 1.5,
+    attr: { 'stroke-width': 8 },
+    duration: 1.2,
     ease: 'sine.inOut',
     repeat: -1,
     yoyo: true
   });
   gsap.to('.lir-flow-bottom', {
-    attr: { 'stroke-width': 5.5 },
-    duration: 1.5,
+    attr: { 'stroke-width': 8 },
+    duration: 1.2,
     ease: 'sine.inOut',
     repeat: -1,
     yoyo: true,
-    delay: 0.7
+    delay: 0.6
   });
 
-  // Centre label stronger opacity pulse
+  // Centre label dramatic opacity pulse
   gsap.fromTo('.lir-centre-group',
     { attr: { opacity: 1 } },
-    { attr: { opacity: 0.35 }, duration: 1.8, ease: 'sine.inOut', repeat: -1, yoyo: true, delay: 0.5 }
+    { attr: { opacity: 0.2 }, duration: 1.4, ease: 'sine.inOut', repeat: -1, yoyo: true, delay: 0.3 }
   );
 }
 
-// Iframe-safe continuous animations for LIR
+// Iframe-safe continuous animations for LIR — MUCH BRIGHTER & MORE DRAMATIC
 // Uses GSAP attr:{} for r/stroke-width (geometric attrs work fine in Safari)
 // but uses CSS style.opacity for opacity changes (attr:{opacity} fails in Safari iframes)
 function startLIRContinuousAnimations_iframe() {
@@ -375,57 +375,57 @@ function startLIRContinuousAnimations_iframe() {
     el.removeAttribute('opacity');
   });
 
-  // Actualised pole: expanding ripple — brighter, larger
+  // Actualised pole: dramatic expanding ripple with glow
   gsap.fromTo('.lir-pulse-actual',
-    { attr: { r: 80 }, opacity: 0.9 },
-    { attr: { r: 120 }, opacity: 0, duration: 2, ease: 'sine.out', repeat: -1, delay: 0.3 }
+    { attr: { r: 82 }, opacity: 1 },
+    { attr: { r: 160 }, opacity: 0, duration: 1.6, ease: 'sine.out', repeat: -1, delay: 0.2 }
   );
   gsap.to('.lir-actual circle:first-child', {
-    attr: { r: 90 },
-    duration: 2.2,
+    attr: { r: 95 },
+    duration: 1.8,
     ease: 'sine.inOut',
     repeat: -1,
     yoyo: true
   });
 
-  // Potential pole: offset expanding ripple — brighter, larger
+  // Potential pole: dramatic offset expanding ripple
   gsap.fromTo('.lir-pulse-potential',
-    { attr: { r: 80 }, opacity: 0.8 },
-    { attr: { r: 120 }, opacity: 0, duration: 2, ease: 'sine.out', repeat: -1, delay: 1.0 }
+    { attr: { r: 82 }, opacity: 1 },
+    { attr: { r: 160 }, opacity: 0, duration: 1.6, ease: 'sine.out', repeat: -1, delay: 0.8 }
   );
   gsap.to('.lir-potential circle:first-child', {
-    attr: { r: 90 },
-    duration: 2.2,
+    attr: { r: 95 },
+    duration: 1.8,
     ease: 'sine.inOut',
     repeat: -1,
     yoyo: true,
-    delay: 1.0
+    delay: 0.8
   });
 
-  // Dynamic Opposition arcs: dramatic stroke-width pulse
+  // Dynamic Opposition arcs: dramatic stroke-width pulse — much thicker
   gsap.to('.lir-flow-top', {
-    attr: { 'stroke-width': 5.5 },
-    duration: 1.5,
+    attr: { 'stroke-width': 8 },
+    duration: 1.2,
     ease: 'sine.inOut',
     repeat: -1,
     yoyo: true
   });
   gsap.to('.lir-flow-bottom', {
-    attr: { 'stroke-width': 5.5 },
-    duration: 1.5,
+    attr: { 'stroke-width': 8 },
+    duration: 1.2,
     ease: 'sine.inOut',
     repeat: -1,
     yoyo: true,
-    delay: 0.7
+    delay: 0.6
   });
 
-  // Centre label stronger opacity pulse — use CSS style opacity
+  // Centre label dramatic opacity pulse — use CSS style opacity
   const centreGroup = document.querySelector('.lir-centre-group');
   if (centreGroup) {
     centreGroup.removeAttribute('opacity');
     gsap.fromTo(centreGroup,
       { opacity: 1 },
-      { opacity: 0.35, duration: 1.8, ease: 'sine.inOut', repeat: -1, yoyo: true, delay: 0.5 }
+      { opacity: 0.2, duration: 1.4, ease: 'sine.inOut', repeat: -1, yoyo: true, delay: 0.3 }
     );
   }
 }
