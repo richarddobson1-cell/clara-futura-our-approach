@@ -19,12 +19,17 @@ body.in-iframe .service-card {
   opacity: 1 !important;
   transform: none !important;
 }
-/* LIT & LIR diagram elements start at opacity:0 inline on SVG.
-   In iframe mode, JavaScript sets opacity="1" and CSS transition handles the fade.
-   This avoids GSAP attr:{opacity} issues on Safari/WebKit. */
-body.in-iframe .lit-svg [opacity],
-body.in-iframe .lir-svg [opacity] {
+/* In iframe mode, JS converts SVG opacity="0" attributes to CSS style.opacity
+   and uses transitions for smooth fading. This works in all browsers. */
+body.in-iframe .lit-svg *,
+body.in-iframe .lir-svg * {
   transition: opacity 0.6s ease-out;
+}
+/* Exclude pulse/glow elements from CSS transition — GSAP controls their ongoing loops */
+body.in-iframe .lit-core-pulse,
+body.in-iframe .lir-pulse-actual,
+body.in-iframe .lir-pulse-potential {
+  transition: none;
 }
 
 :root {

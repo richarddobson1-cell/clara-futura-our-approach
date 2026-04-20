@@ -11,13 +11,24 @@ function markFired(id) { firedSections.add(id); }
 
 const isIframe = document.body.classList.contains('in-iframe');
 
-// === CSS transition helper for iframe mode ===
-// Safari/WebKit can fail with GSAP attr:{opacity} on SVG elements.
-// Direct setAttribute + CSS transition is universally reliable.
+// === style.opacity reveal for iframe mode ===
+// Removes SVG opacity attribute (which overrides CSS), then uses
+// el.style.opacity (CSS property) which CSS transition animates.
+// This works in ALL browsers including Safari/iOS, unlike:
+//   - GSAP attr:{opacity} (fails in Safari WebKit in cross-origin iframes)
+//   - setAttribute('opacity','1') (SVG attribute, CSS transition ignores it)
+//   - classList.add('revealed') (no matching CSS rule, doesn't work)
 function revealSVG(selector, delayMs) {
   setTimeout(() => {
     document.querySelectorAll(selector).forEach(el => {
-      el.setAttribute('opacity', '1');
+      // 1. Remove SVG presentation attribute so it no longer overrides CSS
+      el.removeAttribute('opacity');
+      // 2. Set CSS opacity to 0 immediately
+      el.style.opacity = '0';
+      // 3. Force layout reflow so browser registers the 0 state
+      el.getBoundingClientRect();
+      // 4. Set CSS opacity to 1 — CSS transition kicks in
+      el.style.opacity = '1';
     });
   }, delayMs);
 }
@@ -130,8 +141,8 @@ function animateLIT_iframe(diagram) {
   revealSVG('.lit-particles-5', baseDelay + step * 5 + 150);
   revealSVG('.lit-glow-ring', baseDelay + step * 5 + 200);
 
-  // Start continuous animations after full build
-  setTimeout(() => startLITContinuousAnimations(), baseDelay + step * 6);
+  // Start continuous animations after full build (iframe-safe version)
+  setTimeout(() => startLITContinuousAnimations_iframe(), baseDelay + step * 6);
 }
 
 // GSAP scrub timeline (standalone only)
@@ -163,11 +174,31 @@ function buildLITTimeline(tl) {
     .to('.lit-glow-ring', { attr: { opacity: 1 }, duration: 0.06 }, '-=0.03');
 }
 
-// Continuous looping animations (GSAP is fine for ongoing loops)
+// Continuous looping animations — standalone (GSAP attr:{} is fine outside iframes)
 function startLITContinuousAnimations() {
   gsap.fromTo('.lit-core-pulse',
     { attr: { r: 40, opacity: 0.4 } },
     { attr: { r: 48, opacity: 0 }, duration: 2, ease: 'sine.inOut', repeat: -1, delay: 0.5 }
+  );
+  gsap.to('.lit-ring-5', {
+    attr: { 'stroke-width': 3.5 },
+    duration: 2.5,
+    ease: 'sine.inOut',
+    repeat: -1,
+    yoyo: true,
+    delay: 1
+  });
+}
+
+// Iframe-safe continuous looping animations for LIT
+function startLITContinuousAnimations_iframe() {
+  // Remove SVG opacity attr from core pulse so GSAP style.opacity works
+  const corePulse = document.querySelector('.lit-core-pulse');
+  if (corePulse) corePulse.removeAttribute('opacity');
+
+  gsap.fromTo('.lit-core-pulse',
+    { attr: { r: 40 }, opacity: 0.4 },
+    { attr: { r: 48 }, opacity: 0, duration: 2, ease: 'sine.inOut', repeat: -1, delay: 0.5 }
   );
   gsap.to('.lit-ring-5', {
     attr: { 'stroke-width': 3.5 },
@@ -191,13 +222,16 @@ function animateLIR() {
     markFired('lir');
 
     if (isIframe) {
-      // Safari-safe: use direct setAttribute with CSS transitions
+      // Safari-safe: use style.opacity with CSS transitions
       const base = 0;
       revealSVG('.lir-actual', base);
+      // Also reveal nested pulse circles (they have their own opacity="0")
+      revealSVG('.lir-pulse-actual', base + 200);
       revealSVG('.lir-potential', base + 600);
+      revealSVG('.lir-pulse-potential', base + 800);
       revealSVG('.lir-tension', base + 1200);
       revealSVG('.lir-centre-group', base + 1500);
-      setTimeout(() => startLIRContinuousAnimations(), base + 2200);
+      setTimeout(() => startLIRContinuousAnimations_iframe(), base + 2200);
     } else {
       // Standalone: GSAP timeline
       const tl = gsap.timeline({
@@ -266,6 +300,70 @@ function startLIRContinuousAnimations() {
     { attr: { opacity: 1 } },
     { attr: { opacity: 0.5 }, duration: 2, ease: 'sine.inOut', repeat: -1, yoyo: true, delay: 0.5 }
   );
+}
+
+// Iframe-safe continuous animations for LIR
+// Uses GSAP attr:{} for r/stroke-width (geometric attrs work fine in Safari)
+// but uses CSS style.opacity for opacity changes (attr:{opacity} fails in Safari iframes)
+function startLIRContinuousAnimations_iframe() {
+  // Remove leftover SVG opacity attrs from pulse circles so GSAP style.opacity works
+  document.querySelectorAll('.lir-pulse-actual, .lir-pulse-potential').forEach(el => {
+    el.removeAttribute('opacity');
+  });
+
+  // Actualised pole: expanding ripple — use style opacity, attr for r
+  gsap.fromTo('.lir-pulse-actual',
+    { attr: { r: 80 }, opacity: 0.6 },
+    { attr: { r: 100 }, opacity: 0, duration: 2.5, ease: 'sine.out', repeat: -1, delay: 0.3 }
+  );
+  gsap.to('.lir-actual circle:first-child', {
+    attr: { r: 86 },
+    duration: 2.8,
+    ease: 'sine.inOut',
+    repeat: -1,
+    yoyo: true
+  });
+
+  // Potential pole: offset expanding ripple
+  gsap.fromTo('.lir-pulse-potential',
+    { attr: { r: 80 }, opacity: 0.5 },
+    { attr: { r: 100 }, opacity: 0, duration: 2.5, ease: 'sine.out', repeat: -1, delay: 1.2 }
+  );
+  gsap.to('.lir-potential circle:first-child', {
+    attr: { r: 86 },
+    duration: 2.8,
+    ease: 'sine.inOut',
+    repeat: -1,
+    yoyo: true,
+    delay: 1.4
+  });
+
+  // Dynamic Opposition arcs: stroke-width pulse (geometric, works fine)
+  gsap.to('.lir-flow-top', {
+    attr: { 'stroke-width': 3.5 },
+    duration: 1.8,
+    ease: 'sine.inOut',
+    repeat: -1,
+    yoyo: true
+  });
+  gsap.to('.lir-flow-bottom', {
+    attr: { 'stroke-width': 3.5 },
+    duration: 1.8,
+    ease: 'sine.inOut',
+    repeat: -1,
+    yoyo: true,
+    delay: 0.9
+  });
+
+  // Centre label gentle opacity pulse — use CSS style opacity
+  const centreGroup = document.querySelector('.lir-centre-group');
+  if (centreGroup) {
+    centreGroup.removeAttribute('opacity');
+    gsap.fromTo(centreGroup,
+      { opacity: 1 },
+      { opacity: 0.5, duration: 2, ease: 'sine.inOut', repeat: -1, yoyo: true, delay: 0.5 }
+    );
+  }
 }
 
 // ============================================================
