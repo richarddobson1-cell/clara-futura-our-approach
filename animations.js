@@ -34,13 +34,71 @@ function revealSVG(selector, delayMs) {
 }
 
 // === IntersectionObserver trigger helper ===
-// In iframe mode, fire callback after a delay (IO is unreliable in non-scrolling iframes)
+// In WordPress iframes (scrolling="no", large fixed height), the iframe
+// content doesn't scroll — the parent page does. So we use a hybrid:
+//   1. Try IntersectionObserver (works in same-origin, some cross-origin)
+//   2. Listen for parent postMessage scroll events
+//   3. Safety fallback timeout as last resort
 function onVisible(element, callback, threshold = 0.15) {
   if (!element) return;
+
+  // Track whether callback has fired
+  let hasFired = false;
+  function fire() {
+    if (hasFired) return;
+    hasFired = true;
+    callback();
+  }
+
   if (isIframe) {
-    setTimeout(callback, 600);
+    // In iframe mode, IO may still work if the iframe has overflow:auto.
+    // But in scrolling="no" iframes, the content is fully visible to IO
+    // from the start (everything intersects). So we rely on parent scroll.
+    //
+    // Listen for parent postMessage with scroll position
+    const rect = element.getBoundingClientRect();
+    const elementTop = rect.top;
+
+    window.addEventListener('message', function onMsg(e) {
+      if (hasFired) { window.removeEventListener('message', onMsg); return; }
+      try {
+        const data = typeof e.data === 'string' ? JSON.parse(e.data) : e.data;
+        if (data.type === 'cf-scroll' && typeof data.scrollTop === 'number') {
+          // Parent tells us how far the iframe has scrolled into view
+          // The iframe top edge in the parent viewport = data.iframeTop
+          // Element position within iframe = elementTop
+          // Element is visible when: data.scrollTop + viewportHeight > elementTop
+          const viewportH = data.viewportHeight || 900;
+          if (data.scrollTop + viewportH * 0.8 > elementTop) {
+            fire();
+            window.removeEventListener('message', onMsg);
+          }
+        }
+      } catch(err) {}
+    });
+
+    // Also try IO as a backup (works in some iframe configs)
+    try {
+      const obs = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) { fire(); obs.unobserve(element); }
+        });
+      }, { threshold });
+      obs.observe(element);
+    } catch(e) {}
+
+    // Estimated scroll timing fallback: assume typical reading speed.
+    // User scrolls at ~150-300px/sec through a long-form page.
+    // Element at Y offset = elementTop within the iframe.
+    // Estimate arrival time = elementTop / 180 (px/sec) * 1000 (ms).
+    // Add 1500ms buffer for reading. Cap at 45s for very long pages.
+    const estimatedMs = Math.min(elementTop / 180 * 1000 + 1500, 45000);
+    setTimeout(() => fire(), estimatedMs);
+
     return;
   }
+
+  // Standalone mode: standard IntersectionObserver
   const observer = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
       if (entry.isIntersecting) {
@@ -79,7 +137,10 @@ function animateLIT() {
   if (!diagram) return;
 
   if (isIframe) {
-    animateLIT_iframe(diagram);
+    // Use onVisible to trigger when the user scrolls to the diagram.
+    // onVisible has three layers: postMessage from parent, IO, and
+    // estimated-scroll-timing fallback — no extra safety timeout needed.
+    onVisible(diagram, () => animateLIT_iframe(diagram));
     return;
   }
 
@@ -98,11 +159,14 @@ function animateLIT() {
   startLITContinuousAnimations();
 }
 
-// Iframe mode: use direct setAttribute for Safari compatibility
+// Iframe mode: use style.opacity with CSS transitions for Safari compatibility
 function animateLIT_iframe(diagram) {
+  if (firedSections.has('lit-iframe')) return;
+  markFired('lit-iframe');
+
   // Stage the reveal from core outward with staggered delays
-  const baseDelay = 800; // wait for page to settle
-  const step = 400;      // ms between each ring stage
+  const baseDelay = 200; // short settling time (onVisible already waited)
+  const step = 350;      // ms between each ring stage (tighter for snappier build)
 
   // 1. Core — Ethics
   revealSVG('.lit-core', baseDelay);
