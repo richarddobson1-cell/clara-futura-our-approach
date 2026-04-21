@@ -570,6 +570,25 @@ if (window.self !== window.top) {
   </div>
 </footer>
 
+<!-- Ambient Audio Player — royalty-free cinematic piano -->
+<audio id="ambientAudio" preload="auto" loop>
+  <source src="ambient-music.mp3" type="audio/mpeg">
+</audio>
+
+<!-- Floating ambient music button (top-right) -->
+<button id="ambientMusicBtn" class="ambient-music-btn" aria-label="Play ambient music" title="Play ambient music">
+  <svg class="ambient-icon ambient-icon-play" viewBox="0 0 24 24" fill="none">
+    <polygon points="6,3 20,12 6,21" fill="#F2B54D"/>
+  </svg>
+  <svg class="ambient-icon ambient-icon-pause" viewBox="0 0 24 24" fill="none" style="display:none;">
+    <rect x="5" y="3" width="4" height="18" rx="1" fill="#F2B54D"/>
+    <rect x="15" y="3" width="4" height="18" rx="1" fill="#F2B54D"/>
+  </svg>
+  <span class="ambient-pulse-ring"></span>
+  <span class="ambient-pulse-ring ambient-pulse-ring-2"></span>
+</button>
+
 <script src="animations.js"></script>
+<script src="ambient-player.js"></script>
 </body>
 </html>
