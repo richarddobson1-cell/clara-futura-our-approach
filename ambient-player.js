@@ -5,7 +5,19 @@
 (function() {
   'use strict';
 
-  // Works in both standalone and iframe (WordPress embed) modes
+  // Hide button when embedded in iframe (the WP wrapper shows its own via cf-animations.js)
+  try {
+    if (window.self !== window.top) {
+      var hideBtn = document.getElementById('ambientMusicBtn');
+      if (hideBtn) hideBtn.style.display = 'none';
+      return;
+    }
+  } catch(e) {
+    var hideBtn2 = document.getElementById('ambientMusicBtn');
+    if (hideBtn2) hideBtn2.style.display = 'none';
+    return;
+  }
+
   const btn = document.getElementById('ambientMusicBtn');
   const audio = document.getElementById('ambientAudio');
   if (!btn || !audio) return;
