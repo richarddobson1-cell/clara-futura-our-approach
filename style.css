@@ -760,3 +760,21 @@ body.cf-cursor-hover .cf-cursor {
 @media (pointer: coarse) {
   .cf-cursor, .cf-cursor-outer { display: none; }
 }
+
+/* ============================================================
+   === RESTRAINT PASS (Apr 2026) — quiet music button on first screen
+   ============================================================ */
+.ambient-music-btn {
+  opacity: 0.42;
+  transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1),
+              border-color 0.3s, background 0.3s, transform 0.2s;
+}
+body.cf-scrolled .ambient-music-btn,
+.ambient-music-btn:hover,
+.ambient-music-btn:focus-visible {
+  opacity: 1;
+}
+body:not(.cf-scrolled) .ambient-pulse-ring {
+  animation-play-state: paused;
+  opacity: 0;
+}

@@ -68,3 +68,26 @@
     }
   });
 })();
+
+// === RESTRAINT PASS (Apr 2026): cf-scrolled + 2.5s cursor fallback ===
+(function () {
+  'use strict';
+  var body = document.body;
+  var scrolled = false;
+  function onScroll() {
+    if (scrolled) return;
+    var y = window.scrollY || window.pageYOffset || 0;
+    if (y > 40) {
+      scrolled = true;
+      body.classList.add('cf-scrolled');
+      window.removeEventListener('scroll', onScroll);
+    }
+  }
+  window.addEventListener('scroll', onScroll, { passive: true });
+
+  setTimeout(function () {
+    if (!body.classList.contains('cf-cursor-ready')) {
+      body.classList.add('cf-cursor-ready');
+    }
+  }, 2500);
+})();
