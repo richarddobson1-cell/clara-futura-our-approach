@@ -351,6 +351,7 @@ function animateLIR() {
       revealSVG('.lir-pulse-potential', base + 800);
       revealSVG('.lir-tension', base + 1200);
       revealSVG('.lir-centre-group', base + 1500);
+      revealSVG('.lir-pendulum', base + 1800);
       setTimeout(() => startLIRContinuousAnimations_iframe(), base + 2200);
     } else {
       // Standalone: GSAP timeline
@@ -361,7 +362,8 @@ function animateLIR() {
       tl.to('.lir-actual', { attr: { opacity: 1 }, duration: 0.8, ease: 'power3.out' })
         .to('.lir-potential', { attr: { opacity: 1 }, duration: 0.8, ease: 'power3.out' }, '-=0.3')
         .to('.lir-tension', { attr: { opacity: 1 }, duration: 0.7 }, '-=0.2')
-        .to('.lir-centre-group', { attr: { opacity: 1 }, duration: 0.6 }, '-=0.3');
+        .to('.lir-centre-group', { attr: { opacity: 1 }, duration: 0.6 }, '-=0.3')
+        .to('.lir-pendulum', { attr: { opacity: 1 }, duration: 0.7 }, '-=0.2');
     }
   }
 
@@ -552,6 +554,88 @@ function animateHero() {
 }
 
 // ============================================================
+// MIRROR DIAGRAM — Human ↔ AI symmetry (Block 4)
+// Rows reveal top-down; each row fades in silver-left / amber-right
+// ============================================================
+function animateMirror() {
+  const diagram = document.getElementById('mirrorDiagram');
+  if (!diagram) return;
+
+  function playMirror() {
+    if (firedSections.has('mirror')) return;
+    markFired('mirror');
+
+    const base = 0;
+    const step = 220;
+    if (isIframe) {
+      revealSVG('.mirror-col-human', base);
+      revealSVG('.mirror-col-ai', base + 120);
+      revealSVG('.mirror-col-spine-head', base + 60);
+      revealSVG('.mirror-spine', base + 300);
+      revealSVG('.mirror-row-1', base + 500);
+      revealSVG('.mirror-row-2', base + 500 + step);
+      revealSVG('.mirror-row-3', base + 500 + step * 2);
+      revealSVG('.mirror-row-4', base + 500 + step * 3);
+      revealSVG('.mirror-row-5', base + 500 + step * 4);
+      revealSVG('.mirror-caption', base + 500 + step * 5);
+    } else {
+      const tl = gsap.timeline({ defaults: { ease: 'power2.out' } });
+      tl.to('.mirror-col-human', { attr: { opacity: 1 }, duration: 0.5 })
+        .to('.mirror-col-ai', { attr: { opacity: 1 }, duration: 0.5 }, '-=0.3')
+        .to('.mirror-col-spine-head', { attr: { opacity: 1 }, duration: 0.4 }, '-=0.3')
+        .to('.mirror-spine', { attr: { opacity: 1 }, duration: 0.5 }, '-=0.1')
+        .to('.mirror-row-1', { attr: { opacity: 1 }, duration: 0.5 }, '+=0.1')
+        .to('.mirror-row-2', { attr: { opacity: 1 }, duration: 0.5 }, '-=0.25')
+        .to('.mirror-row-3', { attr: { opacity: 1 }, duration: 0.5 }, '-=0.25')
+        .to('.mirror-row-4', { attr: { opacity: 1 }, duration: 0.5 }, '-=0.25')
+        .to('.mirror-row-5', { attr: { opacity: 1 }, duration: 0.6 }, '-=0.2')
+        .to('.mirror-caption', { attr: { opacity: 1 }, duration: 0.5 }, '-=0.1');
+    }
+  }
+
+  onVisible(diagram, playMirror);
+  setTimeout(() => { if (!firedSections.has('mirror')) playMirror(); }, SAFETY_TIMEOUT_MS + 600);
+}
+
+// ============================================================
+// LOOP DIAGRAM — Three moves with artefact badges (Block 5)
+// ============================================================
+function animateLoop() {
+  const diagram = document.getElementById('loopDiagram');
+  if (!diagram) return;
+
+  function playLoop() {
+    if (firedSections.has('loop')) return;
+    markFired('loop');
+
+    if (isIframe) {
+      revealSVG('.loop-node-1', 0);
+      revealSVG('.loop-arrow-1', 300);
+      revealSVG('.loop-src:nth-of-type(1)', 350);
+      revealSVG('.loop-node-2', 500);
+      revealSVG('.loop-arrow-2', 800);
+      revealSVG('.loop-src:nth-of-type(2)', 850);
+      revealSVG('.loop-node-3', 1000);
+      revealSVG('.loop-arrow-return', 1400);
+      revealSVG('.loop-eri-label', 1600);
+    } else {
+      const tl = gsap.timeline({ defaults: { ease: 'power2.out' } });
+      tl.to('.loop-node-1', { attr: { opacity: 1 }, duration: 0.5 })
+        .to('.loop-arrow-1', { attr: { opacity: 1 }, duration: 0.4 }, '-=0.15')
+        .to('.loop-src', { attr: { opacity: 1 }, duration: 0.4, stagger: 0.1 }, '-=0.2')
+        .to('.loop-node-2', { attr: { opacity: 1 }, duration: 0.5 }, '-=0.1')
+        .to('.loop-arrow-2', { attr: { opacity: 1 }, duration: 0.4 }, '-=0.15')
+        .to('.loop-node-3', { attr: { opacity: 1 }, duration: 0.5 }, '-=0.1')
+        .to('.loop-arrow-return', { attr: { opacity: 1 }, duration: 0.6 }, '+=0.1')
+        .to('.loop-eri-label', { attr: { opacity: 1 }, duration: 0.5 }, '-=0.2');
+    }
+  }
+
+  onVisible(diagram, playLoop);
+  setTimeout(() => { if (!firedSections.has('loop')) playLoop(); }, SAFETY_TIMEOUT_MS + 800);
+}
+
+// ============================================================
 // INIT
 // ============================================================
 document.addEventListener('DOMContentLoaded', () => {
@@ -559,10 +643,13 @@ document.addEventListener('DOMContentLoaded', () => {
   revealSections();
   animateLIT();
   animateLIR();
+  animateMirror();
   animateDA();
+  animateLoop();
 
   revealCards('.lit-label-card', 0.1);
   revealCards('.lir-card', 0.12);
   revealCards('.da-card', 0.12);
   revealCards('.practice-card', 0.1);
+  revealCards('.fm-card', 0.08);
 });

@@ -42,8 +42,21 @@ if (window.self !== window.top) {
   </div>
 </header>
 
+<!-- Executive Summary -->
+<section class="section section-surface exec-summary-section">
+  <div class="container">
+    <p class="label">In Brief</p>
+    <h2 class="exec-summary-h2">A method you can picture</h2>
+    <div class="exec-summary-prose">
+      <p>We treat intelligence as layered, not linear — cognitive, emotional, symbolic, strategic, and ethical — and design systems that keep these layers in disciplined tension rather than collapsing them into a score.</p>
+      <p>Using Layered Intelligence Theory, Logic in Reality, and Dynamic Alignment, we build decision architectures where human and artificial intelligence co-govern under ambiguity.</p>
+      <p>In practice, that means deep listening first, iterative design, AI that assists rather than replaces, and outcomes grounded in peer-reviewed research and live deployments.</p>
+    </div>
+  </div>
+</section>
+
 <!-- The Problem -->
-<section class="section section-surface">
+<section class="section section-dark">
   <div class="container">
     <p class="label">The Problem We See</p>
     <h2>Why most approaches fall short</h2>
@@ -53,6 +66,40 @@ if (window.self !== window.top) {
       <p>Most consultancies arrive with one of these pre-packaged frameworks and look for places to apply it. The engagement follows the method, not the reality of the organisation. Meanwhile, AI is deployed the same way: top-down, tool-first, disconnected from the people it serves.</p>
       <p>The gap is not technological. It is architectural. Most organisations have access to good tools and talented people. What they lack is a principled architecture that explains how human and artificial intelligence interact — and how to keep that interaction adaptive, humane, and legitimate.</p>
       <p>This is not an abstract observation. Over 25 years as a business builder, recruiter of professional people, and consultant, I have seen first-hand how off-the-shelf psychometric and profiling products are applied — and how consistently they fall short. They categorise people without understanding them. They generate data without generating insight. They measure what is convenient rather than what matters. Clara Futura exists because I wanted to build something better — a principled approach to recruitment, organisational design, and ongoing learning and development that treats intelligence as it actually operates: layered, recursive, and governed by ethical coherence.</p>
+    </div>
+
+    <!-- Block 1: Failure modes comparison — Gardner / Goleman / LIT -->
+    <div class="failure-modes" id="failureModes">
+      <p class="label failure-modes-label">Where other models stop</p>
+      <div class="failure-modes-grid">
+        <article class="fm-card fm-card--gardner" data-status="partial">
+          <div class="fm-card-head">
+            <span class="fm-card-dot" aria-hidden="true"></span>
+            <h4>Gardner — Multiple Intelligences</h4>
+          </div>
+          <p class="fm-card-claim">Recognises plurality of talents.</p>
+          <p class="fm-card-gap">But gives no principled account of <em>why</em> these dimensions, or <em>how</em> they interact under ambiguity.</p>
+          <p class="fm-card-tag">List of talents</p>
+        </article>
+        <article class="fm-card fm-card--goleman" data-status="partial">
+          <div class="fm-card-head">
+            <span class="fm-card-dot" aria-hidden="true"></span>
+            <h4>Goleman — Emotional Intelligence</h4>
+          </div>
+          <p class="fm-card-claim">Elevates emotion alongside cognition.</p>
+          <p class="fm-card-gap">But treats EQ as a bolt-on to IQ, not as part of a governed architecture.</p>
+          <p class="fm-card-tag">Dimension added</p>
+        </article>
+        <article class="fm-card fm-card--lit" data-status="resolved">
+          <div class="fm-card-head">
+            <span class="fm-card-dot" aria-hidden="true"></span>
+            <h4>Layered Intelligence Theory</h4>
+          </div>
+          <p class="fm-card-claim">Five irreducible layers, biologically grounded.</p>
+          <p class="fm-card-gap">Governed by ethical intelligence — applies equally to human and AI systems.</p>
+          <p class="fm-card-tag">Architecture</p>
+        </article>
+      </div>
     </div>
   </div>
 </section>
@@ -65,6 +112,11 @@ if (window.self !== window.top) {
     <div class="prose">
       <p class="lead">Layered Intelligence Theory addresses this gap by deriving its architecture from the cognitive biology associated with the Extended Evolutionary Synthesis, rather than by appending further dimensions to existing frameworks.</p>
       <p>This derivation rests on a structural claim: any cognitive system — cellular, human, or artificial — that must survive and act under constitutive ambiguity requires five, and only five, irreducible functional capabilities. These requirements map directly onto the five functional capabilities identified as universal to living systems at the cellular scale. Not a list of talents. An architecture grounded in biology.</p>
+    </div>
+    <div class="method-bridge">
+      <p class="method-bridge-lead">How this becomes a method</p>
+      <p>In every engagement, we map your organisation across these five layers: how you think (cognitive), feel and relate (emotional), remember and narrate (symbolic), plan (strategic), and govern what is acceptable (ethical).</p>
+      <p>This becomes a <strong>Layered Intelligence Map</strong> — a shared blueprint of where human and AI capabilities are currently misaligned.</p>
     </div>
 
     <!-- Animated Five-Layer Diagram — builds on scroll -->
@@ -271,6 +323,11 @@ if (window.self !== window.top) {
     <div class="prose">
       <p class="lead">LIT becomes significantly stronger when read through Joseph Brenner's Logic in Reality. LIR holds that real processes do not evolve through static binaries but through dynamic opposition between actualised and potential states.</p>
     </div>
+    <div class="method-bridge method-bridge--surface">
+      <p class="method-bridge-lead">The conflict engine</p>
+      <p>In our work, we use LIR to track and surface the tensions between layers — for example, when cognitive analysis says "hire fast", emotional attunement says "this will damage trust", and strategic foresight says "this closes future options."</p>
+      <p>These tensions are not noise; they are inputs into a Dynamic Alignment process where ethical intelligence decides how the system should respond.</p>
+    </div>
 
     <!-- Animated LIR Diagram — builds progressively on scroll -->
     <div class="lir-diagram-wrap">
@@ -349,6 +406,25 @@ if (window.self !== window.top) {
             <text x="350" y="195" text-anchor="middle" class="lir-centre-label">DYNAMIC</text>
             <text x="350" y="215" text-anchor="middle" class="lir-centre-label">OPPOSITION</text>
           </g>
+
+          <!-- Pendulum: tidal oscillation marker that swings slowly between the two poles -->
+          <g class="lir-pendulum" opacity="0">
+            <!-- Horizontal baseline -->
+            <line x1="175" y1="340" x2="525" y2="340" stroke="rgba(200,208,216,0.18)" stroke-width="0.75" stroke-dasharray="2 4"/>
+            <!-- Pendulum bob: pivot at centre (350,340), 4s oscillation -->
+            <g class="lir-pendulum-bob" transform="translate(350 340)">
+              <circle r="7" fill="#F2B54D" opacity="0.95" filter="url(#glowAmber)"/>
+              <animateTransform attributeName="transform" type="translate"
+                values="175 340; 525 340; 175 340"
+                keyTimes="0; 0.5; 1"
+                dur="5.2s"
+                calcMode="spline"
+                keySplines="0.45 0 0.55 1; 0.45 0 0.55 1"
+                repeatCount="indefinite"/>
+            </g>
+            <text x="175" y="362" text-anchor="middle" class="lir-pendulum-tick">actualised</text>
+            <text x="525" y="362" text-anchor="middle" class="lir-pendulum-tick">potential</text>
+          </g>
         </svg>
       </div>
     </div>
@@ -366,6 +442,135 @@ if (window.self !== window.top) {
         <h4>Governance is necessary</h4>
         <p>Because real processes do not resolve themselves into frictionless optima, ethical intelligence is required as the governing constraint. Without it, strategic intelligence can dominate, symbolic meaning can harden into exclusion, and cognitive power can become instrumental without moral restraint.</p>
       </div>
+    </div>
+  </div>
+</section>
+
+<!-- Block 4: Human↔AI Symmetry Mirror — same architecture, two substrates -->
+<section class="section section-dark" id="symmetry">
+  <div class="container">
+    <p class="label">The Same Architecture</p>
+    <h2>Two substrates, one architecture</h2>
+    <div class="prose">
+      <p class="lead">The five-layer architecture is substrate-neutral. It applies to a human professional and to an AI system. This is why Clara Futura treats human development and AI design as the same problem — not two projects sharing a metaphor.</p>
+    </div>
+
+    <div class="mirror-diagram-wrap">
+      <div class="mirror-diagram" id="mirrorDiagram">
+        <svg viewBox="0 0 900 520" class="mirror-svg" preserveAspectRatio="xMidYMid meet">
+          <defs>
+            <filter id="mirrorGlow" x="-50%" y="-50%" width="200%" height="200%">
+              <feGaussianBlur stdDeviation="3" result="blur"/>
+              <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+            </filter>
+          </defs>
+
+          <!-- Column headers -->
+          <text x="200" y="40" text-anchor="middle" class="mirror-col-head mirror-col-human" opacity="0">HUMAN</text>
+          <text x="700" y="40" text-anchor="middle" class="mirror-col-head mirror-col-ai" opacity="0">AI</text>
+          <text x="450" y="40" text-anchor="middle" class="mirror-col-spine-head" opacity="0">LAYER</text>
+
+          <!-- Central spine: vertical line with 5 layer markers -->
+          <line x1="450" y1="70" x2="450" y2="470" stroke="rgba(242,181,77,0.25)" stroke-width="1.5" stroke-dasharray="3 4" class="mirror-spine" opacity="0"/>
+
+          <!-- Row 1: Cognitive -->
+          <g class="mirror-row mirror-row-1" opacity="0">
+            <line x1="220" y1="100" x2="680" y2="100" stroke="rgba(164,174,183,0.18)" stroke-width="1"/>
+            <rect x="60" y="75" width="280" height="50" rx="8" fill="rgba(164,174,183,0.06)" stroke="rgba(164,174,183,0.28)" stroke-width="1"/>
+            <text x="200" y="95" text-anchor="middle" class="mirror-cell-h">analysis, reasoning, pattern</text>
+            <text x="200" y="113" text-anchor="middle" class="mirror-cell-sub">how I think</text>
+            <circle cx="450" cy="100" r="6" fill="#F2B54D" opacity="0.9" filter="url(#mirrorGlow)"/>
+            <text x="450" y="138" text-anchor="middle" class="mirror-spine-label">1 · Cognitive</text>
+            <rect x="560" y="75" width="280" height="50" rx="8" fill="rgba(242,181,77,0.05)" stroke="rgba(242,181,77,0.28)" stroke-width="1"/>
+            <text x="700" y="95" text-anchor="middle" class="mirror-cell-a">inference, retrieval, prediction</text>
+            <text x="700" y="113" text-anchor="middle" class="mirror-cell-sub">how it infers</text>
+          </g>
+
+          <!-- Row 2: Emotional / Affective -->
+          <g class="mirror-row mirror-row-2" opacity="0">
+            <line x1="220" y1="170" x2="680" y2="170" stroke="rgba(164,174,183,0.18)" stroke-width="1"/>
+            <rect x="60" y="145" width="280" height="50" rx="8" fill="rgba(164,174,183,0.06)" stroke="rgba(164,174,183,0.28)" stroke-width="1"/>
+            <text x="200" y="165" text-anchor="middle" class="mirror-cell-h">attunement, resonance, trust</text>
+            <text x="200" y="183" text-anchor="middle" class="mirror-cell-sub">how I feel and relate</text>
+            <circle cx="450" cy="170" r="6" fill="#F2B54D" opacity="0.9" filter="url(#mirrorGlow)"/>
+            <text x="450" y="208" text-anchor="middle" class="mirror-spine-label">2 · Emotional</text>
+            <rect x="560" y="145" width="280" height="50" rx="8" fill="rgba(242,181,77,0.05)" stroke="rgba(242,181,77,0.28)" stroke-width="1"/>
+            <text x="700" y="165" text-anchor="middle" class="mirror-cell-a">affective signal modelling</text>
+            <text x="700" y="183" text-anchor="middle" class="mirror-cell-sub">tone and context</text>
+          </g>
+
+          <!-- Row 3: Symbolic -->
+          <g class="mirror-row mirror-row-3" opacity="0">
+            <line x1="220" y1="240" x2="680" y2="240" stroke="rgba(164,174,183,0.18)" stroke-width="1"/>
+            <rect x="60" y="215" width="280" height="50" rx="8" fill="rgba(164,174,183,0.06)" stroke="rgba(164,174,183,0.28)" stroke-width="1"/>
+            <text x="200" y="235" text-anchor="middle" class="mirror-cell-h">story, identity, meaning</text>
+            <text x="200" y="253" text-anchor="middle" class="mirror-cell-sub">how I remember and narrate</text>
+            <circle cx="450" cy="240" r="6" fill="#F2B54D" opacity="0.9" filter="url(#mirrorGlow)"/>
+            <text x="450" y="278" text-anchor="middle" class="mirror-spine-label">3 · Symbolic</text>
+            <rect x="560" y="215" width="280" height="50" rx="8" fill="rgba(242,181,77,0.05)" stroke="rgba(242,181,77,0.28)" stroke-width="1"/>
+            <text x="700" y="235" text-anchor="middle" class="mirror-cell-a">embedding, memory, framing</text>
+            <text x="700" y="253" text-anchor="middle" class="mirror-cell-sub">how it represents</text>
+          </g>
+
+          <!-- Row 4: Strategic -->
+          <g class="mirror-row mirror-row-4" opacity="0">
+            <line x1="220" y1="310" x2="680" y2="310" stroke="rgba(164,174,183,0.18)" stroke-width="1"/>
+            <rect x="60" y="285" width="280" height="50" rx="8" fill="rgba(164,174,183,0.06)" stroke="rgba(164,174,183,0.28)" stroke-width="1"/>
+            <text x="200" y="305" text-anchor="middle" class="mirror-cell-h">foresight, scenario, option</text>
+            <text x="200" y="323" text-anchor="middle" class="mirror-cell-sub">how I plan</text>
+            <circle cx="450" cy="310" r="6" fill="#F2B54D" opacity="0.9" filter="url(#mirrorGlow)"/>
+            <text x="450" y="348" text-anchor="middle" class="mirror-spine-label">4 · Strategic</text>
+            <rect x="560" y="285" width="280" height="50" rx="8" fill="rgba(242,181,77,0.05)" stroke="rgba(242,181,77,0.28)" stroke-width="1"/>
+            <text x="700" y="305" text-anchor="middle" class="mirror-cell-a">objective, search, planning</text>
+            <text x="700" y="323" text-anchor="middle" class="mirror-cell-sub">how it optimises</text>
+          </g>
+
+          <!-- Row 5: Ethical (amber highlight) -->
+          <g class="mirror-row mirror-row-5" opacity="0">
+            <line x1="220" y1="380" x2="680" y2="380" stroke="rgba(242,181,77,0.5)" stroke-width="1.25" stroke-dasharray="6 3"/>
+            <rect x="60" y="355" width="280" height="50" rx="8" fill="rgba(242,181,77,0.08)" stroke="rgba(242,181,77,0.55)" stroke-width="1.25"/>
+            <text x="200" y="375" text-anchor="middle" class="mirror-cell-h mirror-cell-ethical">what we will and will not do</text>
+            <text x="200" y="393" text-anchor="middle" class="mirror-cell-sub">how I govern</text>
+            <circle cx="450" cy="380" r="8" fill="#F2B54D" opacity="1" filter="url(#mirrorGlow)"/>
+            <text x="450" y="418" text-anchor="middle" class="mirror-spine-label mirror-spine-ethical">5 · Ethical</text>
+            <rect x="560" y="355" width="280" height="50" rx="8" fill="rgba(242,181,77,0.08)" stroke="rgba(242,181,77,0.55)" stroke-width="1.25"/>
+            <text x="700" y="375" text-anchor="middle" class="mirror-cell-a mirror-cell-ethical">guardrails, refusal, policy</text>
+            <text x="700" y="393" text-anchor="middle" class="mirror-cell-sub">how it is governed</text>
+          </g>
+
+          <!-- Footer caption -->
+          <text x="450" y="500" text-anchor="middle" class="mirror-caption" opacity="0">Ethical intelligence is the governing layer for both.</text>
+        </svg>
+      </div>
+
+      <!-- Mobile fallback: stacked layer rows -->
+      <ul class="mirror-fallback" aria-hidden="true">
+        <li class="mirror-fallback-row">
+          <span class="mfr-layer">1 · Cognitive</span>
+          <div class="mfr-pair"><span class="mfr-side mfr-human"><em>Human</em> analysis, reasoning, pattern</span><span class="mfr-side mfr-ai"><em>AI</em> inference, retrieval, prediction</span></div>
+        </li>
+        <li class="mirror-fallback-row">
+          <span class="mfr-layer">2 · Emotional</span>
+          <div class="mfr-pair"><span class="mfr-side mfr-human"><em>Human</em> attunement, resonance, trust</span><span class="mfr-side mfr-ai"><em>AI</em> affective signal modelling</span></div>
+        </li>
+        <li class="mirror-fallback-row">
+          <span class="mfr-layer">3 · Symbolic</span>
+          <div class="mfr-pair"><span class="mfr-side mfr-human"><em>Human</em> story, identity, meaning</span><span class="mfr-side mfr-ai"><em>AI</em> embedding, memory, framing</span></div>
+        </li>
+        <li class="mirror-fallback-row">
+          <span class="mfr-layer">4 · Strategic</span>
+          <div class="mfr-pair"><span class="mfr-side mfr-human"><em>Human</em> foresight, scenario, option</span><span class="mfr-side mfr-ai"><em>AI</em> objective, search, planning</span></div>
+        </li>
+        <li class="mirror-fallback-row mirror-fallback-row--ethical">
+          <span class="mfr-layer">5 · Ethical</span>
+          <div class="mfr-pair"><span class="mfr-side mfr-human"><em>Human</em> what we will and will not do</span><span class="mfr-side mfr-ai"><em>AI</em> guardrails, refusal, policy</span></div>
+        </li>
+        <li class="mirror-fallback-caption">Ethical intelligence is the governing layer for both.</li>
+      </ul>
+    </div>
+
+    <div class="prose" style="margin-top:1.5rem">
+      <p>When a human decision and an AI output must flow through the same five layers to become legitimate, misalignment is no longer a surprise — it is something you can locate, name, and govern. This is what Clara Futura's decision architectures do.</p>
     </div>
   </div>
 </section>
@@ -503,6 +708,83 @@ if (window.self !== window.top) {
       <p>Dynamic Alignment integrates LIT, LIR, ERI, and VPM into a single research programme. It reframes the question from "How can an intelligent system maximise performance?" to "What layered, recursively governed conditions enable intelligence to remain adaptive, humane, and legitimate under ambiguity?"</p>
       <p>This is not a rejection of technical work on alignment. It is a claim that technical approaches become inadequate when detached from the layered, processual, and normative structure of real intelligence.</p>
     </div>
+
+    <!-- Block 5: Dynamic Alignment in three moves — loop diagram with artefact badges -->
+    <div class="da-three-moves" id="daThreeMoves">
+      <p class="label">The method, in one loop</p>
+      <h3>Dynamic Alignment in three moves</h3>
+
+      <div class="loop-diagram-wrap">
+        <div class="loop-diagram" id="loopDiagram">
+          <svg viewBox="0 0 900 380" class="loop-svg" preserveAspectRatio="xMidYMid meet">
+            <defs>
+              <marker id="loopArrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+                <path d="M0,0 L10,5 L0,10 z" fill="#F2B54D"/>
+              </marker>
+              <filter id="loopGlow" x="-50%" y="-50%" width="200%" height="200%">
+                <feGaussianBlur stdDeviation="3" result="blur"/>
+                <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+              </filter>
+            </defs>
+
+            <!-- Three connecting arrows (top arcs between nodes) -->
+            <path class="loop-arrow loop-arrow-1" d="M210,180 C 300,100 400,100 490,180" fill="none" stroke="#F2B54D" stroke-width="1.75" opacity="0" marker-end="url(#loopArrow)"/>
+            <path class="loop-arrow loop-arrow-2" d="M510,180 C 600,100 700,100 790,180" fill="none" stroke="#F2B54D" stroke-width="1.75" opacity="0" marker-end="url(#loopArrow)"/>
+            <!-- Return arrow (ERI) — long arc underneath from step 3 back to step 1 -->
+            <path class="loop-arrow loop-arrow-return" d="M800,210 C 800,330 100,330 100,210" fill="none" stroke="#F2B54D" stroke-width="1.25" stroke-dasharray="5 4" opacity="0" marker-end="url(#loopArrow)"/>
+            <!-- ERI label on the return arrow -->
+            <text x="450" y="340" text-anchor="middle" class="loop-eri-label" opacity="0">Emergent Recursive Intelligence — the loop repeats</text>
+
+            <!-- Step 1: See the layers -->
+            <g class="loop-node loop-node-1" opacity="0">
+              <circle cx="150" cy="180" r="54" fill="rgba(242,181,77,0.08)" stroke="#F2B54D" stroke-width="1.75"/>
+              <text x="150" y="170" text-anchor="middle" class="loop-num">01</text>
+              <text x="150" y="196" text-anchor="middle" class="loop-title">See</text>
+              <text x="150" y="216" text-anchor="middle" class="loop-title">the layers</text>
+              <!-- Artefact badge -->
+              <rect x="40" y="260" width="220" height="44" rx="22" fill="rgba(242,181,77,0.10)" stroke="rgba(242,181,77,0.55)" stroke-width="1"/>
+              <text x="150" y="280" text-anchor="middle" class="loop-badge-label">ARTEFACT</text>
+              <text x="150" y="295" text-anchor="middle" class="loop-badge-name">Layered Intelligence Map</text>
+            </g>
+
+            <!-- Step 2: Surface tensions -->
+            <g class="loop-node loop-node-2" opacity="0">
+              <circle cx="450" cy="180" r="54" fill="rgba(242,181,77,0.08)" stroke="#F2B54D" stroke-width="1.75"/>
+              <text x="450" y="170" text-anchor="middle" class="loop-num">02</text>
+              <text x="450" y="196" text-anchor="middle" class="loop-title">Surface</text>
+              <text x="450" y="216" text-anchor="middle" class="loop-title">tensions</text>
+              <rect x="340" y="260" width="220" height="44" rx="22" fill="rgba(242,181,77,0.10)" stroke="rgba(242,181,77,0.55)" stroke-width="1"/>
+              <text x="450" y="280" text-anchor="middle" class="loop-badge-label">ARTEFACT</text>
+              <text x="450" y="295" text-anchor="middle" class="loop-badge-name">LIR Tension Map</text>
+            </g>
+
+            <!-- Step 3: Govern the response -->
+            <g class="loop-node loop-node-3" opacity="0">
+              <circle cx="750" cy="180" r="54" fill="rgba(242,181,77,0.08)" stroke="#F2B54D" stroke-width="1.75" filter="url(#loopGlow)"/>
+              <text x="750" y="170" text-anchor="middle" class="loop-num">03</text>
+              <text x="750" y="196" text-anchor="middle" class="loop-title">Govern</text>
+              <text x="750" y="216" text-anchor="middle" class="loop-title">the response</text>
+              <rect x="620" y="260" width="260" height="44" rx="22" fill="rgba(242,181,77,0.12)" stroke="rgba(242,181,77,0.65)" stroke-width="1"/>
+              <text x="750" y="280" text-anchor="middle" class="loop-badge-label">ARTEFACT</text>
+              <text x="750" y="295" text-anchor="middle" class="loop-badge-name">Human–AI Decision Architecture</text>
+            </g>
+
+            <!-- Source tags above arrows -->
+            <text x="350" y="112" text-anchor="middle" class="loop-src" opacity="0">LIT</text>
+            <text x="650" y="112" text-anchor="middle" class="loop-src" opacity="0">LIR + ERI</text>
+          </svg>
+        </div>
+
+        <!-- Mobile fallback: vertical step list (hidden on desktop, shown on narrow) -->
+        <ol class="loop-fallback">
+          <li><span class="loop-fallback-num">01</span><div><h4>See the layers</h4><p>Map cognitive, emotional, symbolic, strategic, and ethical patterns across your real system.</p><span class="loop-fallback-tag">Artefact · Layered Intelligence Map</span></div></li>
+          <li><span class="loop-fallback-num">02</span><div><h4>Surface the tensions</h4><p>Use Logic in Reality to identify where layers are in productive opposition rather than false agreement.</p><span class="loop-fallback-tag">Artefact · LIR Tension Map</span></div></li>
+          <li><span class="loop-fallback-num">03</span><div><h4>Govern the response</h4><p>Apply the Vulnerability-Pluralism Model so decisions protect the vulnerable and preserve plural participation.</p><span class="loop-fallback-tag">Artefact · Human–AI Decision Architecture</span></div></li>
+        </ol>
+      </div>
+
+      <p class="da-three-moves-close">This loop repeats. Each cycle updates how your system thinks, feels, remembers, plans, and governs — for both humans and AI. That is what we mean by <strong>Emergent Recursive Intelligence</strong>.</p>
+    </div>
   </div>
 </section>
 
@@ -517,28 +799,28 @@ if (window.self !== window.top) {
           <svg viewBox="0 0 48 48" fill="none"><circle cx="24" cy="24" r="20" stroke="#F2B54D" stroke-width="1.5"/><path d="M24 14v10l7 4" stroke="#F2B54D" stroke-width="1.5" stroke-linecap="round"/></svg>
         </div>
         <h4>Deep listening first</h4>
-        <p>We invest significant time understanding people, culture, and dynamics before proposing anything. In one engagement, a four-hour conversation changed the entire trajectory — what began as an executive search became a two-year coaching programme.</p>
+        <p>We invest significant time understanding people, culture, and dynamics before proposing anything. In one engagement, a four-hour conversation changed the entire trajectory — what began as an executive search became a two-year coaching programme. <span class="practice-tag">See the layers — we are mapping, not categorising.</span></p>
       </div>
       <div class="practice-card">
         <div class="practice-icon">
           <svg viewBox="0 0 48 48" fill="none"><path d="M12 36 C12 24, 24 24, 24 12 C24 24, 36 24, 36 36" stroke="#F2B54D" stroke-width="1.5" stroke-linecap="round"/><circle cx="24" cy="12" r="3" fill="#F2B54D"/><circle cx="12" cy="36" r="3" fill="#A4AEB7"/><circle cx="36" cy="36" r="3" fill="#A4AEB7"/></svg>
         </div>
         <h4>Iterative design</h4>
-        <p>Strategy is not delivered as a document. It is built through ongoing cycles of action, observation, and refinement. We debrief after every interaction and feed what we learn back into the approach.</p>
+        <p>Strategy is not delivered as a document. It is built through ongoing cycles of action, observation, and refinement. We debrief after every interaction and feed what we learn back into the approach. <span class="practice-tag">Loop Dynamic Alignment — each iteration is a cycle.</span></p>
       </div>
       <div class="practice-card">
         <div class="practice-icon">
           <svg viewBox="0 0 48 48" fill="none"><circle cx="18" cy="24" r="10" stroke="#E8E5DD" stroke-width="1.5"/><circle cx="30" cy="24" r="10" stroke="#F2B54D" stroke-width="1.5"/></svg>
         </div>
         <h4>Intelligence-assisted, not replaced</h4>
-        <p>Our AI tools are designed to augment human understanding. Clara Nexus AI uses autoethnographic profiling and symbolic insight to surface patterns that traditional assessments miss.</p>
+        <p>Our AI tools are designed to augment human understanding. Clara Nexus AI uses autoethnographic profiling and symbolic insight to surface patterns that traditional assessments miss. <span class="practice-tag">AI participates in the layers — it doesn't collapse them.</span></p>
       </div>
       <div class="practice-card">
         <div class="practice-icon">
           <svg viewBox="0 0 48 48" fill="none"><path d="M8 38 L16 26 L24 30 L32 18 L40 10" stroke="#F2B54D" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><circle cx="40" cy="10" r="3" fill="#F2B54D"/></svg>
         </div>
         <h4>Research-informed outcomes</h4>
-        <p>The scientific thinking driving our academic collaborations shapes our client work. When we restructure teams around emotional intelligence rather than time-served promotion, we are applying insights from our research on cognitive ecology and consciousness.</p>
+        <p>The scientific thinking driving our academic collaborations shapes our client work. When we restructure teams around emotional intelligence rather than time-served promotion, we are applying insights from our research on cognitive ecology and consciousness. <span class="practice-tag">We apply exactly the same research programme we publish on.</span></p>
       </div>
     </div>
   </div>
@@ -550,7 +832,8 @@ if (window.self !== window.top) {
     <p class="label">Who We Work With</p>
     <h2>The right fit</h2>
     <div class="prose">
-      <p class="lead">Our work is not for every organisation. It requires commitment — to honest reflection, to iterative thinking, and to the idea that sustainable change comes from understanding people deeply before designing systems around them.</p>
+      <p class="lead">If you want a quick, off-the-shelf framework, we're the wrong partner. If you want to co-create a layered, ethically governed intelligence architecture for your organisation, we are the right fit.</p>
+      <p>Our work requires commitment — to honest reflection, to iterative thinking, and to the idea that sustainable change comes from understanding people deeply before designing systems around them.</p>
       <p>We work best with leaders and organisations who recognise that the human dimension is not a soft add-on to strategy — it is the strategy. If you are looking for a fixed methodology delivered on a timeline, we are probably not the right fit. If you are looking for a thinking partner who will build something real with you, we should talk.</p>
     </div>
     <div class="cta-block">

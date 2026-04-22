@@ -778,3 +778,404 @@ body:not(.cf-scrolled) .ambient-pulse-ring {
   animation-play-state: paused;
   opacity: 0;
 }
+
+/* ============================================================
+   === Our Approach — Diagram Upgrades (Apr 2026)
+   Block 1: Failure modes · Block 3: LIR pendulum
+   Block 4: Human↔AI mirror · Block 5: Three-move loop
+   Plus: method-bridge, da-three-moves, practice-tag support
+   ============================================================ */
+
+/* --- Method-bridge callout (used by LIT and LIR sections) --- */
+.method-bridge {
+  margin: 2rem auto 1.5rem;
+  max-width: 760px;
+  padding: 1.5rem 1.75rem;
+  background: rgba(242, 181, 77, 0.04);
+  border: 1px solid rgba(242, 181, 77, 0.22);
+  border-left: 3px solid var(--amber);
+  border-radius: 10px;
+}
+.method-bridge--surface {
+  background: rgba(164, 174, 183, 0.05);
+  border-color: rgba(164, 174, 183, 0.25);
+  border-left-color: var(--amber);
+}
+.method-bridge p { color: var(--cream); font-size: 0.97rem; margin-bottom: 0.6rem; }
+.method-bridge p:last-child { margin-bottom: 0; }
+.method-bridge-lead {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--amber);
+  margin-bottom: 0.75rem !important;
+}
+.method-bridge strong { color: var(--amber); font-weight: 600; }
+
+/* --- Practice tags (in-practice grid back-reference) --- */
+.practice-tag {
+  display: inline-block;
+  margin-top: 0.75rem;
+  padding: 0.35rem 0.65rem;
+  font-size: 0.72rem;
+  letter-spacing: 0.06em;
+  color: var(--amber);
+  background: rgba(242, 181, 77, 0.08);
+  border: 1px solid rgba(242, 181, 77, 0.25);
+  border-radius: 4px;
+  font-style: normal;
+}
+
+/* --- Block 1: Failure modes tri-card --- */
+.failure-modes {
+  margin: 3rem auto 0;
+  max-width: 960px;
+}
+.failure-modes-label {
+  text-align: center;
+  margin-bottom: 1.75rem;
+}
+.failure-modes-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.25rem;
+}
+.fm-card {
+  position: relative;
+  padding: 1.5rem 1.4rem 1.4rem;
+  background: var(--surface-2);
+  border: 1px solid rgba(164, 174, 183, 0.18);
+  border-radius: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
+  transition: border-color 220ms var(--ease-out), transform 220ms var(--ease-out);
+}
+.fm-card:hover { transform: translateY(-3px); }
+.fm-card-head {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  margin-bottom: 0.2rem;
+}
+.fm-card h4 {
+  font-size: 0.92rem;
+  font-weight: 600;
+  color: var(--cream);
+  margin: 0;
+  line-height: 1.35;
+}
+.fm-card-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  box-shadow: 0 0 8px currentColor;
+}
+.fm-card[data-status="partial"] .fm-card-dot {
+  background: #E8B04A;
+  color: rgba(232, 176, 74, 0.5);
+}
+.fm-card[data-status="resolved"] .fm-card-dot {
+  background: #F2B54D;
+  color: rgba(242, 181, 77, 0.75);
+}
+.fm-card-claim {
+  font-size: 0.88rem;
+  color: var(--cream);
+  line-height: 1.55;
+  margin: 0;
+}
+.fm-card-gap {
+  font-size: 0.82rem;
+  color: var(--muted);
+  line-height: 1.6;
+  margin: 0;
+}
+.fm-card-gap em { color: var(--amber); font-style: normal; }
+.fm-card-tag {
+  margin: 0.5rem 0 0;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--faint);
+}
+.fm-card--lit {
+  background: linear-gradient(180deg, rgba(242,181,77,0.06) 0%, var(--surface-2) 60%);
+  border-color: rgba(242, 181, 77, 0.35);
+}
+.fm-card--lit:hover { border-color: rgba(242, 181, 77, 0.55); }
+.fm-card--lit .fm-card-tag { color: var(--amber); }
+
+/* --- Block 3: LIR pendulum tidal text --- */
+.lir-pendulum-tick {
+  fill: var(--faint);
+  font-family: 'Inter', sans-serif;
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+/* --- Block 4: Human↔AI mirror diagram --- */
+.mirror-diagram-wrap { margin: 2.5rem 0 1.5rem; }
+.mirror-diagram { max-width: 900px; margin: 0 auto; }
+.mirror-svg { width: 100%; height: auto; }
+.mirror-col-head {
+  fill: var(--amber);
+  font-family: 'Inter', sans-serif;
+  font-size: 16px;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+}
+.mirror-col-human { fill: #C8D0D8; }
+.mirror-col-ai { fill: var(--amber); }
+.mirror-col-spine-head {
+  fill: var(--faint);
+  font-family: 'Inter', sans-serif;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+}
+.mirror-cell-h, .mirror-cell-a {
+  font-family: 'Inter', sans-serif;
+  font-size: 13px;
+  font-weight: 500;
+}
+.mirror-cell-h { fill: var(--cream); }
+.mirror-cell-a { fill: var(--cream); }
+.mirror-cell-sub {
+  fill: var(--faint);
+  font-family: 'Inter', sans-serif;
+  font-size: 11px;
+  font-style: italic;
+}
+.mirror-cell-ethical { fill: var(--amber); }
+.mirror-spine-label {
+  fill: var(--muted);
+  font-family: 'Inter', sans-serif;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+}
+.mirror-spine-ethical { fill: var(--amber); }
+.mirror-caption {
+  fill: var(--faint);
+  font-family: 'Inter', sans-serif;
+  font-size: 12px;
+  font-style: italic;
+  letter-spacing: 0.05em;
+}
+
+/* In iframe mode, force SVG rows visible (pattern matches lit/lir) */
+body.in-iframe .mirror-svg * { transition: opacity 0.6s ease-out; }
+
+/* Mirror mobile fallback: stack as row list */
+.mirror-fallback {
+  display: none;
+  list-style: none;
+  padding: 0;
+  margin: 1rem 0 0;
+}
+.mirror-fallback-row {
+  padding: 0.9rem 1rem;
+  border: 1px solid rgba(164,174,183,0.18);
+  border-radius: 10px;
+  margin-bottom: 0.75rem;
+  background: var(--surface-2);
+}
+.mirror-fallback-row--ethical {
+  border-color: rgba(242,181,77,0.5);
+  background: rgba(242,181,77,0.05);
+}
+.mfr-layer {
+  display: block;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--amber);
+  margin-bottom: 0.55rem;
+}
+.mirror-fallback-row--ethical .mfr-layer { color: var(--amber); }
+.mfr-pair {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0.5rem;
+}
+.mfr-side {
+  font-size: 0.84rem;
+  line-height: 1.55;
+  color: var(--cream);
+}
+.mfr-side em {
+  display: inline-block;
+  min-width: 3.25rem;
+  font-family: 'Inter', sans-serif;
+  font-style: normal;
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--faint);
+  margin-right: 0.5rem;
+}
+.mfr-human em { color: #C8D0D8; }
+.mfr-ai em { color: var(--amber); }
+.mirror-fallback-row--ethical .mfr-side { color: var(--cream); }
+.mirror-fallback-caption {
+  list-style: none;
+  margin-top: 0.75rem;
+  padding: 0;
+  text-align: center;
+  font-size: 0.82rem;
+  font-style: italic;
+  color: var(--faint);
+}
+
+/* --- Block 5: Three-move loop diagram --- */
+.da-three-moves {
+  margin-top: 3rem;
+  padding: 2rem 0 0;
+  border-top: 1px solid rgba(164,174,183,0.12);
+}
+.da-three-moves h3 {
+  font-size: 1.5rem;
+  font-weight: 500;
+  color: var(--cream);
+  margin: 0.5rem 0 1.5rem;
+}
+.da-three-moves-close {
+  margin-top: 1.5rem;
+  font-size: 0.92rem;
+  color: var(--muted);
+  line-height: 1.75;
+}
+.da-three-moves-close strong { color: var(--amber); font-weight: 600; }
+.loop-diagram-wrap { margin: 1.5rem 0 1rem; }
+.loop-diagram { max-width: 900px; margin: 0 auto; }
+.loop-svg { width: 100%; height: auto; }
+.loop-num {
+  fill: var(--amber);
+  font-family: 'Inter', sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.15em;
+}
+.loop-title {
+  fill: var(--cream);
+  font-family: 'Inter', sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+}
+.loop-badge-label {
+  fill: var(--faint);
+  font-family: 'Inter', sans-serif;
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 0.22em;
+}
+.loop-badge-name {
+  fill: var(--amber);
+  font-family: 'Inter', sans-serif;
+  font-size: 12px;
+  font-weight: 500;
+}
+.loop-src {
+  fill: var(--muted);
+  font-family: 'Inter', sans-serif;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+}
+.loop-eri-label {
+  fill: var(--faint);
+  font-family: 'Inter', sans-serif;
+  font-size: 12px;
+  font-style: italic;
+  letter-spacing: 0.05em;
+}
+body.in-iframe .loop-svg * { transition: opacity 0.6s ease-out; }
+
+/* Loop mobile fallback: vertical list, hidden on desktop */
+.loop-fallback {
+  display: none;
+  list-style: none;
+  padding: 0;
+  margin: 1.5rem 0 0;
+}
+.loop-fallback li {
+  display: grid;
+  grid-template-columns: 44px 1fr;
+  gap: 1rem;
+  padding: 1rem 0;
+  border-top: 1px solid rgba(164,174,183,0.12);
+}
+.loop-fallback li:first-child { border-top: 0; }
+.loop-fallback-num {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--amber);
+  letter-spacing: 0.12em;
+}
+.loop-fallback h4 {
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: var(--cream);
+  margin: 0 0 0.35rem;
+}
+.loop-fallback p {
+  font-size: 0.85rem;
+  color: var(--muted);
+  line-height: 1.6;
+  margin: 0;
+}
+.loop-fallback-tag {
+  display: inline-block;
+  margin-top: 0.5rem;
+  padding: 0.25rem 0.55rem;
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  color: var(--amber);
+  background: rgba(242,181,77,0.08);
+  border: 1px solid rgba(242,181,77,0.3);
+  border-radius: 20px;
+}
+
+/* --- Responsive: Block 1 + Block 4 + Block 5 --- */
+@media (max-width: 768px) {
+  .failure-modes-grid { grid-template-columns: 1fr; }
+  .mirror-svg { font-size: 10px; }
+}
+
+@media (max-width: 640px) {
+  /* Block 5: switch to vertical fallback, hide SVG */
+  .loop-diagram { display: none; }
+  .loop-fallback { display: block; }
+
+  /* Block 4: swap mirror SVG for vertical stacked row list */
+  .mirror-diagram { display: none; }
+  .mirror-fallback { display: block; }
+  .mirror-diagram-wrap { margin: 1.5rem 0 0; }
+
+  .method-bridge { padding: 1.25rem 1.15rem; }
+  .fm-card { padding: 1.25rem 1.15rem; }
+}
+
+@media (max-width: 480px) {
+  .fm-card h4 { font-size: 0.88rem; }
+}
+
+/* Reduced motion: freeze pendulum */
+@media (prefers-reduced-motion: reduce) {
+  .lir-pendulum-bob animateTransform,
+  .loop-arrow-return,
+  .mirror-row { animation: none !important; }
+  .lir-pendulum-bob { transform: translate(350px, 340px); }
+}
