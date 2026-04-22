@@ -762,62 +762,143 @@ if (window.self !== window.top) {
 
       <div class="loop-diagram-wrap">
         <div class="loop-diagram" id="loopDiagram">
-          <svg viewBox="0 0 900 380" class="loop-svg" preserveAspectRatio="xMidYMid meet">
+          <svg viewBox="0 0 960 400" class="loop-svg" preserveAspectRatio="xMidYMid meet">
             <defs>
-              <marker id="loopArrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
-                <path d="M0,0 L10,5 L0,10 z" fill="#F2B54D"/>
-              </marker>
-              <filter id="loopGlow" x="-50%" y="-50%" width="200%" height="200%">
+              <linearGradient id="loopWaveGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+                <stop offset="0%" stop-color="#F2B54D" stop-opacity="0.25"/>
+                <stop offset="50%" stop-color="#FFD98A" stop-opacity="0.95"/>
+                <stop offset="100%" stop-color="#F2B54D" stop-opacity="0.25"/>
+              </linearGradient>
+              <radialGradient id="loopParticleGrad" cx="50%" cy="50%" r="50%">
+                <stop offset="0%" stop-color="#FFE9BD" stop-opacity="1"/>
+                <stop offset="60%" stop-color="#F2B54D" stop-opacity="0.9"/>
+                <stop offset="100%" stop-color="#F2B54D" stop-opacity="0"/>
+              </radialGradient>
+              <filter id="loopGlow" x="-80%" y="-80%" width="260%" height="260%">
                 <feGaussianBlur stdDeviation="3" result="blur"/>
                 <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
               </filter>
+              <filter id="loopSoftGlow" x="-80%" y="-80%" width="260%" height="260%">
+                <feGaussianBlur stdDeviation="4"/>
+              </filter>
+
+              <!-- Wave paths: sine between nodes. Path IDs used by animateMotion + path strokes. -->
+              <!-- Node centres: 150,180 · 480,180 · 810,180. Wave rests at y=180 with amplitude 28. -->
+              <path id="loopWavePath1" d="M222,180 Q 268,110 314,180 T 408,180" fill="none"/>
+              <path id="loopWavePath2" d="M552,180 Q 598,110 644,180 T 738,180" fill="none"/>
+              <path id="loopWavePathReturn" d="M810,252 C 810,360 150,360 150,252" fill="none"/>
             </defs>
 
-            <!-- Three connecting arrows (top arcs between nodes) -->
-            <path class="loop-arrow loop-arrow-1" d="M210,180 C 300,100 400,100 490,180" fill="none" stroke="#F2B54D" stroke-width="1.75" opacity="0" marker-end="url(#loopArrow)"/>
-            <path class="loop-arrow loop-arrow-2" d="M510,180 C 600,100 700,100 790,180" fill="none" stroke="#F2B54D" stroke-width="1.75" opacity="0" marker-end="url(#loopArrow)"/>
-            <!-- Return arrow (ERI) — long arc underneath from step 3 back to step 1 -->
-            <path class="loop-arrow loop-arrow-return" d="M800,210 C 800,330 100,330 100,210" fill="none" stroke="#F2B54D" stroke-width="1.25" stroke-dasharray="5 4" opacity="0" marker-end="url(#loopArrow)"/>
-            <!-- ERI label on the return arrow -->
-            <text x="450" y="340" text-anchor="middle" class="loop-eri-label" opacity="0">Emergent Recursive Intelligence — the loop repeats</text>
+            <!-- ============== Wave 1: node1 -> node2 ============== -->
+            <g class="loop-wave loop-wave-1" opacity="0">
+              <!-- Faint background wave (secondary harmonic) -->
+              <path d="M222,180 Q 268,148 314,180 T 408,180" fill="none" stroke="rgba(242,181,77,0.22)" stroke-width="1" class="loop-wave-bg"/>
+              <!-- Main sine wave, animated stroke-dash -->
+              <use href="#loopWavePath1" stroke="url(#loopWaveGrad)" stroke-width="2.25" stroke-linecap="round" class="loop-wave-main" filter="url(#loopSoftGlow)"/>
+              <use href="#loopWavePath1" stroke="#FFD98A" stroke-width="1.25" stroke-linecap="round" class="loop-wave-top"/>
+              <!-- Travelling particles on wave 1 -->
+              <circle r="4" fill="url(#loopParticleGrad)" class="loop-particle lp-1a">
+                <animateMotion dur="3.6s" repeatCount="indefinite" rotate="auto" begin="0s">
+                  <mpath href="#loopWavePath1"/>
+                </animateMotion>
+              </circle>
+              <circle r="3" fill="url(#loopParticleGrad)" class="loop-particle lp-1b">
+                <animateMotion dur="3.6s" repeatCount="indefinite" rotate="auto" begin="1.2s">
+                  <mpath href="#loopWavePath1"/>
+                </animateMotion>
+              </circle>
+              <circle r="2.5" fill="url(#loopParticleGrad)" class="loop-particle lp-1c">
+                <animateMotion dur="3.6s" repeatCount="indefinite" rotate="auto" begin="2.4s">
+                  <mpath href="#loopWavePath1"/>
+                </animateMotion>
+              </circle>
+            </g>
 
-            <!-- Step 1: See the layers -->
+            <!-- ============== Wave 2: node2 -> node3 ============== -->
+            <g class="loop-wave loop-wave-2" opacity="0">
+              <path d="M552,180 Q 598,148 644,180 T 738,180" fill="none" stroke="rgba(242,181,77,0.22)" stroke-width="1" class="loop-wave-bg"/>
+              <use href="#loopWavePath2" stroke="url(#loopWaveGrad)" stroke-width="2.25" stroke-linecap="round" class="loop-wave-main" filter="url(#loopSoftGlow)"/>
+              <use href="#loopWavePath2" stroke="#FFD98A" stroke-width="1.25" stroke-linecap="round" class="loop-wave-top"/>
+              <circle r="4" fill="url(#loopParticleGrad)" class="loop-particle lp-2a">
+                <animateMotion dur="3.6s" repeatCount="indefinite" rotate="auto" begin="0.6s">
+                  <mpath href="#loopWavePath2"/>
+                </animateMotion>
+              </circle>
+              <circle r="3" fill="url(#loopParticleGrad)" class="loop-particle lp-2b">
+                <animateMotion dur="3.6s" repeatCount="indefinite" rotate="auto" begin="1.8s">
+                  <mpath href="#loopWavePath2"/>
+                </animateMotion>
+              </circle>
+              <circle r="2.5" fill="url(#loopParticleGrad)" class="loop-particle lp-2c">
+                <animateMotion dur="3.6s" repeatCount="indefinite" rotate="auto" begin="3.0s">
+                  <mpath href="#loopWavePath2"/>
+                </animateMotion>
+              </circle>
+            </g>
+
+            <!-- ============== Return loop: node3 -> node1 (ERI) ============== -->
+            <g class="loop-wave loop-wave-return" opacity="0">
+              <use href="#loopWavePathReturn" stroke="rgba(242,181,77,0.55)" stroke-width="1.25" stroke-dasharray="5 5" fill="none" class="loop-return-path"/>
+              <circle r="3.5" fill="url(#loopParticleGrad)" class="loop-particle lp-r">
+                <animateMotion dur="5s" repeatCount="indefinite" begin="0s">
+                  <mpath href="#loopWavePathReturn"/>
+                </animateMotion>
+              </circle>
+              <circle r="2.5" fill="url(#loopParticleGrad)" class="loop-particle lp-r2">
+                <animateMotion dur="5s" repeatCount="indefinite" begin="1.6s">
+                  <mpath href="#loopWavePathReturn"/>
+                </animateMotion>
+              </circle>
+              <circle r="2" fill="url(#loopParticleGrad)" class="loop-particle lp-r3">
+                <animateMotion dur="5s" repeatCount="indefinite" begin="3.2s">
+                  <mpath href="#loopWavePathReturn"/>
+                </animateMotion>
+              </circle>
+            </g>
+
+            <!-- ERI label on the return arc -->
+            <text x="480" y="372" text-anchor="middle" class="loop-eri-label" opacity="0">Emergent Recursive Intelligence — the loop repeats</text>
+
+            <!-- Source tags above waves -->
+            <text x="315" y="118" text-anchor="middle" class="loop-src" opacity="0">LIT</text>
+            <text x="645" y="118" text-anchor="middle" class="loop-src" opacity="0">LIR + ERI</text>
+
+            <!-- ============== Step 1: See the layers ============== -->
             <g class="loop-node loop-node-1" opacity="0">
-              <circle cx="150" cy="180" r="54" fill="rgba(242,181,77,0.08)" stroke="#F2B54D" stroke-width="1.75"/>
-              <text x="150" y="170" text-anchor="middle" class="loop-num">01</text>
-              <text x="150" y="196" text-anchor="middle" class="loop-title">See</text>
-              <text x="150" y="216" text-anchor="middle" class="loop-title">the layers</text>
+              <circle cx="150" cy="180" r="72" fill="rgba(18,44,69,0.85)" class="loop-node-bg"/>
+              <circle cx="150" cy="180" r="72" fill="rgba(242,181,77,0.08)" stroke="#F2B54D" stroke-width="1.75" class="loop-node-ring"/>
+              <text x="150" y="163" text-anchor="middle" class="loop-num">01</text>
+              <text x="150" y="188" text-anchor="middle" class="loop-title">See</text>
+              <text x="150" y="206" text-anchor="middle" class="loop-title">the layers</text>
               <!-- Artefact badge -->
-              <rect x="40" y="260" width="220" height="44" rx="22" fill="rgba(242,181,77,0.10)" stroke="rgba(242,181,77,0.55)" stroke-width="1"/>
-              <text x="150" y="280" text-anchor="middle" class="loop-badge-label">ARTEFACT</text>
-              <text x="150" y="295" text-anchor="middle" class="loop-badge-name">Layered Intelligence Map</text>
+              <rect x="30" y="272" width="240" height="44" rx="22" fill="rgba(242,181,77,0.10)" stroke="rgba(242,181,77,0.55)" stroke-width="1"/>
+              <text x="150" y="292" text-anchor="middle" class="loop-badge-label">ARTEFACT</text>
+              <text x="150" y="307" text-anchor="middle" class="loop-badge-name">Layered Intelligence Map</text>
             </g>
 
-            <!-- Step 2: Surface tensions -->
+            <!-- ============== Step 2: Surface tensions ============== -->
             <g class="loop-node loop-node-2" opacity="0">
-              <circle cx="450" cy="180" r="54" fill="rgba(242,181,77,0.08)" stroke="#F2B54D" stroke-width="1.75"/>
-              <text x="450" y="170" text-anchor="middle" class="loop-num">02</text>
-              <text x="450" y="196" text-anchor="middle" class="loop-title">Surface</text>
-              <text x="450" y="216" text-anchor="middle" class="loop-title">tensions</text>
-              <rect x="340" y="260" width="220" height="44" rx="22" fill="rgba(242,181,77,0.10)" stroke="rgba(242,181,77,0.55)" stroke-width="1"/>
-              <text x="450" y="280" text-anchor="middle" class="loop-badge-label">ARTEFACT</text>
-              <text x="450" y="295" text-anchor="middle" class="loop-badge-name">LIR Tension Map</text>
+              <circle cx="480" cy="180" r="72" fill="rgba(18,44,69,0.85)" class="loop-node-bg"/>
+              <circle cx="480" cy="180" r="72" fill="rgba(242,181,77,0.08)" stroke="#F2B54D" stroke-width="1.75" class="loop-node-ring"/>
+              <text x="480" y="163" text-anchor="middle" class="loop-num">02</text>
+              <text x="480" y="188" text-anchor="middle" class="loop-title">Surface</text>
+              <text x="480" y="206" text-anchor="middle" class="loop-title">tensions</text>
+              <rect x="360" y="272" width="240" height="44" rx="22" fill="rgba(242,181,77,0.10)" stroke="rgba(242,181,77,0.55)" stroke-width="1"/>
+              <text x="480" y="292" text-anchor="middle" class="loop-badge-label">ARTEFACT</text>
+              <text x="480" y="307" text-anchor="middle" class="loop-badge-name">LIR Tension Map</text>
             </g>
 
-            <!-- Step 3: Govern the response -->
+            <!-- ============== Step 3: Govern the response ============== -->
             <g class="loop-node loop-node-3" opacity="0">
-              <circle cx="750" cy="180" r="54" fill="rgba(242,181,77,0.08)" stroke="#F2B54D" stroke-width="1.75" filter="url(#loopGlow)"/>
-              <text x="750" y="170" text-anchor="middle" class="loop-num">03</text>
-              <text x="750" y="196" text-anchor="middle" class="loop-title">Govern</text>
-              <text x="750" y="216" text-anchor="middle" class="loop-title">the response</text>
-              <rect x="620" y="260" width="260" height="44" rx="22" fill="rgba(242,181,77,0.12)" stroke="rgba(242,181,77,0.65)" stroke-width="1"/>
-              <text x="750" y="280" text-anchor="middle" class="loop-badge-label">ARTEFACT</text>
-              <text x="750" y="295" text-anchor="middle" class="loop-badge-name">Human–AI Decision Architecture</text>
+              <circle cx="810" cy="180" r="72" fill="rgba(18,44,69,0.85)" class="loop-node-bg"/>
+              <circle cx="810" cy="180" r="72" fill="rgba(242,181,77,0.08)" stroke="#F2B54D" stroke-width="1.75" filter="url(#loopGlow)" class="loop-node-ring"/>
+              <text x="810" y="163" text-anchor="middle" class="loop-num">03</text>
+              <text x="810" y="188" text-anchor="middle" class="loop-title">Govern</text>
+              <text x="810" y="206" text-anchor="middle" class="loop-title">the response</text>
+              <rect x="680" y="272" width="260" height="44" rx="22" fill="rgba(242,181,77,0.12)" stroke="rgba(242,181,77,0.65)" stroke-width="1"/>
+              <text x="810" y="292" text-anchor="middle" class="loop-badge-label">ARTEFACT</text>
+              <text x="810" y="307" text-anchor="middle" class="loop-badge-name">Human–AI Decision Architecture</text>
             </g>
-
-            <!-- Source tags above arrows -->
-            <text x="350" y="112" text-anchor="middle" class="loop-src" opacity="0">LIT</text>
-            <text x="650" y="112" text-anchor="middle" class="loop-src" opacity="0">LIR + ERI</text>
           </svg>
         </div>
 

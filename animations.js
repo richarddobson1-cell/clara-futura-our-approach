@@ -610,23 +610,23 @@ function animateLoop() {
 
     if (isIframe) {
       revealSVG('.loop-node-1', 0);
-      revealSVG('.loop-arrow-1', 300);
+      revealSVG('.loop-wave-1', 300);
       revealSVG('.loop-src:nth-of-type(1)', 350);
       revealSVG('.loop-node-2', 500);
-      revealSVG('.loop-arrow-2', 800);
+      revealSVG('.loop-wave-2', 800);
       revealSVG('.loop-src:nth-of-type(2)', 850);
       revealSVG('.loop-node-3', 1000);
-      revealSVG('.loop-arrow-return', 1400);
+      revealSVG('.loop-wave-return', 1400);
       revealSVG('.loop-eri-label', 1600);
     } else {
       const tl = gsap.timeline({ defaults: { ease: 'power2.out' } });
       tl.to('.loop-node-1', { attr: { opacity: 1 }, duration: 0.5 })
-        .to('.loop-arrow-1', { attr: { opacity: 1 }, duration: 0.4 }, '-=0.15')
+        .to('.loop-wave-1', { attr: { opacity: 1 }, duration: 0.6 }, '-=0.15')
         .to('.loop-src', { attr: { opacity: 1 }, duration: 0.4, stagger: 0.1 }, '-=0.2')
         .to('.loop-node-2', { attr: { opacity: 1 }, duration: 0.5 }, '-=0.1')
-        .to('.loop-arrow-2', { attr: { opacity: 1 }, duration: 0.4 }, '-=0.15')
+        .to('.loop-wave-2', { attr: { opacity: 1 }, duration: 0.6 }, '-=0.15')
         .to('.loop-node-3', { attr: { opacity: 1 }, duration: 0.5 }, '-=0.1')
-        .to('.loop-arrow-return', { attr: { opacity: 1 }, duration: 0.6 }, '+=0.1')
+        .to('.loop-wave-return', { attr: { opacity: 1 }, duration: 0.6 }, '+=0.1')
         .to('.loop-eri-label', { attr: { opacity: 1 }, duration: 0.5 }, '-=0.2');
     }
   }
