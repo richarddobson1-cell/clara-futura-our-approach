@@ -1173,6 +1173,121 @@ body.in-iframe .mirror-svg * { transition: opacity 0.6s ease-out; }
   border: 1px solid rgba(164,174,183,0.14);
   background: rgba(18,44,69,0.28);
   transition: border-color 320ms ease, box-shadow 320ms ease, background-color 320ms ease;
+  position: relative;
+}
+
+/* Interactive nodes: pointer + focus ring */
+.loop-node {
+  cursor: pointer;
+  transition: transform 260ms ease, filter 260ms ease;
+  transform-origin: center;
+  transform-box: fill-box;
+  outline: none;
+}
+.loop-node:hover,
+.loop-node:focus-visible {
+  transform: scale(1.04);
+  filter: drop-shadow(0 0 18px rgba(242,181,77,0.65));
+}
+.loop-node:focus-visible .loop-node-ring {
+  stroke: #FFD98A;
+  stroke-width: 2.4;
+}
+
+/* When any node is hovered/focused — pause waves, particles, return march */
+.loop-diagram:has(.loop-node:hover) .loop-wave-main,
+.loop-diagram:has(.loop-node:hover) .loop-wave-top,
+.loop-diagram:has(.loop-node:hover) .loop-wave-bg,
+.loop-diagram:has(.loop-node:hover) .loop-return-path,
+.loop-diagram:has(.loop-node:hover) .loop-node-ring,
+.loop-diagram:has(.loop-node:focus-visible) .loop-wave-main,
+.loop-diagram:has(.loop-node:focus-visible) .loop-wave-top,
+.loop-diagram:has(.loop-node:focus-visible) .loop-wave-bg,
+.loop-diagram:has(.loop-node:focus-visible) .loop-return-path,
+.loop-diagram:has(.loop-node:focus-visible) .loop-node-ring {
+  animation-play-state: paused;
+}
+/* JS-controlled fallback class (for browsers without :has + for SMIL particles) */
+.loop-diagram.is-paused .loop-wave-main,
+.loop-diagram.is-paused .loop-wave-top,
+.loop-diagram.is-paused .loop-wave-bg,
+.loop-diagram.is-paused .loop-return-path,
+.loop-diagram.is-paused .loop-node-ring {
+  animation-play-state: paused;
+}
+
+/* Tooltip styling */
+.loop-tooltip {
+  position: absolute;
+  top: 0;
+  transform: translate(-50%, calc(-100% - 14px));
+  min-width: 220px;
+  max-width: 300px;
+  padding: 0.75rem 0.95rem;
+  background: rgba(12,33,55,0.97);
+  border: 1px solid rgba(242,181,77,0.55);
+  border-radius: 10px;
+  box-shadow: 0 10px 32px rgba(0,0,0,0.55), 0 0 24px rgba(242,181,77,0.18);
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity 200ms ease, transform 200ms ease, visibility 200ms;
+  z-index: 5;
+}
+.loop-tooltip::after {
+  content: "";
+  position: absolute;
+  bottom: -7px;
+  left: 50%;
+  transform: translateX(-50%) rotate(45deg);
+  width: 12px;
+  height: 12px;
+  background: rgba(12,33,55,0.97);
+  border-right: 1px solid rgba(242,181,77,0.55);
+  border-bottom: 1px solid rgba(242,181,77,0.55);
+}
+/* Position each tooltip above its node centre.
+   Positions are set in pixels by JS (positionTooltip) on the element’s
+   `left` and `bottom`. We use transform to center horizontally and to nudge
+   edge tooltips (#1 and #3) so they stay inside the diagram. */
+.loop-tooltip { left: 50%; transform: translateX(-50%); }
+.loop-tooltip-1 { transform: translateX(-20%); }
+.loop-tooltip-3 { transform: translateX(-80%); }
+.loop-tooltip-1::after { left: 20%; }
+.loop-tooltip-3::after { left: 80%; }
+
+.loop-tooltip .loop-tt-tag {
+  display: inline-block;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.22em;
+  color: var(--amber);
+  margin-bottom: 0.35rem;
+}
+.loop-tooltip .loop-tt-body {
+  display: block;
+  font-size: 0.85rem;
+  line-height: 1.5;
+  color: var(--cream);
+}
+.loop-tooltip .loop-tt-body strong {
+  color: var(--amber);
+  font-weight: 600;
+}
+
+.loop-diagram:has(.loop-node-1:hover) .loop-tooltip-1,
+.loop-diagram:has(.loop-node-1:focus-visible) .loop-tooltip-1,
+.loop-diagram:has(.loop-node-2:hover) .loop-tooltip-2,
+.loop-diagram:has(.loop-node-2:focus-visible) .loop-tooltip-2,
+.loop-diagram:has(.loop-node-3:hover) .loop-tooltip-3,
+.loop-diagram:has(.loop-node-3:focus-visible) .loop-tooltip-3 {
+  opacity: 1;
+  visibility: visible;
+}
+/* JS fallback */
+.loop-tooltip.is-visible {
+  opacity: 1;
+  visibility: visible;
 }
 .loop-diagram:hover,
 .loop-diagram:focus-within {

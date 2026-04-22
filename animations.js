@@ -633,6 +633,77 @@ function animateLoop() {
 
   onVisible(diagram, playLoop);
   setTimeout(() => { if (!firedSections.has('loop')) playLoop(); }, SAFETY_TIMEOUT_MS + 800);
+
+  // --- Hover/focus interactivity: pause waves + show tooltips ---
+  const nodes = diagram.querySelectorAll('.loop-node');
+  const tooltips = {
+    1: diagram.querySelector('.loop-tooltip-1'),
+    2: diagram.querySelector('.loop-tooltip-2'),
+    3: diagram.querySelector('.loop-tooltip-3'),
+  };
+
+  function positionTooltip(idx) {
+    const tooltip = tooltips[idx];
+    const node = diagram.querySelector('.loop-node-' + idx);
+    if (!tooltip || !node) return;
+    // Find the outer circle (ring). Use the first <circle> in the group as anchor.
+    const circle = node.querySelector('circle');
+    if (!circle) return;
+    const circleRect = circle.getBoundingClientRect();
+    const diagramRect = diagram.getBoundingClientRect();
+    const cx = circleRect.left + circleRect.width / 2 - diagramRect.left;
+    const circleTop = circleRect.top - diagramRect.top; // top edge of the circle
+    tooltip.style.left = cx + 'px';
+    // Anchor the tooltip’s BOTTOM edge 14px above the circle top so the
+    // downward-pointing arrow sits just above the node.
+    tooltip.style.top = 'auto';
+    tooltip.style.bottom = (diagramRect.height - (circleTop - 14)) + 'px';
+  }
+  function positionAllTooltips() {
+    positionTooltip(1);
+    positionTooltip(2);
+    positionTooltip(3);
+  }
+  positionAllTooltips();
+  window.addEventListener('resize', positionAllTooltips);
+  // Recompute after animation reveal (nodes start at opacity 0)
+  setTimeout(positionAllTooltips, 2500);
+
+  function activate(idx) {
+    diagram.classList.add('is-paused');
+    Object.values(tooltips).forEach(t => t && t.classList.remove('is-visible'));
+    const tt = tooltips[idx];
+    if (tt) {
+      positionTooltip(idx);
+      tt.classList.add('is-visible');
+    }
+  }
+  function deactivate() {
+    diagram.classList.remove('is-paused');
+    Object.values(tooltips).forEach(t => t && t.classList.remove('is-visible'));
+  }
+
+  nodes.forEach((node, i) => {
+    const idx = i + 1;
+    node.addEventListener('mouseenter', () => activate(idx));
+    node.addEventListener('mouseleave', deactivate);
+    node.addEventListener('focus', () => activate(idx));
+    node.addEventListener('blur', deactivate);
+    // Touch devices: tap to toggle
+    node.addEventListener('click', (e) => {
+      e.preventDefault();
+      const tt = tooltips[idx];
+      if (tt && tt.classList.contains('is-visible')) {
+        deactivate();
+      } else {
+        activate(idx);
+      }
+    });
+  });
+  // Dismiss on outside click
+  document.addEventListener('click', (e) => {
+    if (!diagram.contains(e.target)) deactivate();
+  });
 }
 
 // ============================================================
