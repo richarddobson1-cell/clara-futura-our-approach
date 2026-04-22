@@ -322,8 +322,10 @@ body {
   transition: opacity 500ms var(--ease-out), transform 500ms var(--ease-out), border-color 180ms var(--ease-out), background 180ms var(--ease-out);
 }
 .lit-label-card:hover {
-  border-color: rgba(242, 181, 77, 0.3);
-  background: rgba(24, 53, 82, 0.8);
+  border-color: rgba(242, 181, 77, 0.6);
+  background: rgba(24, 53, 82, 0.85);
+  box-shadow: 0 0 0 1px rgba(242, 181, 77, 0.25), 0 10px 32px rgba(242, 181, 77, 0.18), 0 0 40px rgba(242, 181, 77, 0.12);
+  transform: translateY(-2px);
 }
 .lit-label-card:last-child {
   grid-column: 1 / -1;
@@ -399,10 +401,12 @@ body {
   padding: 1.5rem;
   opacity: 0;
   transform: translateY(12px);
-  transition: opacity 500ms var(--ease-out), transform 500ms var(--ease-out), border-color 180ms var(--ease-out);
+  transition: opacity 500ms var(--ease-out), transform 500ms var(--ease-out), border-color 220ms var(--ease-out), box-shadow 220ms var(--ease-out);
 }
 .lir-card:hover {
-  border-color: rgba(242, 181, 77, 0.25);
+  border-color: rgba(242, 181, 77, 0.6);
+  box-shadow: 0 0 0 1px rgba(242, 181, 77, 0.25), 0 10px 32px rgba(242, 181, 77, 0.18), 0 0 40px rgba(242, 181, 77, 0.12);
+  transform: translateY(-2px);
 }
 .lir-card.visible {
   opacity: 1;
@@ -461,6 +465,49 @@ body {
   50% { r: 60; opacity: 0; }
 }
 
+/* Centre aura — soft radial breathing glow */
+.da-aura-breath {
+  transform-origin: 350px 250px;
+  transform-box: fill-box;
+  animation: daAuraBreath 4.2s ease-in-out infinite;
+  will-change: transform, opacity;
+}
+@keyframes daAuraBreath {
+  0%, 100% { transform: scale(0.78); opacity: 0.55; }
+  50%      { transform: scale(1.25); opacity: 0.95; }
+}
+
+/* Centre disc — subtle inner pulse in sync with aura */
+.da-centre-disc {
+  animation: daDiscGlow 4.2s ease-in-out infinite;
+}
+@keyframes daDiscGlow {
+  0%, 100% { fill: rgba(242,181,77,0.12); stroke-width: 1.5; }
+  50%      { fill: rgba(242,181,77,0.28); stroke-width: 2.2; }
+}
+
+/* Expanding ripple rings — continuous outward waves */
+.da-ripple {
+  transform-origin: 350px 250px;
+  transform-box: fill-box;
+  animation: daRipple 4.2s cubic-bezier(0.22, 0.61, 0.36, 1) infinite;
+  will-change: transform, opacity;
+  opacity: 0;
+}
+.da-ripple-1 { animation-delay: 0s; }
+.da-ripple-2 { animation-delay: 1.4s; }
+.da-ripple-3 { animation-delay: 2.8s; }
+@keyframes daRipple {
+  0%   { transform: scale(1);   opacity: 0.85; }
+  70%  {                         opacity: 0.15; }
+  100% { transform: scale(2.4); opacity: 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .da-aura-breath, .da-centre-disc, .da-ripple { animation: none !important; }
+  .da-ripple { opacity: 0 !important; }
+}
+
 /* DA Cards */
 .da-cards {
   display: grid;
@@ -475,10 +522,12 @@ body {
   padding: 1.5rem;
   opacity: 0;
   transform: translateY(12px);
-  transition: opacity 500ms var(--ease-out), transform 500ms var(--ease-out), border-color 180ms var(--ease-out);
+  transition: opacity 500ms var(--ease-out), transform 500ms var(--ease-out), border-color 220ms var(--ease-out), box-shadow 220ms var(--ease-out);
 }
 .da-card:hover {
-  border-color: rgba(242, 181, 77, 0.25);
+  border-color: rgba(242, 181, 77, 0.6);
+  box-shadow: 0 0 0 1px rgba(242, 181, 77, 0.25), 0 10px 32px rgba(242, 181, 77, 0.18), 0 0 40px rgba(242, 181, 77, 0.12);
+  transform: translateY(-2px);
 }
 .da-card.visible {
   opacity: 1;
@@ -514,8 +563,9 @@ body {
   transition: opacity 500ms var(--ease-out), transform 500ms var(--ease-out), border-color 180ms var(--ease-out), box-shadow 180ms var(--ease-out);
 }
 .practice-card:hover {
-  border-color: rgba(242, 181, 77, 0.25);
-  box-shadow: 0 8px 32px rgba(0,0,0,0.2);
+  border-color: rgba(242, 181, 77, 0.6);
+  box-shadow: 0 0 0 1px rgba(242, 181, 77, 0.25), 0 10px 32px rgba(242, 181, 77, 0.18), 0 0 48px rgba(242, 181, 77, 0.14);
+  transform: translateY(-3px);
 }
 .practice-card.visible {
   opacity: 1;
@@ -853,7 +903,14 @@ body:not(.cf-scrolled) .ambient-pulse-ring {
   gap: 0.55rem;
   transition: border-color 220ms var(--ease-out), transform 220ms var(--ease-out);
 }
-.fm-card:hover { transform: translateY(-3px); }
+.fm-card {
+  transition: transform 220ms var(--ease-out), border-color 220ms var(--ease-out), box-shadow 220ms var(--ease-out), opacity 500ms var(--ease-out);
+}
+.fm-card:hover {
+  transform: translateY(-3px);
+  border-color: rgba(242, 181, 77, 0.6);
+  box-shadow: 0 0 0 1px rgba(242, 181, 77, 0.25), 0 10px 32px rgba(242, 181, 77, 0.18), 0 0 40px rgba(242, 181, 77, 0.12);
+}
 .fm-card-head {
   display: flex;
   align-items: center;
@@ -908,7 +965,10 @@ body:not(.cf-scrolled) .ambient-pulse-ring {
   background: linear-gradient(180deg, rgba(242,181,77,0.06) 0%, var(--surface-2) 60%);
   border-color: rgba(242, 181, 77, 0.35);
 }
-.fm-card--lit:hover { border-color: rgba(242, 181, 77, 0.55); }
+.fm-card--lit:hover {
+  border-color: rgba(242, 181, 77, 0.85);
+  box-shadow: 0 0 0 1px rgba(242, 181, 77, 0.35), 0 12px 36px rgba(242, 181, 77, 0.25), 0 0 48px rgba(242, 181, 77, 0.18);
+}
 .fm-card--lit .fm-card-tag { color: var(--amber); }
 
 /* --- Block 3: LIR pendulum tidal text --- */

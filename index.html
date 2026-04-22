@@ -638,6 +638,16 @@ if (window.self !== window.top) {
     <div class="da-diagram-wrap">
       <div class="da-diagram" id="daDiagram">
         <svg viewBox="0 0 700 500" class="da-svg">
+          <defs>
+            <radialGradient id="daCoreGlow" cx="50%" cy="50%" r="50%">
+              <stop offset="0%" stop-color="#F2B54D" stop-opacity="0.55"/>
+              <stop offset="40%" stop-color="#F2B54D" stop-opacity="0.22"/>
+              <stop offset="100%" stop-color="#F2B54D" stop-opacity="0"/>
+            </radialGradient>
+            <filter id="daCoreBlur" x="-50%" y="-50%" width="200%" height="200%">
+              <feGaussianBlur stdDeviation="3"/>
+            </filter>
+          </defs>
           <!-- Outer glow ring -->
           <circle cx="350" cy="250" r="200" fill="none" stroke="rgba(242,181,77,0.12)" stroke-width="1.5"/>
 
@@ -705,12 +715,22 @@ if (window.self !== window.top) {
             <text x="95" y="263" text-anchor="middle" class="da-quad-desc">Requires trajectories</text>
           </g>
 
-          <!-- Centre label -->
-          <circle cx="350" cy="250" r="45" fill="rgba(242,181,77,0.12)" stroke="#F2B54D" stroke-width="1.5"/>
+          <!-- Centre pulsating aura — layered expanding glow -->
+          <g class="da-centre-aura" style="transform-origin: 350px 250px; transform-box: fill-box;">
+            <circle cx="350" cy="250" r="90" fill="url(#daCoreGlow)" class="da-aura-breath" filter="url(#daCoreBlur)"/>
+          </g>
+
+          <!-- Expanding ripple rings (stacked, staggered) -->
+          <circle cx="350" cy="250" r="45" fill="none" stroke="#F2B54D" stroke-width="1.2" class="da-ripple da-ripple-1"/>
+          <circle cx="350" cy="250" r="45" fill="none" stroke="#F5C870" stroke-width="1" class="da-ripple da-ripple-2"/>
+          <circle cx="350" cy="250" r="45" fill="none" stroke="#F2B54D" stroke-width="0.8" class="da-ripple da-ripple-3"/>
+
+          <!-- Centre disc + label -->
+          <circle cx="350" cy="250" r="45" fill="rgba(242,181,77,0.14)" stroke="#F2B54D" stroke-width="1.5" class="da-centre-disc"/>
           <text x="350" y="244" text-anchor="middle" class="da-centre-label">DYNAMIC</text>
           <text x="350" y="264" text-anchor="middle" class="da-centre-label">ALIGNMENT</text>
 
-          <!-- Pulsing ring -->
+          <!-- Inner pulsing highlight ring (original) -->
           <circle cx="350" cy="250" r="45" fill="none" stroke="#F2B54D" stroke-width="0.5" class="da-pulse"/>
         </svg>
       </div>
