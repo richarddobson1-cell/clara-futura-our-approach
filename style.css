@@ -465,46 +465,63 @@ body {
   50% { r: 60; opacity: 0; }
 }
 
-/* Centre aura — soft radial breathing glow */
+/* Centre aura — bright radial breathing glow */
 .da-aura-breath {
   transform-origin: 350px 250px;
   transform-box: fill-box;
-  animation: daAuraBreath 4.2s ease-in-out infinite;
+  animation: daAuraBreath 3.4s ease-in-out infinite;
   will-change: transform, opacity;
+  mix-blend-mode: screen;
 }
 @keyframes daAuraBreath {
-  0%, 100% { transform: scale(0.78); opacity: 0.55; }
-  50%      { transform: scale(1.25); opacity: 0.95; }
+  0%, 100% { transform: scale(0.85); opacity: 0.75; }
+  50%      { transform: scale(1.45); opacity: 1; }
 }
 
-/* Centre disc — subtle inner pulse in sync with aura */
+/* Inner bright core — tight hot-spot that pulses a touch faster */
+.da-aura-core {
+  transform-origin: 350px 250px;
+  transform-box: fill-box;
+  animation: daAuraCore 3.4s ease-in-out infinite;
+  mix-blend-mode: screen;
+  opacity: 0.9;
+  will-change: transform, opacity;
+}
+@keyframes daAuraCore {
+  0%, 100% { transform: scale(0.75); opacity: 0.7; }
+  50%      { transform: scale(1.15); opacity: 1; }
+}
+
+/* Centre disc — brighter inner pulse in sync with aura */
 .da-centre-disc {
-  animation: daDiscGlow 4.2s ease-in-out infinite;
+  animation: daDiscGlow 3.4s ease-in-out infinite;
 }
 @keyframes daDiscGlow {
-  0%, 100% { fill: rgba(242,181,77,0.12); stroke-width: 1.5; }
-  50%      { fill: rgba(242,181,77,0.28); stroke-width: 2.2; }
+  0%, 100% { fill: rgba(242,181,77,0.18); stroke-width: 1.8; }
+  50%      { fill: rgba(255,220,140,0.45); stroke-width: 2.8; }
 }
 
-/* Expanding ripple rings — continuous outward waves */
+/* Expanding ripple rings — brighter, more visible outward waves */
 .da-ripple {
   transform-origin: 350px 250px;
   transform-box: fill-box;
-  animation: daRipple 4.2s cubic-bezier(0.22, 0.61, 0.36, 1) infinite;
+  animation: daRipple 3.4s cubic-bezier(0.22, 0.61, 0.36, 1) infinite;
   will-change: transform, opacity;
   opacity: 0;
+  filter: drop-shadow(0 0 4px rgba(242,181,77,0.6));
 }
 .da-ripple-1 { animation-delay: 0s; }
-.da-ripple-2 { animation-delay: 1.4s; }
-.da-ripple-3 { animation-delay: 2.8s; }
+.da-ripple-2 { animation-delay: 0.85s; }
+.da-ripple-3 { animation-delay: 1.7s; }
+.da-ripple-4 { animation-delay: 2.55s; }
 @keyframes daRipple {
-  0%   { transform: scale(1);   opacity: 0.85; }
-  70%  {                         opacity: 0.15; }
-  100% { transform: scale(2.4); opacity: 0; }
+  0%   { transform: scale(1);   opacity: 1; }
+  60%  {                         opacity: 0.35; }
+  100% { transform: scale(2.8); opacity: 0; }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .da-aura-breath, .da-centre-disc, .da-ripple { animation: none !important; }
+  .da-aura-breath, .da-aura-core, .da-centre-disc, .da-ripple { animation: none !important; }
   .da-ripple { opacity: 0 !important; }
 }
 
