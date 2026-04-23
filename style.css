@@ -120,7 +120,21 @@ body {
 .hero-overlay {
   position: absolute;
   inset: 0;
-  background: linear-gradient(180deg, rgba(12,33,55,0.6) 0%, rgba(12,33,55,0.85) 100%);
+  background: linear-gradient(180deg, rgba(12,33,55,0.25) 0%, rgba(12,33,55,0.55) 100%);
+  pointer-events: none;
+}
+.cf-particle-canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  mix-blend-mode: screen;
+  z-index: 1;
+  opacity: 1;
+}
+@media (prefers-reduced-motion: reduce) {
+  .cf-particle-canvas { display: none; }
 }
 .hero-content {
   position: relative;
