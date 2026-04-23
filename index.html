@@ -16,6 +16,8 @@
 <noscript><style>.hero .label, .hero h1, .hero-sub, .scroll-indicator { opacity: 1 !important; transform: none !important; } .hero { min-height: auto !important; }</style></noscript>
 </head>
 <body>
+<!-- Full-body constellation backdrop (shared with homepage) -->
+<canvas id="particleCanvas" aria-hidden="true"></canvas>
 <script>
 // Detect if page is in an iframe and hide nav
 if (window.self !== window.top) {
@@ -1019,5 +1021,6 @@ if (window.self !== window.top) {
 <script src="ambient-player.js"></script>
 <script src="cf-cursor.js"></script>
 <script src="cf-particles.js"></script>
+<script src="particles.js"></script>
 </body>
 </html>

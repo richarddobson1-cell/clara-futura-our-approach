@@ -138,8 +138,17 @@ body {
   z-index: 1;
   opacity: 1;
 }
+/* === Full-body constellation canvas (shared with homepage) === */
+#particleCanvas {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  opacity: 0.85;
+}
 @media (prefers-reduced-motion: reduce) {
   .cf-particle-canvas { display: none; }
+  #particleCanvas { display: none; }
 }
 .hero-content {
   position: relative;
@@ -208,9 +217,13 @@ body {
 
 /* === Sections === */
 .section {
+  position: relative;
+  z-index: 1;
   padding: 6rem 0;
 }
 .section-dark {
+  position: relative;
+  z-index: 1;
   background: var(--deep-navy);
 }
 .section-surface {
