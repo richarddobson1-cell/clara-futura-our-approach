@@ -16,9 +16,17 @@
   let lastScrollY = 0;
   let scrollSpeed = 0;
   let animId = null;
-  const PARTICLE_COUNT = 300;
+  // Lower particle count on small screens + on low-power devices to keep scroll smooth.
+  const isSmall = window.innerWidth < 768;
+  const isLowPower = (navigator.hardwareConcurrency || 8) <= 4;
+  const PARTICLE_COUNT = isSmall ? 110 : (isLowPower ? 140 : 170);
+  // Cap DPR — we don't need pixel-perfect particles; 1.5 is plenty and saves ~55% paint.
+  const MAX_DPR = 1.5;
   // iOS Safari canvas limit: ~16M pixels (4096x4096). Cap to stay safe at high DPR.
   const MAX_CANVAS_DIM = 4096;
+  // Spatial grid for connection lines (O(n) instead of O(n²))
+  const GRID_SIZE = 160; // matches connection distance
+  let grid = new Map();
 
   // Bright, vivid colours
   const AMBER = '#F5C870';
@@ -52,7 +60,7 @@
   }
 
   function resize() {
-    const dpr = window.devicePixelRatio || 1;
+    const dpr = Math.min(window.devicePixelRatio || 1, MAX_DPR);
     const w = window.innerWidth;
     const h = window.innerHeight;
     // Cap canvas size for iOS Safari (max ~4096px per dimension at device pixels)
@@ -115,11 +123,20 @@
   // --- Scroll-triggered light explosions ---
   const explodedSections = new Set();
   let heroExplosionTimer = 0;
+  let scrollCheckTimer = 0;
+  let cachedSections = null;
   const HERO_BURST_INTERVAL = 120; // ~2 seconds at 60fps
+  const SCROLL_CHECK_INTERVAL = 10; // only query DOM every 10 frames (~6x/sec)
 
   function checkScrollExplosions() {
-    const sections = document.querySelectorAll('.section, .hero');
-    sections.forEach((sec, idx) => {
+    scrollCheckTimer++;
+    if (scrollCheckTimer < SCROLL_CHECK_INTERVAL) return;
+    scrollCheckTimer = 0;
+    // Cache section list — DOM doesn't change often on this page
+    if (!cachedSections || cachedSections.length === 0) {
+      cachedSections = document.querySelectorAll('.section, .hero');
+    }
+    cachedSections.forEach((sec, idx) => {
       const key = 'sec-' + idx;
       if (explodedSections.has(key)) return;
 
@@ -141,7 +158,9 @@
         height * 0.5
       );
     }
+  }
 
+  function checkHeroBurst() {
     // Periodic hero-area light bursts (particles exploding near portrait)
     heroExplosionTimer++;
     if (heroExplosionTimer >= HERO_BURST_INTERVAL) {
@@ -194,8 +213,9 @@
     scrollSpeed = scrollY - lastScrollY;
     lastScrollY = scrollY;
 
-    // Check for section explosions
+    // Check for section explosions (throttled) + hero burst
     checkScrollExplosions();
+    checkHeroBurst();
 
     const dt = 1 / 60; // assume 60fps
 
@@ -237,25 +257,51 @@
     // Reset alpha after particle loop — prevents WebKit alpha state leak
     ctx.globalAlpha = 1;
 
-    // --- Draw connection lines (nearby particles) ---
+    // --- Draw connection lines using spatial grid (O(n) neighbour lookup) ---
+    // Bucket particles into grid cells of GRID_SIZE, then only compare within
+    // a 3x3 neighbourhood. Cuts distance checks ~8x for 170 particles.
+    grid.clear();
     for (let i = 0; i < particles.length; i++) {
-      for (let j = i + 1; j < particles.length; j++) {
-        const dx = particles[i].x - particles[j].x;
-        const dy = particles[i].y - particles[j].y;
-        const distSq = dx * dx + dy * dy;
-        if (distSq < 25600) { // 160px
-          const dist = Math.sqrt(distSq);
-          const alpha = (1 - (dist / 160)) * 0.22;
-          const isAmberLine = particles[i].isAmber;
-          const lineColor = isAmberLine
-            ? `rgba(242, 181, 77, ${alpha})`
-            : `rgba(200, 208, 216, ${alpha})`;
-          ctx.beginPath();
-          ctx.moveTo(particles[i].x, particles[i].y);
-          ctx.lineTo(particles[j].x, particles[j].y);
-          ctx.strokeStyle = lineColor;
-          ctx.lineWidth = 0.6;
-          ctx.stroke();
+      const p = particles[i];
+      const gx = Math.floor(p.x / GRID_SIZE);
+      const gy = Math.floor(p.y / GRID_SIZE);
+      const key = gx + ',' + gy;
+      let bucket = grid.get(key);
+      if (!bucket) { bucket = []; grid.set(key, bucket); }
+      bucket.push(i);
+    }
+    const seen = new Set();
+    for (let i = 0; i < particles.length; i++) {
+      const pi = particles[i];
+      const gx = Math.floor(pi.x / GRID_SIZE);
+      const gy = Math.floor(pi.y / GRID_SIZE);
+      for (let dx = -1; dx <= 1; dx++) {
+        for (let dy = -1; dy <= 1; dy++) {
+          const bucket = grid.get((gx + dx) + ',' + (gy + dy));
+          if (!bucket) continue;
+          for (let k = 0; k < bucket.length; k++) {
+            const j = bucket[k];
+            if (j <= i) continue;
+            const pairKey = i * 10000 + j;
+            if (seen.has(pairKey)) continue;
+            seen.add(pairKey);
+            const ddx = pi.x - particles[j].x;
+            const ddy = pi.y - particles[j].y;
+            const distSq = ddx * ddx + ddy * ddy;
+            if (distSq < 25600) { // 160px
+              const dist = Math.sqrt(distSq);
+              const alpha = (1 - (dist / 160)) * 0.22;
+              const lineColor = pi.isAmber
+                ? `rgba(242, 181, 77, ${alpha})`
+                : `rgba(200, 208, 216, ${alpha})`;
+              ctx.beginPath();
+              ctx.moveTo(pi.x, pi.y);
+              ctx.lineTo(particles[j].x, particles[j].y);
+              ctx.strokeStyle = lineColor;
+              ctx.lineWidth = 0.6;
+              ctx.stroke();
+            }
+          }
         }
       }
     }
