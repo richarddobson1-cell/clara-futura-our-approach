@@ -214,6 +214,10 @@ body {
   margin-bottom: 0.75rem;
   font-weight: 500;
 }
+/* Hero eyebrow "How We Work" — white per request */
+.hero .label {
+  color: #FFFFFF;
+}
 
 /* === Sections === */
 .section {
