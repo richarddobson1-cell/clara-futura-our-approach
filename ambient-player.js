@@ -59,6 +59,7 @@
   function fadeIn() {
     clearFade();
     audio.volume = 0;
+    if (audio.preload !== 'auto') { audio.preload = 'auto'; }
     audio.play().then(function() {
       isPlaying = true;
       updateUI();
