@@ -1710,6 +1710,7 @@ a.paper-callout-cta:focus {
   text-align: left;
   margin-bottom: 1.25rem;
 }
+.section.lit-credo-section h2.lit-credo-heading,
 .lit-credo-heading {
   font-size: clamp(1.85rem, 1.2rem + 1.6vw, 2.65rem);
   font-weight: 500;
