@@ -365,5 +365,11 @@
   window.addEventListener('resize', resize);
 
   init();
-  draw();
+  // Defer first frame until browser is idle so we don't compete with first paint.
+  var startDraw = function () { animId = requestAnimationFrame(draw); };
+  if ('requestIdleCallback' in window) {
+    requestIdleCallback(startDraw, { timeout: 600 });
+  } else {
+    setTimeout(startDraw, 250);
+  }
 })();

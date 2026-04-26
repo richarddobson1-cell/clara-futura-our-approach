@@ -184,7 +184,12 @@
 
       requestAnimationFrame(frame);
     }
-    frame();
+    // Defer first frame until browser is idle to keep first paint snappy.
+    if ('requestIdleCallback' in window) {
+      requestIdleCallback(frame, { timeout: 600 });
+    } else {
+      setTimeout(frame, 250);
+    }
   }
 
   if (document.readyState === 'loading') {
