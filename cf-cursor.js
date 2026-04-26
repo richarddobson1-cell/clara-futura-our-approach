@@ -2,7 +2,12 @@
 (function () {
   'use strict';
 
-  // Enable in iframe too so the circle+dot appears everywhere (no native arrow fallback).
+  // Skip in iframe — parent already renders the WP cursor; running both
+  // floods every mousemove with double work and causes visible lag.
+  var inIframe = false;
+  try { inIframe = window.self !== window.top; } catch (e) { inIframe = true; }
+  if (inIframe) return;
+
   var isTouch = window.matchMedia('(pointer: coarse)').matches;
   if (isTouch) return;
 
