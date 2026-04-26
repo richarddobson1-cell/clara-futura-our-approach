@@ -2,12 +2,8 @@
 (function () {
   'use strict';
 
-  // Skip in iframe — parent already renders the WP cursor; running both
-  // floods every mousemove with double work and causes visible lag.
-  var inIframe = false;
-  try { inIframe = window.self !== window.top; } catch (e) { inIframe = true; }
-  if (inIframe) return;
-
+  // Always run — when embedded the parent's WP cursor is hidden over the
+  // iframe and this one takes over.
   var isTouch = window.matchMedia('(pointer: coarse)').matches;
   if (isTouch) return;
 
