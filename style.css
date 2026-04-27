@@ -1811,3 +1811,41 @@ a.paper-callout-cta:focus {
   .lit-credo-tensions li { font-size: 1.4rem; gap: 0.6rem; }
   .lit-credo-pull-coda { font-size: 1.05rem; }
 }
+
+/* === In Brief CTA + paper-ref inline link === */
+.exec-summary-cta {
+  margin-top: 1.75rem;
+  margin-bottom: 0;
+}
+.link-arrow {
+  color: var(--amber);
+  text-decoration: none;
+  font-size: 0.95rem;
+  letter-spacing: 0.02em;
+  border-bottom: 1px solid rgba(242, 181, 77, 0.35);
+  padding-bottom: 2px;
+  transition: border-color 0.25s ease, color 0.25s ease;
+}
+.link-arrow:hover,
+.link-arrow:focus {
+  color: #ffc870;
+  border-bottom-color: var(--amber);
+}
+.link-arrow span {
+  display: inline-block;
+  margin-left: 0.2em;
+  transition: transform 0.25s ease;
+}
+.link-arrow:hover span {
+  transform: translateX(3px);
+}
+.paper-ref a {
+  color: var(--amber);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  text-decoration-color: rgba(242, 181, 77, 0.4);
+}
+.paper-ref a:hover {
+  color: #ffc870;
+  text-decoration-color: var(--amber);
+}
