@@ -40,7 +40,7 @@ body.in-iframe .lir-pulse-potential {
   --silver: #A4AEB7;
   --cream: #E8E5DD;
   --muted: #B5BEC6;
-  --faint: #7A8A98;
+  --faint: #B5BEC6;
   --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
   --ease-in-out: cubic-bezier(0.4, 0, 0.2, 1);
 }
